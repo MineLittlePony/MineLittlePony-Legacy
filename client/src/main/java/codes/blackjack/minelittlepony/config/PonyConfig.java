@@ -1,4 +1,4 @@
-package codes.blackjack.minelittlepony;
+package codes.blackjack.minelittlepony.config;
 
 import net.minecraft.client.Minecraft;
 

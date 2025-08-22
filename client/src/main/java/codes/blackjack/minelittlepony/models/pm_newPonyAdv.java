@@ -2,6 +2,7 @@ package codes.blackjack.minelittlepony.models;
 
 import codes.blackjack.minelittlepony.AniParams;
 import codes.blackjack.minelittlepony.Pony;
+import codes.blackjack.minelittlepony.config.PonySettings;
 import codes.blackjack.minelittlepony.render.MineLPGlow;
 import codes.blackjack.minelittlepony.render.ModelPlayer;
 import codes.blackjack.minelittlepony.render.PlaneRenderer;
@@ -804,7 +805,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 			this.headpiece[2].render(this.scale);
 		}
 
-		if (Pony.showSnuzzles()) {
+		if (PonySettings.isShowSnuzzles()) {
 			if (this.isMale) {
 				for (PlaneRenderer planeRenderer : this.MuzzleMale) {
 					planeRenderer.render(this.scale);

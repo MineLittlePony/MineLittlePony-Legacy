@@ -1,6 +1,8 @@
 package codes.blackjack.minelittlepony;
 
+import codes.blackjack.minelittlepony.config.PonyConfig;
 import codes.blackjack.minelittlepony.config.PonyLevel;
+import codes.blackjack.minelittlepony.config.PonySettings;
 import codes.blackjack.minelittlepony.config.PonySizes;
 import codes.blackjack.minelittlepony.mixin.MixinExtTextureManager;
 import codes.blackjack.minelittlepony.render.PlayerModel;
@@ -20,18 +22,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Pony {
-	private static PonyConfig config;
+public final class Pony {
 	private static final List<String> backgroundPonies = new ArrayList<>();
 	private static boolean hasInit;
 	private static final Map<String, Pony> registry = new HashMap<>();
 	private static Map<String, HttpTexture> urlToImageDataMap;
 	private static boolean renderEngineInit;
-	private static boolean alreadyReadSettings;
-	private static PonyLevel ponyLevel = PonyLevel.ALL_PONIES;
-	private static PonySizes useSizes = PonySizes.ALL_SIZES;
-	private static boolean ponyArmor = true;
-	private static boolean showSnuzzles = true;
+
+	private final boolean isSpPlayer;
 	public boolean advancedTexturing;
 	public String texture;
 	public boolean backgroundIsPegasus;
@@ -42,7 +40,6 @@ public class Pony {
 	public boolean backgroundAdvancedTexturing;
 	private boolean textureSetup;
 	public String skinUrl;
-	private final boolean isSpPlayer;
 	public boolean isPony;
 	public boolean isPonySkin;
 	public boolean isPegasus;
@@ -55,11 +52,10 @@ public class Pony {
 	public int wantTail;
 	private float defaultYOffset;
 	private boolean pegasusFlying;
-	private final int dangerzone = 2;
 	private float previousFallDistance;
 
 	public static Pony getPonyFromRegistry(PlayerEntity player, TextureManager renderengine) {
-		HttpTexture threaddownloadimagedata = null;
+		HttpTexture httpTexture;
 		String username = player.name;
 		String location = "http://skins.minecraft.net/MinecraftSkins/" + username + ".png";
 		if (!renderEngineInit) {
@@ -76,15 +72,15 @@ public class Pony {
 			myLittlePony = registry.get(username);
 		}
 
-		threaddownloadimagedata = urlToImageDataMap.get(location);
-		if (ponyLevel != PonyLevel.NO_PONIES && myLittlePony.textureSetup && (threaddownloadimagedata == null || threaddownloadimagedata.image == null)) {
+		httpTexture = urlToImageDataMap.get(location);
+		if (PonySettings.getPonyLevel() != PonyLevel.NO_PONIES && myLittlePony.textureSetup && (httpTexture == null || httpTexture.image == null)) {
 			registry.remove(username);
 			myLittlePony = new Pony(player);
 			registry.put(username, myLittlePony);
 		}
 
-		if (!myLittlePony.textureSetup && threaddownloadimagedata != null && threaddownloadimagedata.image != null) {
-			myLittlePony.checkSkin(threaddownloadimagedata.image);
+		if (!myLittlePony.textureSetup && httpTexture != null && httpTexture.image != null) {
+			myLittlePony.checkSkin(httpTexture.image);
 			if (!myLittlePony.isPonySkin) {
 				myLittlePony.isPony = true;
 				myLittlePony.isPegasus = myLittlePony.backgroundIsPegasus;
@@ -124,12 +120,12 @@ public class Pony {
 		this.isGlow = false;
 		this.pegasusFlying = false;
 		this.defaultYOffset = 1.62F;
-		if (ponyLevel == PonyLevel.NO_PONIES) {
+		if (PonySettings.getPonyLevel() == PonyLevel.NO_PONIES) {
 			this.textureSetup = true;
-		} else if (ponyLevel == PonyLevel.SOME_PONIES) {
+		} else if (PonySettings.getPonyLevel() == PonyLevel.SOME_PONIES) {
 			this.textureSetup = false;
 		} else {
-			if (ponyLevel == PonyLevel.ALL_PONIES) {
+			if (PonySettings.getPonyLevel() == PonyLevel.ALL_PONIES) {
 				this.textureSetup = false;
 				if (this.isSpPlayer) {
 					System.out.println("[Mine Little Pony] Temporarily reset skin to the default single player skin charpony.png");
@@ -249,7 +245,7 @@ public class Pony {
 		Color bigmac = new Color(206, 50, 84);
 		Color luna = new Color(42, 60, 120);
 		this.size = Size.MARE;
-		if (useSizes == PonySizes.ALL_SIZES) {
+		if (PonySettings.getUseSizes() == PonySizes.ALL_SIZES) {
 			if (sizeFlagColor.equals(scootaloo)) {
 				this.size = Size.FILLY;
 			} else if (sizeFlagColor.equals(bigmac)) {
@@ -294,14 +290,6 @@ public class Pony {
 		this.backgroundSize = this.size;
 		this.backgroundAdvancedTexturing = this.advancedTexturing;
 		this.isPonySkin = false;
-	}
-
-	public static boolean getPonyArmor() {
-		return ponyArmor;
-	}
-
-	public static boolean showSnuzzles() {
-		return showSnuzzles;
 	}
 
 	public boolean isUnicorn() {
@@ -388,7 +376,7 @@ public class Pony {
 
 	public PlayerModel getModel() {
 		boolean isPony = false;
-		switch (getPonyLevel()) {
+		switch (PonySettings.getPonyLevel()) {
 			case NO_PONIES:
 				break;
 			case SOME_PONIES:
@@ -403,70 +391,6 @@ public class Pony {
 		}
 
 		return PMAPI.human;
-	}
-
-	private static PonyLevel getPonyLevel() {
-		if (alreadyReadSettings) {
-			return ponyLevel;
-		}
-
-		try {
-			alreadyReadSettings = true;
-			int readInt = config.getIntProperty("ponylevel");
-			if (readInt < 3 && readInt >= 0) {
-				ponyLevel = PonyLevel.values()[readInt];
-				System.out.println("[Mine Little Pony] Read settings and set pony level to " + ponyLevel);
-			} else {
-				ponyLevel = PonyLevel.ALL_PONIES;
-				System.out.println("[Mine Little Pony] Invalid settings file detected, falling back to making everyone ponies by default.");
-			}
-
-			readInt = config.getIntProperty("sizes");
-			if (readInt < 2 && readInt > -1) {
-				useSizes = PonySizes.values()[readInt];
-				if (useSizes == PonySizes.ONE_SIZE) {
-					System.out.println("[Mine Little Pony] Preventing different sized ponies from being displayed.");
-				} else {
-					System.out.println("[Mine Little Pony] Using all sizes of pony.");
-				}
-			} else {
-				useSizes = PonySizes.ALL_SIZES;
-				System.out.println("[Mine Little Pony] Invalid settings file detected, falling back to using all sizes of ponies.");
-			}
-
-			readInt = config.getIntProperty("ponyarmor");
-			if (readInt < 2 && readInt > -1) {
-				ponyArmor = readInt == 1;
-				if (!ponyArmor) {
-					System.out.println("[Mine Little Pony] Disabling pony armor.");
-				} else {
-					System.out.println("[Mine Little Pony] Pony armor enabled.");
-				}
-			} else {
-				ponyArmor = true;
-				System.out.println("[Mine Little Pony] Invalid settings file detected, falling back to using pony armor.");
-			}
-
-			readInt = config.getIntProperty("snuzzles");
-			if (readInt < 2 && readInt > -1) {
-				showSnuzzles = readInt == 1;
-				if (!showSnuzzles) {
-					System.out.println("[Mine Little Pony] Disabling snuzzles. You are a bad pony.");
-				} else {
-					System.out.println("[Mine Little Pony] Snuzzles enabled.");
-				}
-			} else {
-				showSnuzzles = true;
-				System.out.println("[Mine Little Pony] Invalid settings file detected, falling back to showing snuzzles.");
-			}
-		} catch (Exception var1) {
-			System.out.println("[Mine Little Pony] Could not read pony settings file, falling back to making everyone ponies by default and allowing all sizes of ponies.");
-			alreadyReadSettings = true;
-			ponyLevel = PonyLevel.ALL_PONIES;
-			useSizes = PonySizes.ALL_SIZES;
-		}
-
-		return ponyLevel;
 	}
 
 	public static void init() {
@@ -484,8 +408,7 @@ public class Pony {
 			PMAPI.human.model.init();
 			PMAPI.human.armor.modelArmorChestplate.init(0.0F, 1.0F);
 			PMAPI.human.armor.modelArmor.init(0.0F, 0.5F);
-			config = new PonyConfig();
-			getPonyLevel();
+			PonySettings.load(new PonyConfig());
 
 			for (int check = 0; check < 127; ++check) {
 				String checkTexture = "/mob/bpony_" + check + ".png";

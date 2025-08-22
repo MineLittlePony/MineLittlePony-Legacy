@@ -3,6 +3,7 @@ package codes.blackjack.minelittlepony.render;
 import codes.blackjack.minelittlepony.AniParams;
 import codes.blackjack.minelittlepony.PMAPI;
 import codes.blackjack.minelittlepony.Pony;
+import codes.blackjack.minelittlepony.config.PonySettings;
 import codes.blackjack.minelittlepony.mixin.MixinExtLivingEntity;
 import codes.blackjack.minelittlepony.mixin.MixinExtPlayerEntityRenderer;
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -70,7 +71,7 @@ public class RenderPony extends PlayerEntityRenderer {
 		returnPath[0] = path;
 		returnPath[1] = path;
 		returnPath[2] = "false";
-		if (Pony.getPonyArmor()) {
+		if (PonySettings.isPonyArmor()) {
 			if (this.pm.name.equals("newPony") || this.pm.name.equals("newPonyAdv")) {
 				String ponypath = path.replace(".png", "_pony.png");
 				if (Minecraft.class.getResource(ponypath) != null) {
