@@ -1,5 +1,6 @@
 package codes.blackjack.minelittlepony;
 
+import codes.blackjack.minelittlepony.render.PlayerModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.living.player.LocalPlayerEntity;
 import net.minecraft.client.render.texture.HttpTexture;

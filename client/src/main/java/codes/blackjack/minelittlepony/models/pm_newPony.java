@@ -1,6 +1,7 @@
-package codes.blackjack.minelittlepony;
+package codes.blackjack.minelittlepony.models;
 
 
+import codes.blackjack.minelittlepony.render.PlaneRenderer;
 import net.minecraft.client.render.model.ModelPart;
 
 public class pm_newPony extends pm_newPonyAdv {

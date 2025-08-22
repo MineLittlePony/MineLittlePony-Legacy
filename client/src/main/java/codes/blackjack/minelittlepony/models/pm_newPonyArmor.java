@@ -1,5 +1,6 @@
-package codes.blackjack.minelittlepony;
+package codes.blackjack.minelittlepony.models;
 
+import codes.blackjack.minelittlepony.AniParams;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.model.ModelPart;
 import net.minecraft.entity.living.player.PlayerEntity;

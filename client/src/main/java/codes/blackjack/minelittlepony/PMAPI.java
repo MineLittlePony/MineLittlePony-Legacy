@@ -1,5 +1,12 @@
 package codes.blackjack.minelittlepony;
 
+import codes.blackjack.minelittlepony.models.pm_Human;
+import codes.blackjack.minelittlepony.models.pm_newPony;
+import codes.blackjack.minelittlepony.models.pm_newPonyAdv;
+import codes.blackjack.minelittlepony.models.pma_Human;
+import codes.blackjack.minelittlepony.models.pma_newPony;
+import codes.blackjack.minelittlepony.render.PlayerModel;
+
 import java.util.ArrayList;
 import java.util.List;
 

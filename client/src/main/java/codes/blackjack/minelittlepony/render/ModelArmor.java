@@ -1,4 +1,4 @@
-package codes.blackjack.minelittlepony;
+package codes.blackjack.minelittlepony.render;
 
 public abstract class ModelArmor {
 	public final String path;

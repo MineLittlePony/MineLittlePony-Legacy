@@ -1,4 +1,4 @@
-package codes.blackjack.minelittlepony;
+package codes.blackjack.minelittlepony.render;
 
 import com.mojang.blaze3d.platform.MemoryTracker;
 import com.mojang.blaze3d.vertex.BufferBuilder;

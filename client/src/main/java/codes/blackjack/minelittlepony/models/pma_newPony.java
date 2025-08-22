@@ -1,5 +1,6 @@
-package codes.blackjack.minelittlepony;
+package codes.blackjack.minelittlepony.models;
 
+import codes.blackjack.minelittlepony.render.ModelArmor;
 import net.minecraft.client.render.model.ModelPart;
 
 public class pma_newPony extends ModelArmor {

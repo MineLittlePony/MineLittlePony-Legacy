@@ -1,4 +1,6 @@
-package codes.blackjack.minelittlepony;
+package codes.blackjack.minelittlepony.models;
+
+import codes.blackjack.minelittlepony.render.ModelArmor;
 
 public class pma_Human extends ModelArmor {
 	public pma_Human(String path) {

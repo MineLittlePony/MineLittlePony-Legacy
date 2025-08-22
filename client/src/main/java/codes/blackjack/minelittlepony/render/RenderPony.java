@@ -1,5 +1,9 @@
-package codes.blackjack.minelittlepony;
+package codes.blackjack.minelittlepony.render;
 
+import codes.blackjack.minelittlepony.AniParams;
+import codes.blackjack.minelittlepony.MineLPReflection;
+import codes.blackjack.minelittlepony.PMAPI;
+import codes.blackjack.minelittlepony.Pony;
 import codes.blackjack.minelittlepony.mixin.MixinExtLivingEntity;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import net.minecraft.client.Minecraft;

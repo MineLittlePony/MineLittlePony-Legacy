@@ -1,5 +1,6 @@
-package codes.blackjack.minelittlepony;
+package codes.blackjack.minelittlepony.render;
 
+import codes.blackjack.minelittlepony.AniParams;
 import net.minecraft.block.Block;
 import net.minecraft.client.render.BlockRenderer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
