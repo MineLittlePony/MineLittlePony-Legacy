@@ -1319,7 +1319,7 @@ public class pm_newPonyAdv extends ModelPlayer {
       double d = player.lastCapeX + (player.capeX - player.lastCapeX) * (double)par2 - (player.prevX + (player.x - player.prevX) * (double)par2);
       double d1 = player.lastCapeY + (player.capeY - player.lastCapeY) * (double)par2 - (player.prevY + (player.y - player.prevY) * (double)par2);
       double d2 = player.lastCapeZ + (player.capeZ - player.lastCapeZ) * (double)par2 - (player.prevZ + (player.z - player.prevZ) * (double)par2);
-      float f10 = player.be + (player.bd - player.be) * par2; // This is the head bob offset
+      float f10 = player.prevBodyYaw + (player.bodyYaw - player.prevBodyYaw) * par2;
       double d3 = (double)MathHelper.sin(f10 * (float)Math.PI / 180.0F);
       double d4 = (double)(-MathHelper.cos(f10 * (float)Math.PI / 180.0F));
       float f12 = (float)d1 * 10.0F;

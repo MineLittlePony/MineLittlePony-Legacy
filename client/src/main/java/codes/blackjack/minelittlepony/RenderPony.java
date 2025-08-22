@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import codes.blackjack.minelittlepony.mixin.MixinExtLivingEntity;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.TextRenderer;
@@ -15,6 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.UseAction;
 import org.lwjgl.opengl.GL11;
+import org.spongepowered.asm.mixin.Mixin;
 
 public class RenderPony extends PlayerEntityRenderer {
    private HumanoidModel modelBipedMain;
@@ -102,7 +104,8 @@ public class RenderPony extends PlayerEntityRenderer {
       Pony thePony = Pony.getPonyFromRegistry(par1EntityPlayer, this.dispatcher.textureManager);
       par1EntityPlayer.skin = thePony.skinUrl;
 	  // .texture perhaps?
-      par1EntityPlayer.bm = thePony.texture;
+	   ((MixinExtLivingEntity) par1EntityPlayer).setTexture(thePony.texture);
+     // par1EntityPlayer.bm = thePony.texture;
       this.pm = this.getModel(par1EntityPlayer);
       this.model = this.pm.model;
       this.pm.armor.modelArmorChestplate.heldItemRight = this.pm.armor.modelArmor.heldItemRight = this.pm.model.heldItemRight = itemstack == null ? 0 : 1;
@@ -116,7 +119,8 @@ public class RenderPony extends PlayerEntityRenderer {
       }
 
       this.pm.armor.modelArmorChestplate.issneak = this.pm.armor.modelArmor.issneak = this.pm.model.issneak = par1EntityPlayer.isSneaking();
-      this.pm.armor.modelArmorChestplate.isFlying = this.pm.armor.modelArmor.isFlying = this.pm.model.isFlying = thePony.isFlying = thePony.isPegasusFlying(par1EntityPlayer.x, par1EntityPlayer.y, par1EntityPlayer.z, par1EntityPlayer.fallDistance, par1EntityPlayer.ch, this.dispatcher.world);
+	  boolean isJumping = ((MixinExtLivingEntity) par1EntityPlayer).isJumping();
+      this.pm.armor.modelArmorChestplate.isFlying = this.pm.armor.modelArmor.isFlying = this.pm.model.isFlying = thePony.isFlying = thePony.isPegasusFlying(par1EntityPlayer.x, par1EntityPlayer.y, par1EntityPlayer.z, par1EntityPlayer.fallDistance, isJumping, this.dispatcher.world);
       this.pm.armor.modelArmorChestplate.isPegasus = this.pm.armor.modelArmor.isPegasus = this.pm.model.isPegasus = thePony.isPegasus();
       this.pm.armor.modelArmorChestplate.isUnicorn = this.pm.armor.modelArmor.isUnicorn = this.pm.model.isUnicorn = thePony.isUnicorn();
       this.pm.armor.modelArmorChestplate.isMale = this.pm.armor.modelArmor.isMale = this.pm.model.isMale = thePony.isMale();

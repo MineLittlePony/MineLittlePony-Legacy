@@ -116,7 +116,7 @@ public abstract class ModelPlayer extends Model {
             GL11.glScalef(scale3, -scale3, scale3);
             GL11.glRotatef(-100.0F, 1.0F, 0.0F, 0.0F);
             GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-         } else if (Item.BY_ID[drop.itemId].a() /* isFull3D */) {
+         } else if (Item.BY_ID[drop.itemId].isHandheld() /* isFull3D */) {
             if (Item.BY_ID[drop.itemId].shouldRotate()) {
                GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
                GL11.glTranslatef(0.0F, -0.125F, 0.0F);

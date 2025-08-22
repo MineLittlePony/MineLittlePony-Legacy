@@ -1,8 +1,8 @@
 {
 	"schemaVersion": 1,
-	"id": "example_mod",
+	"id": "minelittlepony",
 	"version": "${version}",
-	"name": "Example mod",
+	"name": "Mine Little Pony",
 	"description": "This is an example description! Tell everyone what your mod is about!",
 	"authors": [
 		"Me!"
@@ -15,16 +15,12 @@
 	"icon": "assets/example_mod/icon.png",
 	"environment": "${environment}",
 	"entrypoints": {
-		"init": [
-			"com.example.example_mod.ExampleMod"
-		]
 	},
 	"mixins": [
-		"example_mod.mixins.json"
+		"mixins.minelittlepony.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.14.21",
-		"minecraft": "1.2.5",
-		"osl-entrypoints": ">=0.4.0"
+		"minecraft": "1.2.5"
 	}
 }

@@ -40,9 +40,8 @@ public class MineLPGlow {
    }
 
    public static void renderGlow(LivingEntity par1EntityLiving, int size, boolean sneaking, int colour) {
-	   // this is the bob offset
-      float var10 = func_77034_a(par1EntityLiving.be, par1EntityLiving.bd, 1.0F);
-      float var11 = func_77034_a(par1EntityLiving.bg, par1EntityLiving.bf, 1.0F);
+      float var10 = func_77034_a(par1EntityLiving.prevBodyYaw, par1EntityLiving.bodyYaw, 1.0F);
+      float var11 = func_77034_a(par1EntityLiving.prevHeadYaw, par1EntityLiving.headYaw, 1.0F);
       float var12 = par1EntityLiving.prevYaw + (par1EntityLiving.yaw - par1EntityLiving.prevYaw) * 1.0F;
       float headRotateAngleY = (var11 - var10) / 57.29578F;
       float headRotateAngleX = var12 / 57.29578F;

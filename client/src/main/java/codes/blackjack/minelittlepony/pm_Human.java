@@ -197,8 +197,8 @@ public class pm_Human extends ModelPlayer {
 
    protected void renderEars(PlayerEntity player, float par2) {
       for(int i = 0; i < 2; ++i) {
-		  // The unmapped ones are the head bob offset and prev
-         float f1 = player.prevYaw + (player.yaw - player.prevYaw) * par2 - (player.be + (player.bd - player.be) * par2);
+		  // TODO: These yaws might be wrong!!!
+         float f1 = player.prevYaw + (player.yaw - player.prevYaw) * par2 - (player.prevBodyYaw + (player.bodyYaw - player.prevBodyYaw) * par2);
          float f2 = player.prevPitch + (player.pitch - player.prevPitch) * par2;
          GL11.glPushMatrix();
          GL11.glRotatef(f1, 0.0F, 1.0F, 0.0F);
@@ -228,7 +228,7 @@ public class pm_Human extends ModelPlayer {
 	   double d = player.lastCapeX + (player.capeX - player.lastCapeX) * (double)par2 - (player.prevX + (player.x - player.prevX) * (double)par2);
 	   double d1 = player.lastCapeY + (player.capeY - player.lastCapeY) * (double)par2 - (player.prevY + (player.y - player.prevY) * (double)par2);
 	   double d2 = player.lastCapeZ + (player.capeZ - player.lastCapeZ) * (double)par2 - (player.prevZ + (player.z - player.prevZ) * (double)par2);
-      float f10 = player.be + (player.bd - player.be) * par2;
+      float f10 = player.prevBodyYaw + (player.bodyYaw - player.prevBodyYaw) * par2;
       double d3 = (double)MathHelper.sin(f10 * (float)Math.PI / 180.0F);
       double d4 = (double)(-MathHelper.cos(f10 * (float)Math.PI / 180.0F));
       float f12 = (float)d1 * 10.0F;
