@@ -48,9 +48,8 @@ public final class Pony {
 	public Size size = Size.MARE;
 	public int wantTail;
 	private boolean textureSetup;
-	private boolean isGlow;
 	private int glowColor;
-	private float defaultYOffset;
+	private final float defaultYOffset;
 	private boolean pegasusFlying;
 	private float previousFallDistance;
 
@@ -72,7 +71,6 @@ public final class Pony {
 		this.wantTail = 0;
 		this.advancedTexturing = false;
 		this.isFlying = false;
-		this.isGlow = false;
 		this.pegasusFlying = false;
 		this.defaultYOffset = 1.62F;
 		if (PonySettings.getPonyLevel() == PonyLevel.NO_PONIES) {
@@ -176,9 +174,6 @@ public final class Pony {
 	public static void init() {
 		if (!hasInit) {
 			System.out.println("[Mine Little Pony] Player Model API for Mine Little Pony (beta) Initializing...");
-			PMAPI.addToGUI(PMAPI.human);
-			PMAPI.addToGUI(PMAPI.newPony);
-			PMAPI.addToGUI(PMAPI.newPonyAdv);
 			PMAPI.newPony.model.init();
 			PMAPI.newPony.armor.modelArmorChestplate.init(0.0F, 1.0F);
 			PMAPI.newPony.armor.modelArmor.init(0.0F, 0.5F);

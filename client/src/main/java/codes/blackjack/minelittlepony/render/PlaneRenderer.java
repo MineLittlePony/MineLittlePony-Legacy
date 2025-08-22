@@ -26,7 +26,7 @@ public class PlaneRenderer {
 	public boolean mirror;
 	public boolean mirrory;
 	public boolean mirrorxy;
-	private final boolean showModel = true;
+	private static final boolean showModel = true;
 	private boolean isHidden;
 
 	public PlaneRenderer(Model modelbase, int i, int j) {

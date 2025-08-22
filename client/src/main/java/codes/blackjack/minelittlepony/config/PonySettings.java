@@ -1,10 +1,13 @@
 package codes.blackjack.minelittlepony.config;
 
-public class PonySettings {
+public final class PonySettings {
 	private static PonyLevel ponyLevel = PonyLevel.ALL_PONIES;
 	private static PonySizes useSizes = PonySizes.ALL_SIZES;
 	private static boolean ponyArmor = true;
 	private static boolean showSnuzzles = true;
+
+	private PonySettings() {
+	}
 
 	public static PonyLevel getPonyLevel() {
 		return ponyLevel;

@@ -1,11 +1,11 @@
 package codes.blackjack.minelittlepony;
 
 public class AniParams {
-	public float move;
-	public float swing;
-	public float tick;
-	public float horz;
-	public float vert;
+	public final float move;
+	public final float swing;
+	public final float tick;
+	public final float horz;
+	public final float vert;
 
 	public AniParams(float move, float swing, float tick, float horz, float vert) {
 		this.move = move;

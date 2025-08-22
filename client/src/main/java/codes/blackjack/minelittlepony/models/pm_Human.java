@@ -111,7 +111,7 @@ public class pm_Human extends ModelPlayer {
 			this.rightArm.rotationZ = MathHelper.sin(this.handSwingProgress * 3.141593F) * -0.4F;
 		}
 
-		if (this.issneak) {
+		if (this.isSneaking) {
 			this.body.rotationX = 0.5F;
 			this.rightLeg.rotationX -= 0.0F;
 			this.leftLeg.rotationX -= 0.0F;

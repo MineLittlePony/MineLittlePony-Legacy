@@ -73,7 +73,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 	public ModelPart leftArm;
 	public ModelPart rightLeg;
 	public ModelPart leftLeg;
-	protected float NeckRotX = 0.166F;
+	protected final float NeckRotX = 0.166F;
 	protected ModelPart cloak;
 	protected ModelPart[] headpiece;
 	protected ModelPart helmet;
@@ -82,7 +82,6 @@ public class pm_newPonyAdv extends ModelPlayer {
 	protected ModelPart steveArm;
 	protected ModelPart unicornArm;
 	private boolean rainboom;
-	private float WingRotateAngleZ;
 	private int tailstop;
 	private PlaneRenderer[] muzzleFemale;
 	private PlaneRenderer[] muzzleMale;
@@ -154,7 +153,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 		this.setLegs(aniparams.move, aniparams.swing);
 		this.holdItem();
 		this.swingItem(this.handSwingProgress);
-		if (this.issneak && !this.isFlying) {
+		if (this.isSneaking && !this.isFlying) {
 			this.adjustBody(BODY_ROTATE_ANGLE_X_SNEAK, BODY_RP_Y_SNEAK, BODY_RP_Z_SNEAK);
 			this.animatePegasusWingsSneaking();
 			this.sneakLegs();
@@ -338,7 +337,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 		float sinBodyRotateAngleYFactor = MathHelper.sin(this.Body.rotationY) * 5.0F;
 		float cosBodyRotateAngleYFactor = MathHelper.cos(this.Body.rotationY) * 5.0F;
 		float legOutset = 4.0F;
-		if (this.issneak && !this.isFlying) {
+		if (this.isSneaking && !this.isFlying) {
 			legOutset = 0.0F;
 		}
 
@@ -509,7 +508,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 		float headPosY;
 		float headPosZ;
 		headPosY = 2.0F;
-		if (this.issneak) {
+		if (this.isSneaking) {
 			headPosZ = -1.0F;
 		} else {
 			headPosZ = 1.0F;
@@ -578,18 +577,18 @@ public class pm_newPonyAdv extends ModelPlayer {
 				modelPart.pivotZ = WING_FOLDED_RP_Z;
 			}
 		} else {
-			this.WingRotateAngleZ = MathHelper.sin(tick * 0.536F);
+			float wingRotateAngleZ = MathHelper.sin(tick * 0.536F);
 
 			for (ModelPart part : this.leftWingExt) {
 				part.rotationX = EXT_WING_ROTATE_ANGLE_X;
-				part.rotationZ = -this.WingRotateAngleZ - ROTATE_270 - 0.4F;
+				part.rotationZ = -wingRotateAngleZ - ROTATE_270 - 0.4F;
 				part.pivotY = LEFT_WING_RP_Y_NOTSNEAK;
 				part.pivotZ = LEFT_WING_RP_Z_NOTSNEAK;
 			}
 
 			for (ModelPart modelPart : this.rightWingExt) {
 				modelPart.rotationX = EXT_WING_ROTATE_ANGLE_X;
-				modelPart.rotationZ = this.WingRotateAngleZ + ROTATE_270 + 0.4F;
+				modelPart.rotationZ = wingRotateAngleZ + ROTATE_270 + 0.4F;
 				modelPart.pivotY = RIGHT_WING_RP_Y_NOTSNEAK;
 				modelPart.pivotZ = RIGHT_WING_RP_Z_NOTSNEAK;
 			}
@@ -611,12 +610,6 @@ public class pm_newPonyAdv extends ModelPlayer {
 		this.bodyPiece[11].rotateAngleX += 0.5F;
 		this.bodyPiece[12].rotateAngleX += 0.5F;
 		this.bodyPiece[13].rotateAngleX += 0.5F;
-	}
-
-	public void shiftRotationPoint(PlaneRenderer planeRenderer, float shiftX, float shiftY, float shiftZ) {
-		planeRenderer.rotationPointX += shiftX;
-		planeRenderer.rotationPointY += shiftY;
-		planeRenderer.rotationPointZ += shiftZ;
 	}
 
 	protected void shiftRotationPoint(@NotNull ModelPart modelPart, float shiftX, float shiftY, float shiftZ) {
@@ -652,7 +645,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 			}
 
 			if (this.size == Pony.Size.FILLY) {
-				if (this.issneak && !this.isFlying && !this.isArmour) {
+				if (this.isSneaking && !this.isFlying && !this.isArmour) {
 					GL11.glTranslatef(0.0F, -0.12F, 0.0F);
 				}
 
@@ -664,7 +657,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 				GL11.glTranslatef(0.0F, 0.76F, 0.0F);
 				GL11.glScalef(0.9F, 0.9F, 0.9F);
 				this.renderHead();
-				if (this.issneak && !this.isFlying) {
+				if (this.isSneaking && !this.isFlying) {
 					GL11.glTranslatef(0.0F, -0.01F, 0.15F);
 				}
 
@@ -679,7 +672,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 				GL11.glPushMatrix();
 				GL11.glTranslatef(0.0F, 0.89F, 0.0F);
 				GL11.glScalef(0.6F, 0.41F, 0.6F);
-				if (this.issneak && !this.isFlying) {
+				if (this.isSneaking && !this.isFlying) {
 					GL11.glTranslatef(0.0F, 0.12F, 0.0F);
 				}
 
@@ -700,7 +693,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 					GL11.glTranslatef(0.0F, 0.0F, -0.1F);
 				}
 
-				if (this.issneak && !this.isFlying) {
+				if (this.isSneaking && !this.isFlying) {
 					GL11.glTranslatef(0.0F, 0.15F, 0.0F);
 				}
 
@@ -708,7 +701,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 				GL11.glPopMatrix();
 				GL11.glPushMatrix();
 				GL11.glTranslatef(0.0F, -0.15F, -0.07F);
-				if (this.issneak && !this.isFlying) {
+				if (this.isSneaking && !this.isFlying) {
 					GL11.glTranslatef(0.0F, 0.0F, -0.05F);
 				}
 
@@ -735,7 +728,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 
 				GL11.glPushMatrix();
 				GL11.glTranslatef(0.0F, -0.15F, 0.01F);
-				if (this.issneak && !this.isFlying) {
+				if (this.isSneaking && !this.isFlying) {
 					GL11.glTranslatef(0.0F, 0.05F, 0.0F);
 				}
 
@@ -744,7 +737,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 				GL11.glPushMatrix();
 				GL11.glTranslatef(0.0F, -0.19F, -0.01F);
 				GL11.glScalef(1.0F, 1.1F, 1.0F);
-				if (this.issneak && !this.isFlying) {
+				if (this.isSneaking && !this.isFlying) {
 					GL11.glTranslatef(0.0F, -0.06F, -0.04F);
 				}
 
@@ -820,7 +813,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 		}
 
 		if (this.isPegasus) {
-			if (!this.isFlying && !this.issneak) {
+			if (!this.isFlying && !this.isSneaking) {
 				for (ModelPart part : this.leftWing) {
 					part.render(this.scale);
 				}
@@ -842,7 +835,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 	}
 
 	protected void renderTail() {
-		int tailstop = 0;
+		int tailstop;
 		tailstop = this.tail.length - this.wantTail * 5;
 		if (tailstop <= 1) {
 			tailstop = 0;
@@ -1237,7 +1230,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 			if (this.heldItemRight != 0 && this.isUnicorn) {
 				GL11.glPushMatrix();
 				this.head.translate(0.0625F);
-				MineLPGlow.renderGlow(player, this.size, this.issneak && !this.isFlying, this.glowColor);
+				MineLPGlow.renderGlow(player, this.size, this.isSneaking && !this.isFlying, this.glowColor);
 				GL11.glPopMatrix();
 			}
 		}
@@ -1278,18 +1271,18 @@ public class pm_newPonyAdv extends ModelPlayer {
 		} else if (this.size == Pony.Size.STALLION) {
 			GL11.glTranslatef(0.0F, -0.14F, -0.1F);
 			GL11.glScalef(1.15F, 1.2F, 1.2F);
-			if (this.issneak && !this.isFlying) {
+			if (this.isSneaking && !this.isFlying) {
 				GL11.glTranslatef(0.0F, 0.03F, 0.0F);
 			}
 		} else if (this.size == Pony.Size.ALICORN) {
 			GL11.glTranslatef(0.0F, -0.09F, 0.0F);
 			GL11.glScalef(1.0F, 1.0F, 1.0F);
-			if (this.issneak && !this.isFlying) {
+			if (this.isSneaking && !this.isFlying) {
 				GL11.glTranslatef(0.0F, 0.03F, 0.0F);
 			}
 		}
 
-		if (this.issneak && !this.isFlying) {
+		if (this.isSneaking && !this.isFlying) {
 			GL11.glTranslatef(0.0F, 0.4F, -0.12F);
 		}
 

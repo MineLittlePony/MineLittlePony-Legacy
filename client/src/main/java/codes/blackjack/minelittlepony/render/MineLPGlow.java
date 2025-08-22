@@ -55,7 +55,6 @@ public final class MineLPGlow {
 			headRotateAngleX = -0.5F;
 		}
 
-		headRotateAngleY *= 57.29578F;
 		headRotateAngleX *= 57.29578F;
 		if (size == Pony.Size.FILLY) {
 			GL11.glTranslatef(0.0F, 0.39F, 0.01F);

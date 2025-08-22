@@ -15,8 +15,8 @@ import net.minecraft.item.UseAction;
 import org.lwjgl.opengl.GL11;
 
 public abstract class ModelPlayer extends Model {
-	protected float scale = 0.0625F;
-	public boolean issneak;
+	protected final float scale = 0.0625F;
+	public boolean isSneaking;
 	public boolean isArmour;
 	public int glowColor = -12303190;
 	public boolean isPegasus;
@@ -25,7 +25,6 @@ public abstract class ModelPlayer extends Model {
 	public int wantTail;
 	public Pony.Size size;
 	public boolean isFlying;
-	public boolean isGlow;
 	public boolean isSleeping;
 	public int heldItemRight;
 	public boolean aimedBow;
@@ -54,7 +53,7 @@ public abstract class ModelPlayer extends Model {
 		this.render(ani, true);
 	}
 
-	protected void renderPumpkin(EntityRenderDispatcher renderman, PlayerEntity player, ModelPart box, float scale, float posx, float posy, float posz) {
+	protected void renderPumpkin(EntityRenderDispatcher dispatcher, PlayerEntity player, ModelPart box, float scale, float posx, float posy, float posz) {
 		ItemStack pumpkin = player.inventory.getArmor(3);
 		if (pumpkin != null && pumpkin.getItem().id < 256) {
 			GL11.glPushMatrix();
@@ -68,7 +67,7 @@ public abstract class ModelPlayer extends Model {
 				GL11.glScalef(scale, -scale, scale);
 			}
 
-			renderman.heldItemRenderer.render(player, pumpkin, 0);
+			dispatcher.heldItemRenderer.render(player, pumpkin, 0);
 			GL11.glPopMatrix();
 		}
 	}

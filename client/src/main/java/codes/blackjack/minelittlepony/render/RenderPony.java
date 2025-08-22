@@ -28,19 +28,19 @@ public class RenderPony extends PlayerEntityRenderer {
 	private HumanoidModel modelArmorChestplate;
 	private HumanoidModel modelArmor;
 	private static String[] armorFilenamePrefix;
-	private static AniParams ani;
+	private static final AniParams ani;
 	private PlayerModel pm;
 
 	public RenderPony() {
 		this.model = PMAPI.newPonyAdv.model;
-		this.shadowSize = PMAPI.newPonyAdv.shadowsize;
+		this.shadowSize = PMAPI.newPonyAdv.shadowSize;
 		this.pm = PMAPI.newPonyAdv;
 		this.dispatcher = EntityRenderDispatcher.INSTANCE;
 	}
 
 	@Override
 	protected int bindTexture(PlayerEntity player, int armorSlot, float partialTick) {
-		boolean ponyArmor = false;
+		boolean ponyArmor;
 		this.pm = this.getModel(player);
 		ItemStack armorInSlot = player.inventory.getArmor(3 - armorSlot);
 		if (armorInSlot != null) {
@@ -49,7 +49,7 @@ public class RenderPony extends PlayerEntityRenderer {
 				ArmorItem armorPiece = (ArmorItem) armorItem;
 				ModelArmor.slot = armorSlot;
 				String[] filePrefixes = MixinExtPlayerEntityRenderer.getArmorVariants();
-				String[] path = this.checkPonyVersion(this.pm.armor.path + filePrefixes + "_" + this.pm.armor.subimage() + ".png");
+				String[] path = this.checkPonyVersion(this.pm.armor.path + filePrefixes[armorPiece.materialId] + "_" + this.pm.armor.subimage() + ".png");
 				this.bindTexture(path[1]);
 				ponyArmor = Boolean.parseBoolean(path[2]);
 
@@ -104,7 +104,7 @@ public class RenderPony extends PlayerEntityRenderer {
 			}
 		}
 
-		this.pm.armor.modelArmorChestplate.issneak = this.pm.armor.modelArmor.issneak = this.pm.model.issneak = par1EntityPlayer.isSneaking();
+		this.pm.armor.modelArmorChestplate.isSneaking = this.pm.armor.modelArmor.isSneaking = this.pm.model.isSneaking = par1EntityPlayer.isSneaking();
 		boolean isJumping = ((MixinExtLivingEntity) par1EntityPlayer).isJumping();
 		this.pm.armor.modelArmorChestplate.isFlying = this.pm.armor.modelArmor.isFlying = this.pm.model.isFlying = thePony.isFlying = thePony.isPegasusFlying(par1EntityPlayer.x, par1EntityPlayer.y, par1EntityPlayer.z, par1EntityPlayer.fallDistance, isJumping, this.dispatcher.world);
 		this.pm.armor.modelArmorChestplate.isPegasus = this.pm.armor.modelArmor.isPegasus = this.pm.model.isPegasus = thePony.isPegasus();
@@ -118,7 +118,7 @@ public class RenderPony extends PlayerEntityRenderer {
 		this.pm.model.wantTail = thePony.wantTail();
 		super.render(par1EntityPlayer, par2, par4, par6, par8, par9);
 		this.pm.armor.modelArmorChestplate.aimedBow = this.pm.armor.modelArmor.aimedBow = this.pm.model.aimedBow = false;
-		this.pm.armor.modelArmorChestplate.issneak = this.pm.armor.modelArmor.issneak = this.pm.model.issneak = false;
+		this.pm.armor.modelArmorChestplate.isSneaking = this.pm.armor.modelArmor.isSneaking = this.pm.model.isSneaking = false;
 		this.pm.armor.modelArmorChestplate.heldItemRight = this.pm.armor.modelArmor.heldItemRight = this.pm.model.heldItemRight = 0;
 	}
 
@@ -187,7 +187,7 @@ public class RenderPony extends PlayerEntityRenderer {
 
 	@Override
 	protected void scale(PlayerEntity par1EntityPlayer, float par2) {
-		float var3 = this.pm.globalscale;
+		float var3 = this.pm.globalScale;
 		GL11.glScalef(var3, var3, var3);
 	}
 

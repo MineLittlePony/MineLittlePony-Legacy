@@ -31,7 +31,7 @@ public class pm_newPonyArmor extends pm_newPonyAdv {
 		this.setLegs(aniparams.move, aniparams.swing);
 		this.holdItem();
 		this.swingItem(this.handSwingProgress);
-		if (this.issneak && !this.isFlying) {
+		if (this.isSneaking && !this.isFlying) {
 			this.adjustBody(BODY_ROTATE_ANGLE_X_SNEAK, BODY_RP_Y_SNEAK, BODY_RP_Z_SNEAK);
 			this.sneakLegs();
 			this.setHead(0.0F, 6.0F, -2.0F);
