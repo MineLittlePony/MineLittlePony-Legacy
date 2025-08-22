@@ -9,12 +9,6 @@ public interface MixinExtLivingEntity {
 	@Accessor("jumping")
 	boolean isJumping();
 
-	@Accessor("stepBobbingAmount")
-	float getStepBobbingAmount();
-
-	@Accessor("prevStepBobbingAmount")
-	float getPrevStepBobbingAmount();
-
 	@Accessor("texture")
 	void setTexture(String texture);
 }

@@ -46,25 +46,8 @@ public class RenderPony extends PlayerEntityRenderer {
             ArmorItem armorPiece = (ArmorItem) armorItem;
             ModelArmor.slot = armorSlot;
             String[] path = this.checkPonyVersion(this.pm.armor.path + MineLPReflection.getArmorFilenamePrefix()[armorPiece.materialId] + "_" + this.pm.armor.subimage() + ".png");
-            if (MineLPReflection.ForgeAPI.installed) {
-               try {
-                  if (MineLPReflection.ForgeAPI.isInstance("IArmorTextureProvider", armorPiece)) {
-                     String[] forgepath = this.checkPonyVersion((String)MineLPReflection.ForgeAPI.invokeMethod("getArmorTextureFile", armorPiece, armorInSlot));
-                     this.bindTexture(forgepath[1]);
-                     ponyArmor = Boolean.parseBoolean(forgepath[2]);
-                  } else {
-                     this.bindTexture(path[1]);
-                     ponyArmor = Boolean.parseBoolean(path[2]);
-                  }
-               } catch (Exception var10) {
-                  System.out.println("Error with ForgeAPI Armour Texture Compatibility");
-                  this.bindTexture(path[1]);
-                  ponyArmor = Boolean.parseBoolean(path[2]);
-               }
-            } else {
-               this.bindTexture(path[1]);
-               ponyArmor = Boolean.parseBoolean(path[2]);
-            }
+           this.bindTexture(path[1]);
+           ponyArmor = Boolean.parseBoolean(path[2]);
 
             this.pm.armor.boxes(ponyArmor);
             this.setDecorationModel(this.pm.armor.base);
@@ -144,60 +127,6 @@ public class RenderPony extends PlayerEntityRenderer {
          float itemstack = par1EntityPlayer.getDistanceTo(this.dispatcher.camera);
          float var11 = par1EntityPlayer.isSneaking() ? 32.0F : 64.0F;
          if (itemstack < var11) {
-            if (MineLPReflection.SpoutCraft.installed) {
-               String title = (String)MineLPReflection.SpoutCraft.getField("displayName", par1EntityPlayer);
-               float alpha = 0.25F;
-               if (!title.equals("[hide]")) {
-                  String[] lines = title.split("\\n");
-                  double y = par4;
-
-                  for(int line = 0; line < lines.length; ++line) {
-                     title = lines[line];
-                     par4 = y + 0.275 * (double)(lines.length - line - 1);
-                     if (!par1EntityPlayer.isSneaking()) {
-                        if (par1EntityPlayer.isSleeping()) {
-                           this.renderNameTag(par1EntityPlayer, title, par2, par4 - (double)1.5F, par6, 64);
-                        } else {
-                           this.renderNameTag(par1EntityPlayer, title, par2, par4, par6, 64);
-                        }
-                     } else {
-                        title = (String)MineLPReflection.SpoutCraft.invokeMethod("ChatColor.stripColor", (Object)null, title);
-                        TextRenderer fontrenderer = this.getTextRenderer();
-                        GL11.glPushMatrix();
-                        GL11.glTranslatef((float)par2 + 0.0F, (float)par4 + 2.3F, (float)par6);
-                        GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-                        GL11.glRotatef(-this.dispatcher.cameraYaw, 0.0F, 1.0F, 0.0F);
-                        GL11.glRotatef(this.dispatcher.cameraPitch, 1.0F, 0.0F, 0.0F);
-                        GL11.glScalef(-var9, -var9, var9);
-                        GL11.glDisable(2896);
-                        GL11.glTranslatef(0.0F, 0.25F / var9, 0.0F);
-                        GL11.glDepthMask(false);
-                        GL11.glEnable(3042);
-                        GL11.glBlendFunc(770, 771);
-                        BufferBuilder tessellator = BufferBuilder.INSTANCE;
-                        GL11.glDisable(3553);
-                        tessellator.start();
-                        int i = fontrenderer.getWidth(title) / 2;
-                        tessellator.color(0.0F, 0.0F, 0.0F, alpha);
-                        tessellator.vertex((double)(-i - 1), (double)-1.0F, (double)0.0F);
-                        tessellator.vertex((double)(-i - 1), (double)8.0F, (double)0.0F);
-                        tessellator.vertex((double)(i + 1), (double)8.0F, (double)0.0F);
-                        tessellator.vertex((double)(i + 1), (double)-1.0F, (double)0.0F);
-                        tessellator.end();
-                        GL11.glEnable(3553);
-                        GL11.glDepthMask(true);
-                        fontrenderer.draw(title, -fontrenderer.getWidth(title) / 2, 0, 553648127);
-                        GL11.glEnable(2896);
-                        GL11.glDisable(3042);
-                        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                        GL11.glPopMatrix();
-                     }
-                  }
-               }
-
-               return;
-            }
-
             String thePony = par1EntityPlayer.name;
             if (!par1EntityPlayer.isSneaking()) {
                if (par1EntityPlayer.isSleeping()) {
@@ -282,7 +211,6 @@ public class RenderPony extends PlayerEntityRenderer {
    }
 
    static {
-      MineLPReflection.preCall();
       armorFilenamePrefix = new String[]{"cloth", "chain", "iron", "diamond", "gold"};
       ani = new AniParams(0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
    }

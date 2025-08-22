@@ -159,7 +159,4 @@ public abstract class ModelPlayer extends Model {
          GL11.glPopMatrix();
       }
    }
-
-   public void renderCloak(float par1) {
-   }
 }

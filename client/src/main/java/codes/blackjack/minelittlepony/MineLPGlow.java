@@ -1,17 +1,16 @@
 package codes.blackjack.minelittlepony;
 
-import java.awt.image.BufferedImage;
-import java.nio.IntBuffer;
-
 import com.mojang.blaze3d.platform.MemoryTracker;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import net.minecraft.client.entity.living.player.LocalPlayerEntity;
-import net.minecraft.client.render.HeldItemRenderer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.entity.living.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+
+import java.awt.image.BufferedImage;
+import java.nio.IntBuffer;
 
 public class MineLPGlow {
    private static int glowTexture = -1;
@@ -84,7 +83,6 @@ public class MineLPGlow {
       GL11.glTranslatef(0.0F, -0.66F, -0.5F);
       bindGlowTexture();
 	   EntityRenderDispatcher renderManager = EntityRenderDispatcher.INSTANCE;
-      BufferBuilder tess = BufferBuilder.INSTANCE;
       GL11.glDisable(2896);
       GL11.glEnable(32826);
       GL11.glEnable(3042);
