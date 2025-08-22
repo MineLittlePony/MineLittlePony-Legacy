@@ -1,13 +1,10 @@
 package codes.blackjack.minelittlepony;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import codes.blackjack.minelittlepony.mixin.MixinExtLivingEntity;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.TextRenderer;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.model.entity.HumanoidModel;
 import net.minecraft.entity.living.player.PlayerEntity;
@@ -16,7 +13,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.UseAction;
 import org.lwjgl.opengl.GL11;
-import org.spongepowered.asm.mixin.Mixin;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class RenderPony extends PlayerEntityRenderer {
    private HumanoidModel modelBipedMain;
@@ -32,6 +32,7 @@ public class RenderPony extends PlayerEntityRenderer {
       this.model = PMAPI.newPonyAdv.model;
       this.shadowSize = PMAPI.newPonyAdv.shadowsize;
       this.pm = PMAPI.newPonyAdv;
+	  this.dispatcher = EntityRenderDispatcher.INSTANCE;
    }
 
    @Override

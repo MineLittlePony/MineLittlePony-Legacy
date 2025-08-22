@@ -1,12 +1,5 @@
 package codes.blackjack.minelittlepony;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.living.player.LocalPlayerEntity;
 import net.minecraft.client.render.texture.HttpTexture;
@@ -14,6 +7,14 @@ import net.minecraft.client.render.texture.TextureManager;
 import net.minecraft.entity.living.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+
+import javax.imageio.ImageIO;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Pony {
    public static PonyConfig config;
@@ -533,7 +534,7 @@ public class Pony {
 
          for(int check = 0; check < 127; ++check) {
             String checkTexture = "/mob/bpony_" + check + ".png";
-            if (Minecraft.class.getResource(checkTexture) != null) {
+            if (Pony.class.getResource(checkTexture) != null) {
                backgroundPonies.add(checkTexture);
             }
          }

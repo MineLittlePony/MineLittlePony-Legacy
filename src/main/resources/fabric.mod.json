@@ -15,6 +15,9 @@
 	"icon": "assets/example_mod/icon.png",
 	"environment": "${environment}",
 	"entrypoints": {
+    "client": [
+      "codes.blackjack.minelittlepony.MineLPEntry"
+    ]
 	},
 	"mixins": [
 		"mixins.minelittlepony.json"
