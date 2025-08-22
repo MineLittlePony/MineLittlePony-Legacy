@@ -294,10 +294,6 @@ public class Pony {
 		this.isPonySkin = false;
 	}
 
-	public static int getNumberOfPonies() {
-		return 127;
-	}
-
 	public static int getPonyArmor() {
 		return ponyArmor;
 	}
@@ -513,7 +509,7 @@ public class Pony {
 			PMAPI.human.armor.modelArmorChestplate.init(0.0F, 1.0F);
 			PMAPI.human.armor.modelArmor.init(0.0F, 0.5F);
 			config = new PonyConfig(MinecraftInstanceGetter.getMinecraftInstance());
-			int dummy = getPonyLevel();
+			getPonyLevel();
 
 			for (int check = 0; check < 127; ++check) {
 				String checkTexture = "/mob/bpony_" + check + ".png";
@@ -522,7 +518,7 @@ public class Pony {
 				}
 			}
 
-			System.out.println("[Mine Little Pony] Dectected " + backgroundPonies.size() + " of " + 127 + " background ponies installed.");
+			System.out.println("[Mine Little Pony] Detected " + backgroundPonies.size() + " of " + 127 + " background ponies installed.");
 			hasInit = true;
 			System.out.println("[Mine Little Pony] Done initializing.");
 		}

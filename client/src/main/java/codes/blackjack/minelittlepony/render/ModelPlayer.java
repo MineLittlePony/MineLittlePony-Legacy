@@ -14,8 +14,6 @@ import net.minecraft.item.UseAction;
 import org.lwjgl.opengl.GL11;
 
 public abstract class ModelPlayer extends Model {
-	public String texture;
-	private float strech;
 	protected float scale = 0.0625F;
 	public boolean issneak;
 	public boolean isArmour;
@@ -28,15 +26,10 @@ public abstract class ModelPlayer extends Model {
 	public boolean isFlying;
 	public boolean isGlow;
 	public boolean isSleeping;
-	public int heldItemLeft;
 	public int heldItemRight;
 	public boolean aimedBow;
 
 	protected ModelPlayer(String texture) {
-	}
-
-	public void setStrech(float strech) {
-		this.strech = strech;
 	}
 
 	public abstract void init();

@@ -1,18 +1,20 @@
 {
-	"required": true,
-	"minVersion": "0.8",
-	"package": "codes.blackjack.minelittlepony.mixin",
-	"compatibilityLevel": "JAVA_8",
-	"mixins": [
-	],
-	"client": [
+  "required": true,
+  "minVersion": "0.8",
+  "package": "codes.blackjack.minelittlepony.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "MixinExtEntityRenderDispatcher",
+    "MixinExtLivingEntity",
     "MixinExtMinecraft",
-		"MixinExtLivingEntity",
-    "MixinExtEntityRenderDispatcher"
-	],
-	"server": [
-	],
-	"injectors": {
-		"defaultRequire": 1
+    "MixinExtPlayerEntityRenderer",
+    "MixinExtTextureManager"
+  ],
+  "server": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }

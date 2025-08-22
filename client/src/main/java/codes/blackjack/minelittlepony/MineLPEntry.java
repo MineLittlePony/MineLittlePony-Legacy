@@ -6,10 +6,11 @@ import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.entity.living.player.PlayerEntity;
 
+@SuppressWarnings("unused")
 public class MineLPEntry implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
-		System.out.println("Initializing MinelittlePony");
+		System.out.println("Initializing MineLittlePony");
 		((MixinExtEntityRenderDispatcher) EntityRenderDispatcher.INSTANCE)
 			.getRenderers().put(PlayerEntity.class, new RenderPony());
 	}

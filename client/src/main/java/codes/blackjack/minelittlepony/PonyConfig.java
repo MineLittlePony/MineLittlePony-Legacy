@@ -8,9 +8,10 @@ import java.nio.file.Paths;
 import java.util.Properties;
 
 public class PonyConfig {
+	private static final Properties defaults = new Properties();
+
 	private String basePath;
 	private String path;
-	private static Properties defaults = new Properties();
 	private Properties config;
 
 	public PonyConfig(Minecraft instance) {

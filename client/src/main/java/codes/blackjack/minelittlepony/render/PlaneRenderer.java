@@ -21,18 +21,12 @@ public class PlaneRenderer {
 	public float rotateAngleX;
 	public float rotateAngleY;
 	public float rotateAngleZ;
-	private float field_35977_i;
-	private float field_35975_j;
-	private float field_35976_k;
-	private float field_35973_l;
-	private float field_35974_m;
-	private float field_35972_n;
 	private boolean compiled;
 	private int displayList;
 	public boolean mirror;
 	public boolean mirrory;
 	public boolean mirrorxy;
-	private boolean showModel = true;
+	private final boolean showModel = true;
 	private boolean isHidden;
 
 	public PlaneRenderer(Model modelbase, int i, int j) {
@@ -61,12 +55,6 @@ public class PlaneRenderer {
 	}
 
 	public void addBackPlane(float f, float f1, float f2, int i, int j, int k, float f3) {
-		this.field_35977_i = f;
-		this.field_35975_j = f1;
-		this.field_35976_k = f2;
-		this.field_35973_l = f + i;
-		this.field_35974_m = f1 + j;
-		this.field_35972_n = f2 + k;
 		this.corners = new Vertex[8];
 		this.faces = new Quad[1];
 		float f4 = f + i;
@@ -108,12 +96,6 @@ public class PlaneRenderer {
 	}
 
 	public void addSidePlane(float f, float f1, float f2, int i, int j, int k, float f3) {
-		this.field_35977_i = f;
-		this.field_35975_j = f1;
-		this.field_35976_k = f2;
-		this.field_35973_l = f + i;
-		this.field_35974_m = f1 + j;
-		this.field_35972_n = f2 + k;
 		this.corners = new Vertex[8];
 		this.faces = new Quad[1];
 		float f4 = f + i;
@@ -155,12 +137,6 @@ public class PlaneRenderer {
 	}
 
 	public void addTopPlane(float f, float f1, float f2, int i, int j, int k, float f3) {
-		this.field_35977_i = f;
-		this.field_35975_j = f1;
-		this.field_35976_k = f2;
-		this.field_35973_l = f + i;
-		this.field_35974_m = f1 + j;
-		this.field_35972_n = f2 + k;
 		this.corners = new Vertex[8];
 		this.faces = new Quad[1];
 		float f4 = f + i;
@@ -217,12 +193,6 @@ public class PlaneRenderer {
 	}
 
 	public void addBottomPlane(float f, float f1, float f2, int i, int j, int k, float f3) {
-		this.field_35977_i = f;
-		this.field_35975_j = f1;
-		this.field_35976_k = f2;
-		this.field_35973_l = f + i;
-		this.field_35974_m = f1 + j;
-		this.field_35972_n = f2 + k;
 		this.corners = new Vertex[8];
 		this.faces = new Quad[1];
 		float f4 = f + i;

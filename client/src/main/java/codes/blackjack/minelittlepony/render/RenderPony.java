@@ -29,8 +29,6 @@ public class RenderPony extends PlayerEntityRenderer {
 	private static String[] armorFilenamePrefix;
 	private static AniParams ani;
 	private PlayerModel pm;
-	boolean nil0;
-	boolean nil1;
 
 	public RenderPony() {
 		this.model = PMAPI.newPonyAdv.model;
