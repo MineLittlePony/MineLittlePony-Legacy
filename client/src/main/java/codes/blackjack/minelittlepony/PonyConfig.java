@@ -14,7 +14,7 @@ public class PonyConfig {
 	private String path;
 	private Properties config;
 
-	public PonyConfig(Minecraft instance) {
+	public PonyConfig() {
 		System.out.println("[Mine Little Pony] Attempting to load/create the configuration.");
 		this.loadConfig();
 	}
@@ -53,62 +53,19 @@ public class PonyConfig {
 		}
 
 		try {
-			cfg.createNewFile();
-			this.config.setProperty("ponylevel", "2");
-			this.config.setProperty("sizes", "1");
-			this.config.setProperty("ponyarmor", "1");
-			this.config.setProperty("snuzzles", "1");
-			this.config.store(Files.newOutputStream(Paths.get(this.path + "MineLittlePony.properties")), "Mine Little Pony");
+			if (cfg.createNewFile()) {
+				this.config = new Properties(defaults);
+				this.config.store(Files.newOutputStream(Paths.get(this.path + "MineLittlePony.properties")), "Mine Little Pony");
+			}
 		} catch (Exception e) {
 			this.displayErrorMessage(e.toString());
 		}
 
-	}
-
-	public void setProperty(String prop, float value) {
-		String s = String.valueOf(value);
-		this.config.setProperty(prop, s);
-		this.saveConfig();
-	}
-
-	public void setProperty(String prop, int value) {
-		String s = String.valueOf(value);
-		this.config.setProperty(prop, s);
-		this.saveConfig();
-	}
-
-	public void setProperty(String prop, boolean value) {
-		String s = String.valueOf(value);
-		this.config.setProperty(prop, s);
-		this.saveConfig();
-	}
-
-	public String getStringProperty(String prop) {
-		return this.config.getProperty(prop);
-	}
-
-	public float getFloatProperty(String prop) {
-		String s = this.config.getProperty(prop);
-		return Float.parseFloat(s);
 	}
 
 	public int getIntProperty(String prop) {
 		String s = this.config.getProperty(prop);
 		return Integer.parseInt(s);
-	}
-
-	public boolean getBoolProperty(String prop) {
-		String s = this.config.getProperty(prop);
-		return Boolean.parseBoolean(s);
-	}
-
-	private void saveConfig() {
-		try {
-			this.config.store(Files.newOutputStream(Paths.get(this.path + "MineLittlePony.properties")), null);
-		} catch (Exception e) {
-			this.displayErrorMessage(e.toString());
-		}
-
 	}
 
 	private void displayErrorMessage(String error) {

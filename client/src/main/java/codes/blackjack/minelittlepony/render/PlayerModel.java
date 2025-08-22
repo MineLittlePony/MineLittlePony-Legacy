@@ -3,9 +3,7 @@ package codes.blackjack.minelittlepony.render;
 import java.text.DecimalFormat;
 
 public class PlayerModel {
-	private final int id;
 	public String name;
-	private String url;
 	public ModelPlayer model;
 	public ModelArmor armor;
 	private float width = 0.6F;
@@ -15,10 +13,9 @@ public class PlayerModel {
 	private float yoffset = 1.62F;
 	public float globalscale = 1.0F;
 
-	public PlayerModel(String name, ModelPlayer model, int manual_id) {
+	public PlayerModel(String name, ModelPlayer model) {
 		this.name = name;
 		this.model = model;
-		this.id = manual_id;
 	}
 
 	public PlayerModel setArmor(ModelArmor armor) {
@@ -27,7 +24,6 @@ public class PlayerModel {
 	}
 
 	public PlayerModel setURL(String url) {
-		this.url = url;
 		return this;
 	}
 

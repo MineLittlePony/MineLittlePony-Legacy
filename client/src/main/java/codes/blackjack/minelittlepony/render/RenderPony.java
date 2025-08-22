@@ -70,7 +70,7 @@ public class RenderPony extends PlayerEntityRenderer {
 		returnPath[0] = path;
 		returnPath[1] = path;
 		returnPath[2] = "false";
-		if (Pony.getPonyArmor() != 0) {
+		if (Pony.getPonyArmor()) {
 			if (this.pm.name.equals("newPony") || this.pm.name.equals("newPonyAdv")) {
 				String ponypath = path.replace(".png", "_pony.png");
 				if (Minecraft.class.getResource(ponypath) != null) {

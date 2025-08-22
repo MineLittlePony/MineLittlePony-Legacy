@@ -1,6 +1,7 @@
 package codes.blackjack.minelittlepony.render;
 
 import codes.blackjack.minelittlepony.AniParams;
+import codes.blackjack.minelittlepony.Pony;
 import net.minecraft.block.Block;
 import net.minecraft.client.render.BlockRenderer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
@@ -22,7 +23,7 @@ public abstract class ModelPlayer extends Model {
 	public boolean isUnicorn;
 	public boolean isMale;
 	public int wantTail;
-	public int size;
+	public Pony.Size size;
 	public boolean isFlying;
 	public boolean isGlow;
 	public boolean isSleeping;

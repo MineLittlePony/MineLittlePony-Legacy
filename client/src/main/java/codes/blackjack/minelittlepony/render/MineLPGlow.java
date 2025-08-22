@@ -1,5 +1,6 @@
 package codes.blackjack.minelittlepony.render;
 
+import codes.blackjack.minelittlepony.Pony;
 import com.mojang.blaze3d.platform.MemoryTracker;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import net.minecraft.client.entity.living.player.LocalPlayerEntity;
@@ -40,7 +41,7 @@ public final class MineLPGlow {
 		}
 	}
 
-	public static void renderGlow(LivingEntity par1EntityLiving, int size, boolean sneaking, int colour) {
+	public static void renderGlow(LivingEntity par1EntityLiving, Pony.Size size, boolean sneaking, int colour) {
 		float var10 = func_77034_a(par1EntityLiving.prevBodyYaw, par1EntityLiving.bodyYaw, 1.0F);
 		float var11 = func_77034_a(par1EntityLiving.prevHeadYaw, par1EntityLiving.headYaw, 1.0F);
 		float var12 = par1EntityLiving.prevYaw + (par1EntityLiving.yaw - par1EntityLiving.prevYaw);
@@ -56,7 +57,7 @@ public final class MineLPGlow {
 
 		headRotateAngleY *= 57.29578F;
 		headRotateAngleX *= 57.29578F;
-		if (size == 0) {
+		if (size == Pony.Size.FILLY) {
 			GL11.glTranslatef(0.0F, 0.39F, 0.01F);
 			if (sneaking) {
 				GL11.glTranslatef(0.0F, -0.03F, 0.0F);
@@ -64,14 +65,14 @@ public final class MineLPGlow {
 
 			GL11.glTranslatef(0.0F, MathHelper.cos(headRotateAngleX / 57.29578F) / 2.8F, -MathHelper.sin(headRotateAngleX / 57.29578F) / 1.6F);
 			GL11.glScalef(0.9F, 0.9F, 0.9F);
-		} else if (size == 2) {
+		} else if (size == Pony.Size.STALLION) {
 			GL11.glTranslatef(0.0F, -0.15F, -0.03F);
 			if (sneaking) {
 				GL11.glTranslatef(0.0F, 0.15F, 0.0F);
 			}
 
 			GL11.glTranslatef(0.0F, 0.0F, MathHelper.sin(headRotateAngleX / 57.29578F) / 3.5F);
-		} else if (size == 3) {
+		} else if (size == Pony.Size.ALICORN) {
 			GL11.glTranslatef(0.0F, -0.15F, 0.01F);
 			if (sneaking) {
 				GL11.glTranslatef(0.0F, 0.05F, 0.0F);

@@ -1,10 +1,10 @@
 package codes.blackjack.minelittlepony.models;
 
 import codes.blackjack.minelittlepony.AniParams;
+import codes.blackjack.minelittlepony.Pony;
 import codes.blackjack.minelittlepony.render.MineLPGlow;
 import codes.blackjack.minelittlepony.render.ModelPlayer;
 import codes.blackjack.minelittlepony.render.PlaneRenderer;
-import codes.blackjack.minelittlepony.Pony;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.model.ModelPart;
 import net.minecraft.entity.living.player.PlayerEntity;
@@ -665,7 +665,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 				GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
 			}
 
-			if (this.size == 0) {
+			if (this.size == Pony.Size.FILLY) {
 				if (this.issneak && !this.isFlying && !this.isArmour) {
 					GL11.glTranslatef(0.0F, -0.12F, 0.0F);
 				}
@@ -703,7 +703,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 
 				this.renderLegs();
 				GL11.glPopMatrix();
-			} else if (this.size == 2) {
+			} else if (this.size == Pony.Size.STALLION) {
 				if (this.isSleeping && !this.isArmour) {
 					GL11.glTranslatef(0.0F, -0.47F, 0.2F);
 				}
@@ -742,7 +742,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 				GL11.glScalef(1.15F, 1.12F, 1.15F);
 				this.renderLegs();
 				GL11.glPopMatrix();
-			} else if (this.size == 3) {
+			} else if (this.size == Pony.Size.ALICORN) {
 				if (this.isSleeping && !this.isArmour) {
 					GL11.glTranslatef(0.0F, -0.43F, 0.25F);
 				}
@@ -804,7 +804,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 			this.headpiece[2].render(this.scale);
 		}
 
-		if (Pony.showSnuzzles() == 1) {
+		if (Pony.showSnuzzles()) {
 			if (this.isMale) {
 				for (PlaneRenderer planeRenderer : this.MuzzleMale) {
 					planeRenderer.render(this.scale);
@@ -1236,12 +1236,12 @@ public class pm_newPonyAdv extends ModelPlayer {
 			if (this.isUnicorn) {
 				if (this.aimedBow) {
 					this.renderDrop(rendermanager, entityplayer, this.unicornarm, 1.0F, 0.15F, 0.9375F, 0.0625F);
-				} else if (this.size == 0) {
+				} else if (this.size == Pony.Size.FILLY) {
 					this.renderDrop(rendermanager, entityplayer, this.unicornarm, 1.0F, 0.35F, 0.5375F, -0.8F);
 				} else {
 					this.renderDrop(rendermanager, entityplayer, this.unicornarm, 1.0F, 0.35F, 0.5375F, -0.45F);
 				}
-			} else if (this.size == 0) {
+			} else if (this.size == Pony.Size.FILLY) {
 				this.renderDrop(rendermanager, entityplayer, this.rightarm, 1.0F, 0.08F, 0.8375F, 0.0625F);
 			} else {
 				this.renderDrop(rendermanager, entityplayer, this.rightarm, 1.0F, -0.0625F, 0.8375F, 0.0625F);
@@ -1255,13 +1255,13 @@ public class pm_newPonyAdv extends ModelPlayer {
 			}
 		}
 
-		if (this.size == 0) {
+		if (this.size == Pony.Size.FILLY) {
 			GL11.glPushMatrix();
 			GL11.glTranslatef(0.0F, 0.76F, 0.0F);
 			GL11.glScalef(0.9F, 0.9F, 0.9F);
 			this.renderPumpkin(rendermanager, entityplayer, this.head, 0.625F, 0.0F, -0.08F, -0.15F);
 			GL11.glPopMatrix();
-		} else if (this.size == 2) {
+		} else if (this.size == Pony.Size.STALLION) {
 			GL11.glPushMatrix();
 			GL11.glTranslatef(0.0F, -0.17F, -0.04F);
 			if (this.isSleeping) {
@@ -1270,7 +1270,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 
 			this.renderPumpkin(rendermanager, entityplayer, this.head, 0.625F, 0.0F, -0.08F, -0.15F);
 			GL11.glPopMatrix();
-		} else if (this.size == 3) {
+		} else if (this.size == Pony.Size.ALICORN) {
 			GL11.glPushMatrix();
 			GL11.glTranslatef(0.0F, -0.17F, -0.02F);
 			this.renderPumpkin(rendermanager, entityplayer, this.head, 0.625F, 0.0F, -0.08F, -0.15F);
@@ -1284,16 +1284,16 @@ public class pm_newPonyAdv extends ModelPlayer {
 	protected void renderCloak(PlayerEntity player, float par2) {
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0.0F, 0.24F, 0.0F);
-		if (this.size == 0) {
+		if (this.size == Pony.Size.FILLY) {
 			GL11.glTranslatef(0.0F, 0.67F, -0.04F);
 			GL11.glScalef(0.6F, 0.6F, 0.6F);
-		} else if (this.size == 2) {
+		} else if (this.size == Pony.Size.STALLION) {
 			GL11.glTranslatef(0.0F, -0.14F, -0.1F);
 			GL11.glScalef(1.15F, 1.2F, 1.2F);
 			if (this.issneak && !this.isFlying) {
 				GL11.glTranslatef(0.0F, 0.03F, 0.0F);
 			}
-		} else if (this.size == 3) {
+		} else if (this.size == Pony.Size.ALICORN) {
 			GL11.glTranslatef(0.0F, -0.09F, 0.0F);
 			GL11.glScalef(1.0F, 1.0F, 1.0F);
 			if (this.issneak && !this.isFlying) {
