@@ -1,10 +1,10 @@
 package codes.blackjack.minelittlepony.render;
 
 import codes.blackjack.minelittlepony.AniParams;
-import codes.blackjack.minelittlepony.MineLPReflection;
 import codes.blackjack.minelittlepony.PMAPI;
 import codes.blackjack.minelittlepony.Pony;
 import codes.blackjack.minelittlepony.mixin.MixinExtLivingEntity;
+import codes.blackjack.minelittlepony.mixin.MixinExtPlayerEntityRenderer;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.TextRenderer;
@@ -26,8 +26,8 @@ public class RenderPony extends PlayerEntityRenderer {
 	private HumanoidModel modelBipedMain;
 	private HumanoidModel modelArmorChestplate;
 	private HumanoidModel modelArmor;
-	public static String[] armorFilenamePrefix;
-	public static AniParams ani;
+	private static String[] armorFilenamePrefix;
+	private static AniParams ani;
 	private PlayerModel pm;
 	boolean nil0;
 	boolean nil1;
@@ -49,7 +49,8 @@ public class RenderPony extends PlayerEntityRenderer {
 			if (armorItem instanceof ArmorItem) {
 				ArmorItem armorPiece = (ArmorItem) armorItem;
 				ModelArmor.slot = armorSlot;
-				String[] path = this.checkPonyVersion(this.pm.armor.path + MineLPReflection.getArmorFilenamePrefix()[armorPiece.materialId] + "_" + this.pm.armor.subimage() + ".png");
+				String[] filePrefixes = MixinExtPlayerEntityRenderer.getArmorVariants();
+				String[] path = this.checkPonyVersion(this.pm.armor.path + filePrefixes + "_" + this.pm.armor.subimage() + ".png");
 				this.bindTexture(path[1]);
 				ponyArmor = Boolean.parseBoolean(path[2]);
 
@@ -71,9 +72,7 @@ public class RenderPony extends PlayerEntityRenderer {
 		returnPath[0] = path;
 		returnPath[1] = path;
 		returnPath[2] = "false";
-		if (Pony.getPonyArmor() == 0) {
-			return returnPath;
-		} else {
+		if (Pony.getPonyArmor() != 0) {
 			if (this.pm.name.equals("newPony") || this.pm.name.equals("newPonyAdv")) {
 				String ponypath = path.replace(".png", "_pony.png");
 				if (Minecraft.class.getResource(ponypath) != null) {
@@ -82,8 +81,8 @@ public class RenderPony extends PlayerEntityRenderer {
 				}
 			}
 
-			return returnPath;
 		}
+		return returnPath;
 	}
 
 	@Override
@@ -134,7 +133,7 @@ public class RenderPony extends PlayerEntityRenderer {
 				String thePony = par1EntityPlayer.name;
 				if (!par1EntityPlayer.isSneaking()) {
 					if (par1EntityPlayer.isSleeping()) {
-						this.renderNameTag(par1EntityPlayer, thePony, par2, par4 - (double) 1.5F, par6, 64);
+						this.renderNameTag(par1EntityPlayer, thePony, par2, par4 - 1.5F, par6, 64);
 					} else {
 						this.renderNameTag(par1EntityPlayer, thePony, par2, par4, par6, 64);
 					}
@@ -156,10 +155,10 @@ public class RenderPony extends PlayerEntityRenderer {
 					var14.start();
 					int var15 = var13.getWidth(thePony) / 2;
 					var14.color(0.0F, 0.0F, 0.0F, 0.25F);
-					var14.vertex((double) (-var15 - 1), (double) -1.0F, (double) 0.0F);
-					var14.vertex((double) (-var15 - 1), (double) 8.0F, (double) 0.0F);
-					var14.vertex((double) (var15 + 1), (double) 8.0F, (double) 0.0F);
-					var14.vertex((double) (var15 + 1), (double) -1.0F, (double) 0.0F);
+					var14.vertex((-var15 - 1), -1.0F, 0.0F);
+					var14.vertex((-var15 - 1), 8.0F, 0.0F);
+					var14.vertex((var15 + 1), 8.0F, 0.0F);
+					var14.vertex((var15 + 1), -1.0F, 0.0F);
 					var14.end();
 					GL11.glEnable(3553);
 					GL11.glDepthMask(true);
@@ -177,11 +176,11 @@ public class RenderPony extends PlayerEntityRenderer {
 	@Override
 	protected void renderDecoration(PlayerEntity par1EntityPlayer, float par2) {
 		this.getModel(par1EntityPlayer).model.specials(this.dispatcher, par1EntityPlayer);
-		if (par1EntityPlayer.name.equals("deadmau5") && this.bindHttpTexture(par1EntityPlayer.skin, (String) null)) {
+		if (par1EntityPlayer.name.equals("deadmau5") && this.bindHttpTexture(par1EntityPlayer.skin, null)) {
 			this.getModel(par1EntityPlayer).model.renderEars(par1EntityPlayer, par2);
 		}
 
-		if (this.bindHttpTexture(par1EntityPlayer.cloak, (String) null)) {
+		if (this.bindHttpTexture(par1EntityPlayer.cloak, null)) {
 			this.getModel(par1EntityPlayer).model.renderCloak(par1EntityPlayer, par2);
 		}
 
@@ -202,15 +201,15 @@ public class RenderPony extends PlayerEntityRenderer {
 		this.pm.model.render(ani, false);
 	}
 
-	protected PlayerModel getModel(PlayerEntity entityplayer) {
+	private PlayerModel getModel(PlayerEntity entityplayer) {
 		Pony pony = Pony.getPonyFromRegistry(entityplayer, this.dispatcher.textureManager);
 		return pony.getModel();
 	}
 
 	public static int addNewArmourPrefix(String prefix) {
-		List armours = new ArrayList(Arrays.asList(armorFilenamePrefix));
+		List<String> armours = new ArrayList<>(Arrays.asList(armorFilenamePrefix));
 		armours.add(prefix);
-		armorFilenamePrefix = (String[]) armours.toArray(new String[0]);
+		armorFilenamePrefix = armours.toArray(new String[0]);
 		return armours.indexOf(prefix);
 	}
 

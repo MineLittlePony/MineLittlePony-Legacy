@@ -1,16 +1,13 @@
 package codes.blackjack.minelittlepony;
 
+import codes.blackjack.minelittlepony.mixin.MixinExtTextureManager;
 import net.minecraft.client.render.texture.HttpTexture;
 import net.minecraft.client.render.texture.TextureManager;
 
-import java.lang.reflect.Field;
-import java.util.Map;
-
 class CheckOnlinePonySkin extends Thread {
-	final String location;
-	final Pony pony;
-	protected TextureManager renderEngine;
-	public static final Class classRenderEngine = TextureManager.class;
+	private final String location;
+	private final Pony pony;
+	private final TextureManager renderEngine;
 
 	CheckOnlinePonySkin(Pony ponySkinIsFor, String s, TextureManager aRenderEngine) {
 		this.pony = ponySkinIsFor;
@@ -20,17 +17,10 @@ class CheckOnlinePonySkin extends Thread {
 
 	public void run() {
 		boolean skinChecked = false;
-		HttpTexture threaddownloadimagedata = null;
+		HttpTexture threaddownloadimagedata;
 
 		for (int backoff = 1; backoff <= 5; ++backoff) {
-			try {
-				Field urlToImageDataMapField = classRenderEngine.getDeclaredFields()[7];
-				urlToImageDataMapField.setAccessible(true);
-				Map urlToImageDataMap = (Map) urlToImageDataMapField.get(this.renderEngine);
-				threaddownloadimagedata = (HttpTexture) urlToImageDataMap.get(this.location);
-			} catch (Exception var6) {
-				System.out.println("[Mine Little Pony] Failed to reflect RenderEngine (exception).");
-			}
+			threaddownloadimagedata = ((MixinExtTextureManager) this.renderEngine).getHttpTextures().get(this.location);
 
 			if (threaddownloadimagedata != null && threaddownloadimagedata.image != null) {
 				this.pony.checkSkin(threaddownloadimagedata.image);
@@ -51,7 +41,7 @@ class CheckOnlinePonySkin extends Thread {
 			}
 
 			try {
-				sleep((long) (Math.pow((double) 2.0F, (double) backoff) * (double) 300.0F));
+				sleep((long) (Math.pow(2.0F, backoff) * 300.0F));
 			} catch (InterruptedException var7) {
 				Thread.currentThread().interrupt();
 				break;

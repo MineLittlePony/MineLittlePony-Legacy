@@ -1,5 +1,6 @@
 package codes.blackjack.minelittlepony;
 
+import codes.blackjack.minelittlepony.mixin.MixinExtTextureManager;
 import codes.blackjack.minelittlepony.render.PlayerModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.living.player.LocalPlayerEntity;
@@ -12,49 +13,48 @@ import net.minecraft.world.World;
 import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Pony {
-	public static PonyConfig config;
+	private static PonyConfig config;
 	public static final int numberOfPonies = 127;
-	protected static ArrayList backgroundPonies = new ArrayList();
-	public static boolean hasInit = false;
-	private static Map registry = new HashMap();
-	private static final Class classRenderEngine = TextureManager.class;
-	private static Map urlToImageDataMap;
-	private static boolean renderEngineInit = false;
-	private static boolean alreadyReadSettings = false;
+	private static List<String> backgroundPonies = new ArrayList<>();
+	private static boolean hasInit;
+	private static Map<String, Pony> registry = new HashMap<>();
+	private static Map<String, HttpTexture> urlToImageDataMap;
+	private static boolean renderEngineInit;
+	private static boolean alreadyReadSettings;
 	private static int ponyLevel = 2;
-	public static int useSizes = 1;
-	public static int ponyArmor = 1;
-	public static int showSnuzzles = 1;
+	private static int useSizes = 1;
+	private static int ponyArmor = 1;
+	private static int showSnuzzles = 1;
 	public boolean advancedTexturing;
 	public String texture;
-	public String backgroundTexture;
+	private String backgroundTexture;
 	public boolean backgroundIsPegasus;
 	public boolean backgroundIsUnicorn;
 	public int backgroundWantTail;
 	public boolean backgroundIsMale;
 	public int backgroundSize;
 	public boolean backgroundAdvancedTexturing;
-	public boolean textureSetup = false;
+	private boolean textureSetup;
 	public String skinUrl;
-	public String realSkinUrl;
-	boolean isSpPlayer;
+	private String realSkinUrl;
+	private boolean isSpPlayer;
 	public boolean isPony;
 	public boolean isPonySkin;
 	public boolean isPegasus;
 	public boolean isUnicorn;
 	public boolean isFlying;
-	public boolean isGlow;
-	public int glowColor;
-	public boolean isMale = false;
+	private boolean isGlow;
+	private int glowColor;
+	public boolean isMale;
 	public int size = 1;
-	public int wantTail = 0;
-	public float defaultYOffset;
+	public int wantTail;
+	private float defaultYOffset;
 	private boolean pegasusFlying;
 	private final int dangerzone = 2;
 	private float previousFallDistance;
@@ -64,14 +64,7 @@ public class Pony {
 		String username = player.name;
 		String location = "http://skins.minecraft.net/MinecraftSkins/" + username + ".png";
 		if (!renderEngineInit) {
-			try {
-				Field urlToImageDataMapField = classRenderEngine.getDeclaredFields()[7];
-				urlToImageDataMapField.setAccessible(true);
-				urlToImageDataMap = (Map) urlToImageDataMapField.get(renderengine);
-			} catch (Exception exception) {
-				System.out.println("[Mine Little Pony] Failed to reflect RenderEngine (exception)." + exception);
-			}
-
+			urlToImageDataMap = ((MixinExtTextureManager) renderengine).getHttpTextures();
 			renderEngineInit = true;
 		}
 
@@ -81,17 +74,17 @@ public class Pony {
 			myLittlePony = new Pony(player);
 			registry.put(username, myLittlePony);
 		} else {
-			myLittlePony = (Pony) registry.get(username);
+			myLittlePony = registry.get(username);
 		}
 
-		threaddownloadimagedata = (HttpTexture) urlToImageDataMap.get(location);
-		if (ponyLevel != 0 && myLittlePony.getTextureSetup() && (threaddownloadimagedata == null || threaddownloadimagedata.image == null)) {
+		threaddownloadimagedata = urlToImageDataMap.get(location);
+		if (ponyLevel != 0 && myLittlePony.textureSetup && (threaddownloadimagedata == null || threaddownloadimagedata.image == null)) {
 			registry.remove(username);
 			myLittlePony = new Pony(player);
 			registry.put(username, myLittlePony);
 		}
 
-		if (!myLittlePony.getTextureSetup() && threaddownloadimagedata != null && threaddownloadimagedata.image != null) {
+		if (!myLittlePony.textureSetup && threaddownloadimagedata != null && threaddownloadimagedata.image != null) {
 			myLittlePony.checkSkin(threaddownloadimagedata.image);
 			if (!myLittlePony.isPonySkin) {
 				myLittlePony.isPony = true;
@@ -105,13 +98,13 @@ public class Pony {
 				myLittlePony.skinUrl = location;
 			}
 
-			myLittlePony.setTextureSetup(true);
+			myLittlePony.textureSetup = true;
 		}
 
 		return myLittlePony;
 	}
 
-	public Pony(PlayerEntity player) {
+	private Pony(PlayerEntity player) {
 		init();
 		this.texture = "/mob/char.png";
 		this.skinUrl = null;
@@ -150,7 +143,7 @@ public class Pony {
 						backgroundNumber += backgroundPonies.size();
 					}
 
-					this.texture = (String) backgroundPonies.get(backgroundNumber);
+					this.texture = backgroundPonies.get(backgroundNumber);
 					System.out.println("[Mine Little Pony] " + username + " gets skin " + backgroundNumber);
 				}
 
@@ -192,7 +185,6 @@ public class Pony {
 		this.isPonySkin = false;
 		this.isPegasus = false;
 		this.isUnicorn = false;
-		this.isPonySkin = false;
 		this.isMale = false;
 		this.wantTail = 0;
 		Color flagPix = new Color(bufferedimage.getRGB(0, 0), true);
@@ -247,11 +239,7 @@ public class Pony {
 
 		Color gendercolor = new Color(bufferedimage.getRGB(2, 0), true);
 		Color gendercolor1 = new Color(255, 255, 255, 255);
-		if (gendercolor.equals(gendercolor1)) {
-			this.isMale = true;
-		} else {
-			this.isMale = false;
-		}
+		this.isMale = gendercolor.equals(gendercolor1);
 
 		Color sizecolor = new Color(bufferedimage.getRGB(3, 0), true);
 		Color scootaloo = new Color(255, 190, 83);
@@ -266,7 +254,6 @@ public class Pony {
 			} else if (sizecolor.equals(luna)) {
 				this.size = 3;
 			} else {
-				this.size = 1;
 			}
 		}
 
@@ -296,7 +283,7 @@ public class Pony {
 
 	}
 
-	public void checkBuiltinTexture(BufferedImage bufferedimage) {
+	private void checkBuiltinTexture(BufferedImage bufferedimage) {
 		this.checkSkin(bufferedimage);
 		this.backgroundIsPegasus = this.isPegasus;
 		this.backgroundIsUnicorn = this.isUnicorn;
@@ -363,11 +350,11 @@ public class Pony {
 		return this.glowColor;
 	}
 
-	public boolean getTextureSetup() {
+	private boolean getTextureSetup() {
 		return this.textureSetup;
 	}
 
-	public void setTextureSetup(boolean setup) {
+	private void setTextureSetup(boolean setup) {
 		this.textureSetup = setup;
 	}
 
@@ -407,19 +394,19 @@ public class Pony {
 		}
 	}
 
-	public boolean standingOnAir(double posX, double posY, double posZ, float range, World equestria) {
+	private boolean standingOnAir(double posX, double posY, double posZ, float range, World equestria) {
 		boolean foundSolidBlock = false;
 		int y;
 		if (this.isSpPlayer) {
-			y = MathHelper.floor(posY - (double) this.defaultYOffset - (double) 0.01F);
+			y = MathHelper.floor(posY - this.defaultYOffset - 0.01F);
 		} else {
-			y = MathHelper.floor(posY - (double) 0.01F);
+			y = MathHelper.floor(posY - 0.01F);
 		}
 
 		for (float shiftX = 0.0F - range; shiftX < range * 2.0F; shiftX += range) {
 			for (float shiftZ = 0.0F - range; shiftZ < range * 2.0F; shiftZ += range) {
-				int x = MathHelper.floor(posX + (double) shiftX);
-				int z = MathHelper.floor(posZ + (double) shiftZ);
+				int x = MathHelper.floor(posX + shiftX);
+				int z = MathHelper.floor(posZ + shiftZ);
 				if (!equestria.isAir(x, y, z)) {
 					foundSolidBlock = true;
 				}
@@ -433,14 +420,9 @@ public class Pony {
 		boolean is_a_pony = false;
 		switch (getPonyLevel()) {
 			case 0:
-				is_a_pony = false;
 				break;
 			case 1:
-				if (!this.isPonySkin) {
-					is_a_pony = false;
-				} else {
-					is_a_pony = true;
-				}
+				is_a_pony = this.isPonySkin;
 				break;
 			case 2:
 				is_a_pony = true;
@@ -453,7 +435,7 @@ public class Pony {
 		}
 	}
 
-	public static int getPonyLevel() {
+	private static int getPonyLevel() {
 		if (!alreadyReadSettings) {
 			try {
 				alreadyReadSettings = true;

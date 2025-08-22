@@ -9,37 +9,38 @@ import net.minecraft.client.render.model.Vertex;
 import org.lwjgl.opengl.GL11;
 
 public class PlaneRenderer {
-	public float textureWidth = 64.0F;
-	public float textureHeight = 32.0F;
+	private float textureWidth = 64.0F;
+	private float textureHeight = 32.0F;
 	private Vertex[] corners;
 	private Quad[] faces;
-	private int textureOffsetX;
-	private int textureOffsetY;
+	private final int textureOffsetX;
+	private final int textureOffsetY;
 	public float rotationPointX;
 	public float rotationPointY;
 	public float rotationPointZ;
 	public float rotateAngleX;
 	public float rotateAngleY;
 	public float rotateAngleZ;
-	public float field_35977_i;
-	public float field_35975_j;
-	public float field_35976_k;
-	public float field_35973_l;
-	public float field_35974_m;
-	public float field_35972_n;
-	private boolean compiled = false;
-	private int displayList = 0;
-	public boolean mirror = false;
-	public boolean mirrory = false;
-	public boolean mirrorxy = false;
-	public boolean showModel = true;
-	public boolean isHidden = false;
+	private float field_35977_i;
+	private float field_35975_j;
+	private float field_35976_k;
+	private float field_35973_l;
+	private float field_35974_m;
+	private float field_35972_n;
+	private boolean compiled;
+	private int displayList;
+	public boolean mirror;
+	public boolean mirrory;
+	public boolean mirrorxy;
+	private boolean showModel = true;
+	private boolean isHidden;
 
 	public PlaneRenderer(Model modelbase, int i, int j) {
 		this.textureOffsetX = i;
 		this.textureOffsetY = j;
 
 		// Are we sure?
+		//noinspection unchecked
 		modelbase.parts.add(this);
 	}
 
@@ -63,14 +64,14 @@ public class PlaneRenderer {
 		this.field_35977_i = f;
 		this.field_35975_j = f1;
 		this.field_35976_k = f2;
-		this.field_35973_l = f + (float) i;
-		this.field_35974_m = f1 + (float) j;
-		this.field_35972_n = f2 + (float) k;
+		this.field_35973_l = f + i;
+		this.field_35974_m = f1 + j;
+		this.field_35972_n = f2 + k;
 		this.corners = new Vertex[8];
 		this.faces = new Quad[1];
-		float f4 = f + (float) i;
-		float f5 = f1 + (float) j;
-		float f6 = f2 + (float) k;
+		float f4 = f + i;
+		float f5 = f1 + j;
+		float f6 = f2 + k;
 		f -= f3;
 		f1 -= f3;
 		f2 -= f3;
@@ -110,14 +111,14 @@ public class PlaneRenderer {
 		this.field_35977_i = f;
 		this.field_35975_j = f1;
 		this.field_35976_k = f2;
-		this.field_35973_l = f + (float) i;
-		this.field_35974_m = f1 + (float) j;
-		this.field_35972_n = f2 + (float) k;
+		this.field_35973_l = f + i;
+		this.field_35974_m = f1 + j;
+		this.field_35972_n = f2 + k;
 		this.corners = new Vertex[8];
 		this.faces = new Quad[1];
-		float f4 = f + (float) i;
-		float f5 = f1 + (float) j;
-		float f6 = f2 + (float) k;
+		float f4 = f + i;
+		float f5 = f1 + j;
+		float f6 = f2 + k;
 		f -= f3;
 		f1 -= f3;
 		f2 -= f3;
@@ -157,14 +158,14 @@ public class PlaneRenderer {
 		this.field_35977_i = f;
 		this.field_35975_j = f1;
 		this.field_35976_k = f2;
-		this.field_35973_l = f + (float) i;
-		this.field_35974_m = f1 + (float) j;
-		this.field_35972_n = f2 + (float) k;
+		this.field_35973_l = f + i;
+		this.field_35974_m = f1 + j;
+		this.field_35972_n = f2 + k;
 		this.corners = new Vertex[8];
 		this.faces = new Quad[1];
-		float f4 = f + (float) i;
-		float f5 = f1 + (float) j;
-		float f6 = f2 + (float) k;
+		float f4 = f + i;
+		float f5 = f1 + j;
+		float f6 = f2 + k;
 		f -= f3;
 		f1 -= f3;
 		f2 -= f3;
@@ -219,14 +220,14 @@ public class PlaneRenderer {
 		this.field_35977_i = f;
 		this.field_35975_j = f1;
 		this.field_35976_k = f2;
-		this.field_35973_l = f + (float) i;
-		this.field_35974_m = f1 + (float) j;
-		this.field_35972_n = f2 + (float) k;
+		this.field_35973_l = f + i;
+		this.field_35974_m = f1 + j;
+		this.field_35972_n = f2 + k;
 		this.corners = new Vertex[8];
 		this.faces = new Quad[1];
-		float f4 = f + (float) i;
-		float f5 = f1 + (float) j;
-		float f6 = f2 + (float) k;
+		float f4 = f + i;
+		float f5 = f1 + j;
+		float f6 = f2 + k;
 		f -= f3;
 		f1 -= f3;
 		f2 -= f3;
@@ -383,8 +384,8 @@ public class PlaneRenderer {
 		GL11.glNewList(this.displayList, 4864);
 		BufferBuilder tessellator = BufferBuilder.INSTANCE;
 
-		for (int i = 0; i < this.faces.length; ++i) {
-			this.faces[i].compile(tessellator, f);
+		for (Quad face : this.faces) {
+			face.compile(tessellator, f);
 		}
 
 		GL11.glEndList();
@@ -392,8 +393,8 @@ public class PlaneRenderer {
 	}
 
 	public PlaneRenderer setTextureSize(int i, int j) {
-		this.textureWidth = (float) i;
-		this.textureHeight = (float) j;
+		this.textureWidth = i;
+		this.textureHeight = j;
 		return this;
 	}
 

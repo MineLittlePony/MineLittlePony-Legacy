@@ -16,8 +16,8 @@ public class pm_Human extends ModelPlayer {
 	public ModelPart rightarm;
 	public ModelPart leftleg;
 	public ModelPart rightleg;
-	public ModelPart bipedEars;
-	public ModelPart cloak;
+	private ModelPart bipedEars;
+	private ModelPart cloak;
 
 	public pm_Human(String texture) {
 		super(texture);
@@ -80,9 +80,9 @@ public class pm_Human extends ModelPlayer {
 		this.leftleg.rotationY = 0.0F;
 		if (this.hasVehicle) {
 			ModelPart var10000 = this.rightarm;
-			var10000.rotationX += -0.6283185F;
+			var10000.rotationX -= 0.6283185F;
 			var10000 = this.leftarm;
-			var10000.rotationX += -0.6283185F;
+			var10000.rotationX -= 0.6283185F;
 			this.rightleg.rotationX = -1.256637F;
 			this.leftleg.rotationX = -1.256637F;
 			this.rightleg.rotationY = 0.3141593F;
@@ -106,7 +106,6 @@ public class pm_Human extends ModelPlayer {
 			var13.rotationY += this.body.rotationY;
 			var13 = this.leftarm;
 			var13.rotationY += this.body.rotationY;
-			var13 = this.leftarm;
 			var13.rotationY += this.body.rotationY;
 			swingprogress = 1.0F - this.handSwingProgress;
 			swingprogress *= swingprogress;
@@ -115,9 +114,7 @@ public class pm_Human extends ModelPlayer {
 			float f7 = MathHelper.sin(swingprogress * 3.141593F);
 			float f8 = MathHelper.sin(this.handSwingProgress * 3.141593F) * -(this.head.rotationX - 0.7F) * 0.75F;
 			var13 = this.rightarm;
-			var13.rotationX = (float) ((double) var13.rotationX - ((double) f7 * 1.2 + (double) f8));
-			var13 = this.rightarm;
-			var13.rotationY += this.body.rotationY * 2.0F;
+			var13.rotationX = (float) (var13.rotationX - (f7 * 1.2 + f8));
 			this.rightarm.rotationZ = MathHelper.sin(this.handSwingProgress * 3.141593F) * -0.4F;
 		}
 
@@ -205,7 +202,7 @@ public class pm_Human extends ModelPlayer {
 			GL11.glPushMatrix();
 			GL11.glRotatef(f1, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(f2, 1.0F, 0.0F, 0.0F);
-			GL11.glTranslatef(0.375F * (float) (i * 2 - 1), 0.0F, 0.0F);
+			GL11.glTranslatef(0.375F * (i * 2 - 1), 0.0F, 0.0F);
 			GL11.glTranslatef(0.0F, -0.375F, 0.0F);
 			GL11.glRotatef(-f2, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(-f1, 0.0F, 1.0F, 0.0F);
@@ -227,12 +224,12 @@ public class pm_Human extends ModelPlayer {
       /*double d = player.aE + (player.aH - player.aE) * (double)par2 - (player.l + (player.o - player.l) * (double)par2);
       double d1 = player.aF + (player.aI - player.aF) * (double)par2 - (player.m + (player.p - player.m) * (double)par2);
       double d2 = player.aG + (player.aJ - player.aG) * (double)par2 - (player.n + (player.q - player.n) * (double)par2);*/
-		double d = player.lastCapeX + (player.capeX - player.lastCapeX) * (double) par2 - (player.prevX + (player.x - player.prevX) * (double) par2);
-		double d1 = player.lastCapeY + (player.capeY - player.lastCapeY) * (double) par2 - (player.prevY + (player.y - player.prevY) * (double) par2);
-		double d2 = player.lastCapeZ + (player.capeZ - player.lastCapeZ) * (double) par2 - (player.prevZ + (player.z - player.prevZ) * (double) par2);
+		double d = player.lastCapeX + (player.capeX - player.lastCapeX) * par2 - (player.prevX + (player.x - player.prevX) * par2);
+		double d1 = player.lastCapeY + (player.capeY - player.lastCapeY) * par2 - (player.prevY + (player.y - player.prevY) * par2);
+		double d2 = player.lastCapeZ + (player.capeZ - player.lastCapeZ) * par2 - (player.prevZ + (player.z - player.prevZ) * par2);
 		float f10 = player.prevBodyYaw + (player.bodyYaw - player.prevBodyYaw) * par2;
-		double d3 = (double) MathHelper.sin(f10 * (float) Math.PI / 180.0F);
-		double d4 = (double) (-MathHelper.cos(f10 * (float) Math.PI / 180.0F));
+		double d3 = MathHelper.sin(f10 * (float) Math.PI / 180.0F);
+		double d4 = (-MathHelper.cos(f10 * (float) Math.PI / 180.0F));
 		float f12 = (float) d1 * 10.0F;
 		if (f12 < -6.0F) {
 			f12 = -6.0F;

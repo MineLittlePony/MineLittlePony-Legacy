@@ -10,22 +10,18 @@ public class pma_newPony extends ModelArmor {
 		this.modelArmor = new pm_newPonyArmor(path);
 	}
 
-	public float layer() {
-		return 1.0F;
-	}
-
 	public int subimage() {
 		return slot == 2 ? 2 : 1;
 	}
 
 	public void boxes(boolean ponyArmor) {
 		this.base = slot != 2 ? this.modelArmorChestplate : this.modelArmor;
-		((pm_newPonyArmor) this.base).head.visible = slot == 0;
-		((pm_newPonyArmor) this.base).rightarm.visible = ((pm_newPonyArmor) this.base).LeftArm.visible = slot == 2 || slot == 3;
+		((pm_newPonyAdv) this.base).head.visible = slot == 0;
+		((pm_newPonyAdv) this.base).rightarm.visible = ((pm_newPonyAdv) this.base).LeftArm.visible = slot == 2 || slot == 3;
 		if (!ponyArmor) {
-			((pm_newPonyArmor) this.base).Body.visible = slot == 1 || slot == 2;
+			((pm_newPonyAdv) this.base).Body.visible = slot == 1 || slot == 2;
 			((pm_newPonyArmor) this.base).Bodypiece.visible = slot == 1 || slot == 2;
-			((pm_newPonyArmor) this.base).RightLeg.visible = ((pm_newPonyArmor) this.base).LeftLeg.visible = slot == 2 || slot == 3;
+			((pm_newPonyAdv) this.base).RightLeg.visible = ((pm_newPonyAdv) this.base).LeftLeg.visible = slot == 2 || slot == 3;
 
 			for (ModelPart part : ((pm_newPonyArmor) this.base).extHead) {
 				part.visible = false;
@@ -37,9 +33,9 @@ public class pma_newPony extends ModelArmor {
 				part.visible = false;
 			}
 		} else {
-			((pm_newPonyArmor) this.base).Body.visible = false;
+			((pm_newPonyAdv) this.base).Body.visible = false;
 			((pm_newPonyArmor) this.base).Bodypiece.visible = false;
-			((pm_newPonyArmor) this.base).RightLeg.visible = ((pm_newPonyArmor) this.base).LeftLeg.visible = false;
+			((pm_newPonyAdv) this.base).RightLeg.visible = ((pm_newPonyAdv) this.base).LeftLeg.visible = false;
 
 			for (ModelPart part : ((pm_newPonyArmor) this.base).extHead) {
 				part.visible = slot == 0;

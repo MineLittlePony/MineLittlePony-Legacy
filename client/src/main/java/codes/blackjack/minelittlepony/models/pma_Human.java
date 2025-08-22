@@ -9,10 +9,6 @@ public class pma_Human extends ModelArmor {
 		this.modelArmor = new pm_Human(path);
 	}
 
-	public float layer() {
-		return 1.0F;
-	}
-
 	public int subimage() {
 		return slot == 2 ? 2 : 1;
 	}

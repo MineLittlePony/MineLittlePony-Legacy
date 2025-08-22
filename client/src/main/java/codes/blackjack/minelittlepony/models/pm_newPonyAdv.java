@@ -12,81 +12,80 @@ import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
 public class pm_newPonyAdv extends ModelPlayer {
-	protected boolean rainboom;
-	protected final float Pi = 3.141593F;
+	private boolean rainboom;
 	private float WingRotateAngleZ;
 	protected float NeckRotX = 0.166F;
-	public int tailstop = 0;
-	public ModelPart cloak;
+	private int tailstop;
+	protected ModelPart cloak;
 	public ModelPart head;
-	public ModelPart[] headpiece;
-	public ModelPart helmet;
+	protected ModelPart[] headpiece;
+	protected ModelPart helmet;
 	public ModelPart Body;
-	public PlaneRenderer[] Bodypiece;
-	public PlaneRenderer[] BodypieceNeck;
-	public PlaneRenderer[] MuzzleFemale;
-	public PlaneRenderer[] MuzzleMale;
+	protected PlaneRenderer[] Bodypiece;
+	protected PlaneRenderer[] BodypieceNeck;
+	private PlaneRenderer[] MuzzleFemale;
+	private PlaneRenderer[] MuzzleMale;
 	public ModelPart rightarm;
 	public ModelPart LeftArm;
 	public ModelPart RightLeg;
 	public ModelPart LeftLeg;
-	public ModelPart SteveArm;
-	public ModelPart unicornarm;
-	public PlaneRenderer[] Tail;
-	public ModelPart[] LeftWing;
-	public ModelPart[] RightWing;
-	public ModelPart[] LeftWingExt;
-	public ModelPart[] RightWingExt;
-	protected float HEAD_CENTRE_X = 0.0F;
+	protected ModelPart SteveArm;
+	protected ModelPart unicornarm;
+	private PlaneRenderer[] Tail;
+	private ModelPart[] LeftWing;
+	private ModelPart[] RightWing;
+	private ModelPart[] LeftWingExt;
+	private ModelPart[] RightWingExt;
+	protected float HEAD_CENTRE_X;
 	protected float HEAD_CENTRE_Y = -1.0F;
 	protected float HEAD_CENTRE_Z = -2.0F;
-	protected float BODY_CENTRE_X = 0.0F;
+	protected float BODY_CENTRE_X;
 	protected float BODY_CENTRE_Y = 8.0F;
 	protected float BODY_CENTRE_Z = 6.0F;
-	protected float THIRDP_ARM_CENTRE_X = 0.0F;
+	protected float THIRDP_ARM_CENTRE_X;
 	protected float THIRDP_ARM_CENTRE_Y = 10.0F;
-	protected float THIRDP_ARM_CENTRE_Z = 0.0F;
+	protected float THIRDP_ARM_CENTRE_Z;
 	protected float FIRSTP_ARM_CENTRE_X = -1.0F;
 	protected float FIRSTP_ARM_CENTRE_Y = 4.0F;
-	protected float FIRSTP_ARM_CENTRE_Z = 0.0F;
-	protected float HEAD_RP_X = 0.0F;
-	protected float HEAD_RP_Y = 0.0F;
-	protected float HEAD_RP_Z = 0.0F;
+	protected float FIRSTP_ARM_CENTRE_Z;
+	protected float HEAD_RP_X;
+	protected float HEAD_RP_Y;
+	protected float HEAD_RP_Z;
 	protected float BODY_RP_Y_SNEAK = 7.0F;
-	protected float BODY_RP_Y_NOTSNEAK = 0.0F;
+	protected float BODY_RP_Y_NOTSNEAK;
 	protected float BODY_RP_Z_SNEAK = -4.0F;
-	protected float BODY_RP_Z_NOTSNEAK = 0.0F;
-	protected float FRONT_LEG_RP_Y_SNEAK = 7.0F;
+	protected float BODY_RP_Z_NOTSNEAK;
+	private float FRONT_LEG_RP_Y_SNEAK = 7.0F;
 	protected float FRONT_LEG_RP_Y_NOTSNEAK = 8.0F;
-	protected float WING_FOLDED_RP_Y = 13.0F;
-	protected float WING_FOLDED_RP_Z = -3.0F;
-	protected float LEFT_WING_RP_Y_SNEAK = 10.5F;
-	protected float LEFT_WING_RP_Y_NOTSNEAK = 5.5F;
-	protected float LEFT_WING_RP_Z_SNEAK = 2.0F;
-	protected float LEFT_WING_RP_Z_NOTSNEAK = 3.0F;
-	protected float RIGHT_WING_RP_Y_SNEAK = 11.5F;
-	protected float RIGHT_WING_RP_Y_NOTSNEAK = 6.5F;
-	protected float RIGHT_WING_RP_Z_SNEAK = 2.0F;
-	protected float RIGHT_WING_RP_Z_NOTSNEAK = 3.0F;
-	protected float TAIL_RP_X = 0.0F;
-	protected float TAIL_RP_Y = 0.8F;
-	protected float TAIL_RP_Z = 0.0F;
-	protected float TAIL_RP_Z_SNEAK = 10.0F;
-	protected float TAIL_RP_Z_NOTSNEAK = 14.0F;
-	protected float LEFT_WING_EXT_RP_X = 4.5F;
-	protected float LEFT_WING_EXT_RP_Y = 5.0F;
-	protected float LEFT_WING_EXT_RP_Z = 6.0F;
-	protected float RIGHT_WING_EXT_RP_X = -4.5F;
-	protected float RIGHT_WING_EXT_RP_Y = 5.0F;
-	protected float RIGHT_WING_EXT_RP_Z = 6.0F;
+	private float WING_FOLDED_RP_Y = 13.0F;
+	private float WING_FOLDED_RP_Z = -3.0F;
+	private float LEFT_WING_RP_Y_SNEAK = 10.5F;
+	private float LEFT_WING_RP_Y_NOTSNEAK = 5.5F;
+	private float LEFT_WING_RP_Z_SNEAK = 2.0F;
+	private float LEFT_WING_RP_Z_NOTSNEAK = 3.0F;
+	private float RIGHT_WING_RP_Y_SNEAK = 11.5F;
+	private float RIGHT_WING_RP_Y_NOTSNEAK = 6.5F;
+	private float RIGHT_WING_RP_Z_SNEAK = 2.0F;
+	private float RIGHT_WING_RP_Z_NOTSNEAK = 3.0F;
+	private float TAIL_RP_X;
+	private float TAIL_RP_Y = 0.8F;
+	private float TAIL_RP_Z;
+	private float TAIL_RP_Z_SNEAK = 10.0F;
+	private float TAIL_RP_Z_NOTSNEAK = 14.0F;
+	private float LEFT_WING_EXT_RP_X = 4.5F;
+	private float LEFT_WING_EXT_RP_Y = 5.0F;
+	private float LEFT_WING_EXT_RP_Z = 6.0F;
+	private float RIGHT_WING_EXT_RP_X = -4.5F;
+	private float RIGHT_WING_EXT_RP_Y = 5.0F;
+	private float RIGHT_WING_EXT_RP_Z = 6.0F;
 	protected float BODY_ROTATE_ANGLE_X_SNEAK = 0.4F;
-	protected float BODY_ROTATE_ANGLE_X_NOTSNEAK = 0.0F;
-	protected float EXT_WING_ROTATE_ANGLE_X = 2.5F;
-	protected float LEFT_WING_ROTATE_ANGLE_Z_SNEAK = -6.0F;
-	protected float RIGHT_WING_ROTATE_ANGLE_Z_SNEAK = 6.0F;
-	protected float SNEAK_LEG_X_ROTATION_ADJUSTMENT = 0.4F;
-	protected float ROTATE_270 = 4.712F;
-	protected float ROTATE_90 = 1.571F;
+	protected float BODY_ROTATE_ANGLE_X_NOTSNEAK;
+	private float EXT_WING_ROTATE_ANGLE_X = 2.5F;
+	private float LEFT_WING_ROTATE_ANGLE_Z_SNEAK = -6.0F;
+	private float RIGHT_WING_ROTATE_ANGLE_Z_SNEAK = 6.0F;
+	private float SNEAK_LEG_X_ROTATION_ADJUSTMENT = 0.4F;
+	private float ROTATE_270 = 4.712F;
+	private float ROTATE_90 = 1.571F;
 	protected float RIDING_SHIFT_Y = -10.0F;
 	protected float RIDING_SHIFT_Z = -10.0F;
 
@@ -123,20 +122,20 @@ public class pm_newPonyAdv extends ModelPlayer {
 
 		this.Body.rotationY = bodySwingRotation * 0.2F;
 
-		for (int k = 0; k < this.Bodypiece.length; ++k) {
-			this.Bodypiece[k].rotateAngleY = bodySwingRotation * 0.2F;
+		for (PlaneRenderer renderer : this.Bodypiece) {
+			renderer.rotateAngleY = bodySwingRotation * 0.2F;
 		}
 
-		for (int kk = 0; kk < this.BodypieceNeck.length; ++kk) {
-			this.BodypieceNeck[kk].rotateAngleY = bodySwingRotation * 0.2F;
+		for (PlaneRenderer planeRenderer : this.BodypieceNeck) {
+			planeRenderer.rotateAngleY = bodySwingRotation * 0.2F;
 		}
 
-		for (int l = 0; l < this.LeftWing.length; ++l) {
-			this.LeftWing[l].rotationY = bodySwingRotation * 0.2F;
+		for (ModelPart part : this.LeftWing) {
+			part.rotationY = bodySwingRotation * 0.2F;
 		}
 
-		for (int i1 = 0; i1 < this.RightWing.length; ++i1) {
-			this.RightWing[i1].rotationY = bodySwingRotation * 0.2F;
+		for (ModelPart modelPart : this.RightWing) {
+			modelPart.rotationY = bodySwingRotation * 0.2F;
 		}
 
 		this.tailstop = 0;
@@ -213,11 +212,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 	}
 
 	protected void checkRainboom(float swing) {
-		if (this.isPegasus && this.isFlying && swing >= 0.9999F) {
-			this.rainboom = true;
-		} else {
-			this.rainboom = false;
-		}
+		this.rainboom = this.isPegasus && this.isFlying && swing >= 0.9999F;
 
 	}
 
@@ -225,17 +220,17 @@ public class pm_newPonyAdv extends ModelPlayer {
 		this.setRotationPoint(this.head, posX, posY, posZ);
 		this.setRotationPoint(this.helmet, posX, posY, posZ);
 
-		for (int i = 0; i < this.headpiece.length; ++i) {
-			this.setRotationPoint(this.headpiece[i], posX, posY, posZ);
+		for (ModelPart modelPart : this.headpiece) {
+			this.setRotationPoint(modelPart, posX, posY, posZ);
 		}
 
 		if (this.isMale) {
-			for (int j6 = 0; j6 < this.MuzzleMale.length; ++j6) {
-				this.setRotationPoint(this.MuzzleMale[j6], posX, posY, posZ);
+			for (PlaneRenderer planeRenderer : this.MuzzleMale) {
+				this.setRotationPoint(planeRenderer, posX, posY, posZ);
 			}
 		} else {
-			for (int j6 = 0; j6 < this.MuzzleFemale.length; ++j6) {
-				this.setRotationPoint(this.MuzzleFemale[j6], posX, posY, posZ);
+			for (PlaneRenderer planeRenderer : this.MuzzleFemale) {
+				this.setRotationPoint(planeRenderer, posX, posY, posZ);
 			}
 		}
 
@@ -263,14 +258,14 @@ public class pm_newPonyAdv extends ModelPlayer {
 		this.head.rotationY = headRotateAngleY;
 		this.head.rotationX = headRotateAngleX;
 		if (this.isMale) {
-			for (int i = 0; i < this.MuzzleMale.length; ++i) {
-				this.MuzzleMale[i].rotateAngleY = headRotateAngleY;
-				this.MuzzleMale[i].rotateAngleX = headRotateAngleX;
+			for (PlaneRenderer planeRenderer : this.MuzzleMale) {
+				planeRenderer.rotateAngleY = headRotateAngleY;
+				planeRenderer.rotateAngleX = headRotateAngleX;
 			}
 		} else {
-			for (int i = 0; i < this.MuzzleFemale.length; ++i) {
-				this.MuzzleFemale[i].rotateAngleY = headRotateAngleY;
-				this.MuzzleFemale[i].rotateAngleX = headRotateAngleX;
+			for (PlaneRenderer planeRenderer : this.MuzzleFemale) {
+				planeRenderer.rotateAngleY = headRotateAngleY;
+				planeRenderer.rotateAngleX = headRotateAngleX;
 			}
 		}
 
@@ -369,7 +364,6 @@ public class pm_newPonyAdv extends ModelPlayer {
 		var10000.rotationY += this.Body.rotationY;
 		var10000 = this.LeftArm;
 		var10000.rotationY += this.Body.rotationY;
-		var10000 = this.LeftArm;
 		var10000.rotationX += this.Body.rotationY;
 		this.rightarm.pivotY = 8.0F;
 		this.LeftArm.pivotY = 8.0F;
@@ -377,7 +371,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 		this.LeftLeg.pivotZ = 10.0F;
 	}
 
-	protected void swingTailZ(float move, float swing) {
+	private void swingTailZ(float move, float swing) {
 		this.tailstop = 0;
 		this.tailstop = this.Tail.length - this.wantTail * 5;
 		if (this.tailstop <= 1) {
@@ -394,7 +388,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 
 	}
 
-	protected void swingTailX(float tick) {
+	private void swingTailX(float tick) {
 		float sinTickFactor = MathHelper.sin(tick * 0.067F) * 0.05F;
 		this.tailstop = 0;
 		this.tailstop = this.Tail.length - this.wantTail * 5;
@@ -427,19 +421,16 @@ public class pm_newPonyAdv extends ModelPlayer {
 			float f33 = f28 * -(this.head.rotationX - 0.7F) * 0.75F;
 			if (this.isUnicorn) {
 				ModelPart var10000 = this.unicornarm;
-				var10000.rotationX = (float) ((double) var10000.rotationX - ((double) f22 * 1.2 + (double) f33));
-				var10000 = this.unicornarm;
+				var10000.rotationX = (float) (var10000.rotationX - (f22 * 1.2 + f33));
 				var10000.rotationY += this.Body.rotationY * 2.0F;
 				this.unicornarm.rotationZ = f28 * -0.4F;
 			} else {
 				ModelPart var9 = this.rightarm;
-				var9.rotationX = (float) ((double) var9.rotationX - ((double) f22 * 1.2 + (double) f33));
-				var9 = this.rightarm;
+				var9.rotationX = (float) (var9.rotationX - (f22 * 1.2 + f33));
 				var9.rotationY += this.Body.rotationY * 2.0F;
 				this.rightarm.rotationZ = f28 * -0.4F;
 				var9 = this.SteveArm;
-				var9.rotationX = (float) ((double) var9.rotationX - ((double) f22 * 1.2 + (double) f33));
-				var9 = this.SteveArm;
+				var9.rotationX = (float) (var9.rotationX - (f22 * 1.2 + f33));
 				var9.rotationY += this.Body.rotationY * 2.0F;
 				this.SteveArm.rotationZ = f28 * -0.4F;
 			}
@@ -454,16 +445,13 @@ public class pm_newPonyAdv extends ModelPlayer {
 			if (!this.isUnicorn) {
 				ModelPart var10000 = this.rightarm;
 				var10000.rotationZ += cosTickFactor;
-				var10000 = this.rightarm;
 				var10000.rotationX += sinTickFactor;
 				var10000 = this.SteveArm;
 				var10000.rotationZ += cosTickFactor;
-				var10000 = this.SteveArm;
 				var10000.rotationX += sinTickFactor;
 			} else {
 				ModelPart var7 = this.unicornarm;
 				var7.rotationZ += cosTickFactor;
-				var7 = this.unicornarm;
 				var7.rotationX += sinTickFactor;
 			}
 		}
@@ -475,24 +463,24 @@ public class pm_newPonyAdv extends ModelPlayer {
 		this.adjustNeck(rotateAngleX, rotationPointY, rotationPointZ);
 	}
 
-	protected void adjustBodyComponents(float rotateAngleX, float rotationPointY, float rotationPointZ) {
+	private void adjustBodyComponents(float rotateAngleX, float rotationPointY, float rotationPointZ) {
 		this.Body.rotationX = rotateAngleX;
 		this.Body.pivotY = rotationPointY;
 		this.Body.pivotZ = rotationPointZ;
 
-		for (int k3 = 0; k3 < this.Bodypiece.length; ++k3) {
-			this.Bodypiece[k3].rotateAngleX = rotateAngleX;
-			this.Bodypiece[k3].rotationPointY = rotationPointY;
-			this.Bodypiece[k3].rotationPointZ = rotationPointZ;
+		for (PlaneRenderer planeRenderer : this.Bodypiece) {
+			planeRenderer.rotateAngleX = rotateAngleX;
+			planeRenderer.rotationPointY = rotationPointY;
+			planeRenderer.rotationPointZ = rotationPointZ;
 		}
 
 	}
 
-	protected void adjustNeck(float rotateAngleX, float rotationPointY, float rotationPointZ) {
-		for (int k3 = 0; k3 < this.BodypieceNeck.length; ++k3) {
-			this.BodypieceNeck[k3].rotateAngleX = this.NeckRotX + rotateAngleX;
-			this.BodypieceNeck[k3].rotationPointY = rotationPointY;
-			this.BodypieceNeck[k3].rotationPointZ = rotationPointZ;
+	private void adjustNeck(float rotateAngleX, float rotationPointY, float rotationPointZ) {
+		for (PlaneRenderer planeRenderer : this.BodypieceNeck) {
+			planeRenderer.rotateAngleX = this.NeckRotX + rotateAngleX;
+			planeRenderer.rotationPointY = rotationPointY;
+			planeRenderer.rotationPointZ = rotationPointZ;
 		}
 
 	}
@@ -510,7 +498,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 		this.LeftLeg.pivotY = this.FRONT_LEG_RP_Y_SNEAK;
 	}
 
-	protected void sneakTail() {
+	private void sneakTail() {
 		this.tailstop = 0;
 		this.tailstop = this.Tail.length - this.wantTail * 5;
 		if (this.tailstop <= 1) {
@@ -532,15 +520,13 @@ public class pm_newPonyAdv extends ModelPlayer {
 		float headPosX;
 		float headPosY;
 		float headPosZ;
+		headPosY = 2.0F;
 		if (this.issneak) {
-			headPosY = 2.0F;
 			headPosZ = -1.0F;
-			headPosX = 1.0F;
 		} else {
-			headPosY = 2.0F;
 			headPosZ = 1.0F;
-			headPosX = 1.0F;
 		}
+		headPosX = 1.0F;
 
 		this.setHead(headPosX, headPosY, headPosZ);
 		this.shiftRotationPoint(this.rightarm, 0.0F, 2.0F, 6.0F);
@@ -558,33 +544,31 @@ public class pm_newPonyAdv extends ModelPlayer {
 
 	}
 
-	protected void aimBowPony(float tick) {
+	private void aimBowPony(float tick) {
 		this.rightarm.rotationZ = 0.0F;
 		this.rightarm.rotationY = -0.06F + this.head.rotationY;
 		this.rightarm.rotationX = this.ROTATE_270 + this.head.rotationX;
 		ModelPart var10000 = this.rightarm;
 		var10000.rotationZ += MathHelper.cos(tick * 0.09F) * 0.05F + 0.05F;
-		var10000 = this.rightarm;
 		var10000.rotationX += MathHelper.sin(tick * 0.067F) * 0.05F;
 		this.shiftRotationPoint(this.rightarm, 0.0F, 0.0F, 1.0F);
 	}
 
-	protected void aimBowUnicorn(float tick) {
+	private void aimBowUnicorn(float tick) {
 		this.unicornarm.rotationZ = 0.0F;
 		this.unicornarm.rotationY = -0.06F + this.head.rotationY;
 		this.unicornarm.rotationX = this.ROTATE_270 + this.head.rotationX;
 		ModelPart var10000 = this.unicornarm;
 		var10000.rotationZ += MathHelper.cos(tick * 0.09F) * 0.05F + 0.05F;
-		var10000 = this.unicornarm;
 		var10000.rotationX += MathHelper.sin(tick * 0.067F) * 0.05F;
 	}
 
-	protected void animatePegasusWingsSneaking() {
-		for (int k4 = 0; k4 < this.LeftWingExt.length; ++k4) {
-			this.LeftWingExt[k4].pivotY = this.LEFT_WING_RP_Y_SNEAK;
-			this.LeftWingExt[k4].pivotZ = this.LEFT_WING_RP_Z_SNEAK;
-			this.LeftWingExt[k4].rotationX = this.EXT_WING_ROTATE_ANGLE_X;
-			this.LeftWingExt[k4].rotationZ = this.LEFT_WING_ROTATE_ANGLE_Z_SNEAK;
+	private void animatePegasusWingsSneaking() {
+		for (ModelPart modelPart : this.LeftWingExt) {
+			modelPart.pivotY = this.LEFT_WING_RP_Y_SNEAK;
+			modelPart.pivotZ = this.LEFT_WING_RP_Z_SNEAK;
+			modelPart.rotationX = this.EXT_WING_ROTATE_ANGLE_X;
+			modelPart.rotationZ = this.LEFT_WING_ROTATE_ANGLE_Z_SNEAK;
 		}
 
 		for (int k5 = 0; k5 < this.LeftWingExt.length; ++k5) {
@@ -596,38 +580,38 @@ public class pm_newPonyAdv extends ModelPlayer {
 
 	}
 
-	protected void animatePegasusWingsNotSneaking(float tick) {
+	private void animatePegasusWingsNotSneaking(float tick) {
 		if (!this.isFlying) {
-			for (int i4 = 0; i4 < this.LeftWing.length; ++i4) {
-				this.LeftWing[i4].pivotY = this.WING_FOLDED_RP_Y;
-				this.LeftWing[i4].pivotZ = this.WING_FOLDED_RP_Z;
+			for (ModelPart part : this.LeftWing) {
+				part.pivotY = this.WING_FOLDED_RP_Y;
+				part.pivotZ = this.WING_FOLDED_RP_Z;
 			}
 
-			for (int j4 = 0; j4 < this.RightWing.length; ++j4) {
-				this.RightWing[j4].pivotY = this.WING_FOLDED_RP_Y;
-				this.RightWing[j4].pivotZ = this.WING_FOLDED_RP_Z;
+			for (ModelPart modelPart : this.RightWing) {
+				modelPart.pivotY = this.WING_FOLDED_RP_Y;
+				modelPart.pivotZ = this.WING_FOLDED_RP_Z;
 			}
 		} else {
-			this.WingRotateAngleZ = MathHelper.sin(tick * 0.536F) * 1.0F;
+			this.WingRotateAngleZ = MathHelper.sin(tick * 0.536F);
 
-			for (int l4 = 0; l4 < this.LeftWingExt.length; ++l4) {
-				this.LeftWingExt[l4].rotationX = this.EXT_WING_ROTATE_ANGLE_X;
-				this.LeftWingExt[l4].rotationZ = -this.WingRotateAngleZ - this.ROTATE_270 - 0.4F;
-				this.LeftWingExt[l4].pivotY = this.LEFT_WING_RP_Y_NOTSNEAK;
-				this.LeftWingExt[l4].pivotZ = this.LEFT_WING_RP_Z_NOTSNEAK;
+			for (ModelPart part : this.LeftWingExt) {
+				part.rotationX = this.EXT_WING_ROTATE_ANGLE_X;
+				part.rotationZ = -this.WingRotateAngleZ - this.ROTATE_270 - 0.4F;
+				part.pivotY = this.LEFT_WING_RP_Y_NOTSNEAK;
+				part.pivotZ = this.LEFT_WING_RP_Z_NOTSNEAK;
 			}
 
-			for (int l5 = 0; l5 < this.RightWingExt.length; ++l5) {
-				this.RightWingExt[l5].rotationX = this.EXT_WING_ROTATE_ANGLE_X;
-				this.RightWingExt[l5].rotationZ = this.WingRotateAngleZ + this.ROTATE_270 + 0.4F;
-				this.RightWingExt[l5].pivotY = this.RIGHT_WING_RP_Y_NOTSNEAK;
-				this.RightWingExt[l5].pivotZ = this.RIGHT_WING_RP_Z_NOTSNEAK;
+			for (ModelPart modelPart : this.RightWingExt) {
+				modelPart.rotationX = this.EXT_WING_ROTATE_ANGLE_X;
+				modelPart.rotationZ = this.WingRotateAngleZ + this.ROTATE_270 + 0.4F;
+				modelPart.pivotY = this.RIGHT_WING_RP_Y_NOTSNEAK;
+				modelPart.pivotZ = this.RIGHT_WING_RP_Z_NOTSNEAK;
 			}
 		}
 
 	}
 
-	protected void fixSpecialRotations() {
+	private void fixSpecialRotations() {
 		this.LeftWingExt[2].rotationX -= 0.85F;
 		this.LeftWingExt[3].rotationX -= 0.75F;
 		this.LeftWingExt[4].rotationX -= 0.5F;
@@ -649,19 +633,19 @@ public class pm_newPonyAdv extends ModelPlayer {
 		aPlaneRenderer.rotationPointZ += shiftZ;
 	}
 
-	public void shiftRotationPoint(ModelPart aRenderer, float shiftX, float shiftY, float shiftZ) {
+	protected void shiftRotationPoint(ModelPart aRenderer, float shiftX, float shiftY, float shiftZ) {
 		aRenderer.pivotX += shiftX;
 		aRenderer.pivotY += shiftY;
 		aRenderer.pivotZ += shiftZ;
 	}
 
-	public void setRotationPoint(PlaneRenderer aPlaneRenderer, float setX, float setY, float setZ) {
+	private void setRotationPoint(PlaneRenderer aPlaneRenderer, float setX, float setY, float setZ) {
 		aPlaneRenderer.rotationPointX = setX;
 		aPlaneRenderer.rotationPointY = setY;
 		aPlaneRenderer.rotationPointZ = setZ;
 	}
 
-	public void setRotationPoint(ModelPart aRenderer, float setX, float setY, float setZ) {
+	protected void setRotationPoint(ModelPart aRenderer, float setX, float setY, float setZ) {
 		aRenderer.pivotX = setX;
 		aRenderer.pivotY = setY;
 		aRenderer.pivotZ = setZ;
@@ -822,12 +806,12 @@ public class pm_newPonyAdv extends ModelPlayer {
 
 		if (Pony.showSnuzzles() == 1) {
 			if (this.isMale) {
-				for (int i = 0; i < this.MuzzleMale.length; ++i) {
-					this.MuzzleMale[i].render(this.scale);
+				for (PlaneRenderer planeRenderer : this.MuzzleMale) {
+					planeRenderer.render(this.scale);
 				}
 			} else {
-				for (int i = 0; i < this.MuzzleFemale.length; ++i) {
-					this.MuzzleFemale[i].render(this.scale);
+				for (PlaneRenderer planeRenderer : this.MuzzleFemale) {
+					planeRenderer.render(this.scale);
 				}
 			}
 		}
@@ -836,8 +820,8 @@ public class pm_newPonyAdv extends ModelPlayer {
 	}
 
 	protected void renderNeck() {
-		for (int j = 0; j < this.BodypieceNeck.length; ++j) {
-			this.BodypieceNeck[j].render(this.scale);
+		for (PlaneRenderer planeRenderer : this.BodypieceNeck) {
+			planeRenderer.render(this.scale);
 		}
 
 	}
@@ -845,26 +829,26 @@ public class pm_newPonyAdv extends ModelPlayer {
 	protected void renderBody() {
 		this.Body.render(this.scale);
 
-		for (int j = 0; j < this.Bodypiece.length; ++j) {
-			this.Bodypiece[j].render(this.scale);
+		for (PlaneRenderer planeRenderer : this.Bodypiece) {
+			planeRenderer.render(this.scale);
 		}
 
 		if (this.isPegasus) {
 			if (!this.isFlying && !this.issneak) {
-				for (int j1 = 0; j1 < this.LeftWing.length; ++j1) {
-					this.LeftWing[j1].render(this.scale);
+				for (ModelPart part : this.LeftWing) {
+					part.render(this.scale);
 				}
 
-				for (int k1 = 0; k1 < this.RightWing.length; ++k1) {
-					this.RightWing[k1].render(this.scale);
+				for (ModelPart modelPart : this.RightWing) {
+					modelPart.render(this.scale);
 				}
 			} else {
-				for (int l = 0; l < this.LeftWingExt.length; ++l) {
-					this.LeftWingExt[l].render(this.scale);
+				for (ModelPart part : this.LeftWingExt) {
+					part.render(this.scale);
 				}
 
-				for (int i1 = 0; i1 < this.RightWingExt.length; ++i1) {
-					this.RightWingExt[i1].render(this.scale);
+				for (ModelPart modelPart : this.RightWingExt) {
+					modelPart.render(this.scale);
 				}
 			}
 		}
@@ -920,7 +904,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 		this.helmet = new ModelPart(this, 32, 0);
 	}
 
-	protected void initMuzzleTextures() {
+	private void initMuzzleTextures() {
 		this.MuzzleFemale[0] = new PlaneRenderer(this, 10, 14);
 		this.MuzzleFemale[1] = new PlaneRenderer(this, 11, 13);
 		this.MuzzleFemale[2] = new PlaneRenderer(this, 9, 14);
@@ -973,7 +957,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 		this.unicornarm = new ModelPart(this, 40, 16);
 	}
 
-	protected void initTailTextures() {
+	private void initTailTextures() {
 		this.Tail[0] = new PlaneRenderer(this, 32, 0);
 		this.Tail[1] = new PlaneRenderer(this, 36, 0);
 		this.Tail[2] = new PlaneRenderer(this, 32, 0);
@@ -997,7 +981,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 		this.Tail[20] = new PlaneRenderer(this, 32, 0);
 	}
 
-	protected void initWingTextures() {
+	private void initWingTextures() {
 		this.LeftWing[0] = new ModelPart(this, 56, 16);
 		this.LeftWing[0].flipped = true;
 		this.LeftWing[1] = new ModelPart(this, 56, 16);
@@ -1060,7 +1044,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 		this.helmet.setPivot(this.HEAD_RP_X, this.HEAD_RP_Y + yOffset, this.HEAD_RP_Z);
 	}
 
-	protected void initMuzzlePositions(float yOffset, float stretch) {
+	private void initMuzzlePositions(float yOffset, float stretch) {
 		this.MuzzleFemale[0].addBackPlane(-2.0F + this.HEAD_CENTRE_X, 2.0F + this.HEAD_CENTRE_Y, -5.0F + this.HEAD_CENTRE_Z, 4, 2, 0, stretch);
 		this.MuzzleFemale[0].setRotationPoint(this.HEAD_RP_X, this.HEAD_RP_Y + yOffset, this.HEAD_RP_Z);
 		this.MuzzleFemale[1].addBackPlane(-1.0F + this.HEAD_CENTRE_X, 1.0F + this.HEAD_CENTRE_Y, -5.0F + this.HEAD_CENTRE_Z, 2, 1, 0, stretch);
@@ -1153,7 +1137,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 		this.unicornarm.setPivot(-5.0F, 2.0F + yOffset, 0.0F);
 	}
 
-	protected void initTailPositions(float yOffset, float stretch) {
+	private void initTailPositions(float yOffset, float stretch) {
 		this.Tail[0].addTopPlane(-2.0F, 1.0F, 2.0F, 4, 0, 4, stretch);
 		this.Tail[0].setRotationPoint(this.TAIL_RP_X, this.TAIL_RP_Y + yOffset, this.TAIL_RP_Z);
 		this.Tail[1].addSidePlane(-2.0F, 1.0F, 2.0F, 0, 4, 4, stretch);
@@ -1198,7 +1182,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 		this.Tail[20].setRotationPoint(this.TAIL_RP_X, this.TAIL_RP_Y + yOffset, this.TAIL_RP_Z);
 	}
 
-	protected void initWingPositions(float yOffset, float stretch) {
+	private void initWingPositions(float yOffset, float stretch) {
 		this.LeftWing[0].addBox(4.0F, 5.0F, 2.0F, 2, 6, 2, stretch);
 		this.LeftWing[0].setPivot(this.HEAD_RP_X, this.WING_FOLDED_RP_Y + yOffset, this.WING_FOLDED_RP_Z);
 		this.LeftWing[0].rotationX = this.ROTATE_90;
@@ -1321,12 +1305,12 @@ public class pm_newPonyAdv extends ModelPlayer {
 			GL11.glTranslatef(0.0F, 0.4F, -0.12F);
 		}
 
-		double d = player.lastCapeX + (player.capeX - player.lastCapeX) * (double) par2 - (player.prevX + (player.x - player.prevX) * (double) par2);
-		double d1 = player.lastCapeY + (player.capeY - player.lastCapeY) * (double) par2 - (player.prevY + (player.y - player.prevY) * (double) par2);
-		double d2 = player.lastCapeZ + (player.capeZ - player.lastCapeZ) * (double) par2 - (player.prevZ + (player.z - player.prevZ) * (double) par2);
+		double d = player.lastCapeX + (player.capeX - player.lastCapeX) * par2 - (player.prevX + (player.x - player.prevX) * par2);
+		double d1 = player.lastCapeY + (player.capeY - player.lastCapeY) * par2 - (player.prevY + (player.y - player.prevY) * par2);
+		double d2 = player.lastCapeZ + (player.capeZ - player.lastCapeZ) * par2 - (player.prevZ + (player.z - player.prevZ) * par2);
 		float f10 = player.prevBodyYaw + (player.bodyYaw - player.prevBodyYaw) * par2;
-		double d3 = (double) MathHelper.sin(f10 * (float) Math.PI / 180.0F);
-		double d4 = (double) (-MathHelper.cos(f10 * (float) Math.PI / 180.0F));
+		double d3 = MathHelper.sin(f10 * (float) Math.PI / 180.0F);
+		double d4 = (-MathHelper.cos(f10 * (float) Math.PI / 180.0F));
 		float f12 = (float) d1 * 10.0F;
 		if (f12 < -6.0F) {
 			f12 = -6.0F;

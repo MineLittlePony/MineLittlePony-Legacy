@@ -15,12 +15,11 @@ import org.lwjgl.opengl.GL11;
 
 public abstract class ModelPlayer extends Model {
 	public String texture;
-	protected float strech = 0.0F;
+	private float strech;
 	protected float scale = 0.0625F;
-	public boolean issneak = false;
-	public boolean isArmour = false;
+	public boolean issneak;
+	public boolean isArmour;
 	public int glowColor = -12303190;
-	public final float pi = 3.141593F;
 	public boolean isPegasus;
 	public boolean isUnicorn;
 	public boolean isMale;
@@ -33,7 +32,7 @@ public abstract class ModelPlayer extends Model {
 	public int heldItemRight;
 	public boolean aimedBow;
 
-	public ModelPlayer(String texture) {
+	protected ModelPlayer(String texture) {
 	}
 
 	public void setStrech(float strech) {
@@ -46,7 +45,7 @@ public abstract class ModelPlayer extends Model {
 
 	public abstract void init(float var1, float var2);
 
-	public abstract void animate(AniParams var1, PlayerEntity var2);
+	protected abstract void animate(AniParams var1, PlayerEntity var2);
 
 	public abstract void animate(AniParams var1);
 
@@ -147,9 +146,9 @@ public abstract class ModelPlayer extends Model {
 			if (drop.itemId == Item.POTION.id) {
 				for (int j = 0; j <= 1; ++j) {
 					int k = drop.getItem().getDisplayColor(drop.getDamage(), j);
-					float f9 = (float) (j >> 16 & 255) / 255.0F;
-					float f10 = (float) (j >> 8 & 255) / 255.0F;
-					float f11 = (float) (j & 255) / 255.0F;
+					float f9 = (j >> 16 & 255) / 255.0F;
+					float f10 = (j >> 8 & 255) / 255.0F;
+					float f11 = (j & 255) / 255.0F;
 					GL11.glColor4f(f9, f10, f11, 1.0F);
 					renderman.heldItemRenderer.render(player, drop, j);
 				}

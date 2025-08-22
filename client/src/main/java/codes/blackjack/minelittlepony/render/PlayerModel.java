@@ -3,17 +3,16 @@ package codes.blackjack.minelittlepony.render;
 import java.text.DecimalFormat;
 
 public class PlayerModel {
-	public final int id;
-	private static int nextid = 0;
+	private final int id;
 	public String name;
-	public String url;
+	private String url;
 	public ModelPlayer model;
 	public ModelArmor armor;
-	public float width = 0.6F;
-	public float height = 1.8F;
+	private float width = 0.6F;
+	private float height = 1.8F;
 	public float shadowsize = 0.5F;
-	public float thirdpersondistance = 4.0F;
-	public float yoffset = 1.62F;
+	private float thirdpersondistance = 4.0F;
+	private float yoffset = 1.62F;
 	public float globalscale = 1.0F;
 
 	public PlayerModel(String name, ModelPlayer model, int manual_id) {
@@ -63,6 +62,6 @@ public class PlayerModel {
 	}
 
 	public String getSize(DecimalFormat df) {
-		return df.format((double) this.width) + " * " + df.format((double) this.height) + " * " + df.format((double) this.width);
+		return df.format(this.width) + " * " + df.format(this.height) + " * " + df.format(this.width);
 	}
 }

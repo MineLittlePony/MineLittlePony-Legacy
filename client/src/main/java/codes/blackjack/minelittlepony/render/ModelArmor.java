@@ -7,11 +7,9 @@ public abstract class ModelArmor {
 	public ModelPlayer modelArmorChestplate;
 	public ModelPlayer modelArmor;
 
-	public ModelArmor(String path) {
+	protected ModelArmor(String path) {
 		this.path = path;
 	}
-
-	public abstract float layer();
 
 	public abstract int subimage();
 

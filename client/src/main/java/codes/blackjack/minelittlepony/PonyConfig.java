@@ -3,8 +3,8 @@ package codes.blackjack.minelittlepony;
 import net.minecraft.client.Minecraft;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 public class PonyConfig {
@@ -27,7 +27,7 @@ public class PonyConfig {
 			File cfg = new File(this.path + "MineLittlePony.properties");
 			if (cfg.exists()) {
 				System.out.println("[Mine Little Pony] Config file found, loading...");
-				this.config.load(new FileInputStream(this.path + "MineLittlePony.properties"));
+				this.config.load(Files.newInputStream(Paths.get(this.path + "MineLittlePony.properties")));
 			} else {
 				System.out.println("[Mine Little Pony] No config file found, creating...");
 				this.createConfig(cfg);
@@ -57,7 +57,7 @@ public class PonyConfig {
 			this.config.setProperty("sizes", "1");
 			this.config.setProperty("ponyarmor", "1");
 			this.config.setProperty("snuzzles", "1");
-			this.config.store(new FileOutputStream(this.path + "MineLittlePony.properties"), "Mine Little Pony");
+			this.config.store(Files.newOutputStream(Paths.get(this.path + "MineLittlePony.properties")), "Mine Little Pony");
 		} catch (Exception e) {
 			this.displayErrorMessage(e.toString());
 		}
@@ -101,9 +101,9 @@ public class PonyConfig {
 		return Boolean.parseBoolean(s);
 	}
 
-	public void saveConfig() {
+	private void saveConfig() {
 		try {
-			this.config.store(new FileOutputStream(this.path + "MineLittlePony.properties"), (String) null);
+			this.config.store(Files.newOutputStream(Paths.get(this.path + "MineLittlePony.properties")), null);
 		} catch (Exception e) {
 			this.displayErrorMessage(e.toString());
 		}
