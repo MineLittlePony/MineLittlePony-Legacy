@@ -12,8 +12,8 @@ public class pm_newPonyArmor extends pm_newPonyAdv {
 	public ModelPart[] extHead;
 	public ModelPart[] extLegs;
 
-	public pm_newPonyArmor(String texture) {
-		super(texture);
+	public pm_newPonyArmor() {
+		super();
 		this.isArmour = true;
 	}
 
@@ -32,15 +32,15 @@ public class pm_newPonyArmor extends pm_newPonyAdv {
 		this.holdItem();
 		this.swingItem(this.handSwingProgress);
 		if (this.issneak && !this.isFlying) {
-			this.adjustBody(this.BODY_ROTATE_ANGLE_X_SNEAK, this.BODY_RP_Y_SNEAK, this.BODY_RP_Z_SNEAK);
+			this.adjustBody(BODY_ROTATE_ANGLE_X_SNEAK, BODY_RP_Y_SNEAK, BODY_RP_Z_SNEAK);
 			this.sneakLegs();
 			this.setHead(0.0F, 6.0F, -2.0F);
 		} else {
-			this.adjustBody(this.BODY_ROTATE_ANGLE_X_NOTSNEAK, this.BODY_RP_Y_NOTSNEAK, this.BODY_RP_Z_NOTSNEAK);
-			this.RightLeg.pivotY = this.FRONT_LEG_RP_Y_NOTSNEAK;
-			this.LeftLeg.pivotY = this.FRONT_LEG_RP_Y_NOTSNEAK;
-			this.extLegs[0].pivotY = this.FRONT_LEG_RP_Y_NOTSNEAK;
-			this.extLegs[1].pivotY = this.FRONT_LEG_RP_Y_NOTSNEAK;
+			this.adjustBody(BODY_ROTATE_ANGLE_X_NOTSNEAK, BODY_RP_Y_NOTSNEAK, BODY_RP_Z_NOTSNEAK);
+			this.rightLeg.pivotY = FRONT_LEG_RP_Y_NOTSNEAK;
+			this.leftLeg.pivotY = FRONT_LEG_RP_Y_NOTSNEAK;
+			this.extLegs[0].pivotY = FRONT_LEG_RP_Y_NOTSNEAK;
+			this.extLegs[1].pivotY = FRONT_LEG_RP_Y_NOTSNEAK;
 			this.swingArms(aniparams.tick);
 			this.setHead(0.0F, 0.0F, 0.0F);
 		}
@@ -101,16 +101,16 @@ public class pm_newPonyArmor extends pm_newPonyAdv {
 	}
 
 	protected void ridingPony() {
-		this.setHead(this.head.pivotX + 0.0F, this.head.pivotY + this.RIDING_SHIFT_Y, this.head.pivotZ + this.RIDING_SHIFT_Z);
-		this.shiftRotationPoint(this.Body, 0.0F, this.RIDING_SHIFT_Y, this.RIDING_SHIFT_Z);
-		this.shiftRotationPoint(this.Bodypiece, 0.0F, this.RIDING_SHIFT_Y, this.RIDING_SHIFT_Z);
-		this.shiftRotationPoint(this.extBody, 0.0F, this.RIDING_SHIFT_Y, this.RIDING_SHIFT_Z);
-		this.shiftRotationPoint(this.LeftArm, 0.0F, this.RIDING_SHIFT_Y, this.RIDING_SHIFT_Z);
-		this.shiftRotationPoint(this.rightarm, 0.0F, this.RIDING_SHIFT_Y, this.RIDING_SHIFT_Z);
-		this.shiftRotationPoint(this.LeftLeg, 0.0F, this.RIDING_SHIFT_Y, this.RIDING_SHIFT_Z);
-		this.shiftRotationPoint(this.RightLeg, 0.0F, this.RIDING_SHIFT_Y, this.RIDING_SHIFT_Z);
-		this.shiftRotationPoint(this.extLegs[0], 0.0F, this.RIDING_SHIFT_Y, this.RIDING_SHIFT_Z);
-		this.shiftRotationPoint(this.extLegs[1], 0.0F, this.RIDING_SHIFT_Y, this.RIDING_SHIFT_Z);
+		this.setHead(this.head.pivotX + 0.0F, this.head.pivotY + RIDING_SHIFT_Y, this.head.pivotZ + RIDING_SHIFT_Z);
+		this.shiftRotationPoint(this.Body, 0.0F, RIDING_SHIFT_Y, RIDING_SHIFT_Z);
+		this.shiftRotationPoint(this.Bodypiece, 0.0F, RIDING_SHIFT_Y, RIDING_SHIFT_Z);
+		this.shiftRotationPoint(this.extBody, 0.0F, RIDING_SHIFT_Y, RIDING_SHIFT_Z);
+		this.shiftRotationPoint(this.leftArm, 0.0F, RIDING_SHIFT_Y, RIDING_SHIFT_Z);
+		this.shiftRotationPoint(this.rightarm, 0.0F, RIDING_SHIFT_Y, RIDING_SHIFT_Z);
+		this.shiftRotationPoint(this.leftLeg, 0.0F, RIDING_SHIFT_Y, RIDING_SHIFT_Z);
+		this.shiftRotationPoint(this.rightLeg, 0.0F, RIDING_SHIFT_Y, RIDING_SHIFT_Z);
+		this.shiftRotationPoint(this.extLegs[0], 0.0F, RIDING_SHIFT_Y, RIDING_SHIFT_Z);
+		this.shiftRotationPoint(this.extLegs[1], 0.0F, RIDING_SHIFT_Y, RIDING_SHIFT_Z);
 	}
 
 	protected void renderHead() {
@@ -132,10 +132,10 @@ public class pm_newPonyArmor extends pm_newPonyAdv {
 	}
 
 	protected void renderLegs() {
-		this.LeftArm.render(this.scale);
+		this.leftArm.render(this.scale);
 		this.rightarm.render(this.scale);
-		this.LeftLeg.render(this.scale);
-		this.RightLeg.render(this.scale);
+		this.leftLeg.render(this.scale);
+		this.rightLeg.render(this.scale);
 		this.extLegs[0].render(this.scale);
 		this.extLegs[1].render(this.scale);
 	}
@@ -162,13 +162,13 @@ public class pm_newPonyArmor extends pm_newPonyAdv {
 
 	protected void initLegTextures() {
 		this.rightarm = new ModelPart(this, 0, 16);
-		this.LeftArm = new ModelPart(this, 0, 16);
-		this.LeftArm.flipped = true;
-		this.RightLeg = new ModelPart(this, 0, 16);
-		this.LeftLeg = new ModelPart(this, 0, 16);
-		this.LeftLeg.flipped = true;
-		this.SteveArm = new ModelPart(this, 0, 16);
-		this.unicornarm = new ModelPart(this, 0, 16);
+		this.leftArm = new ModelPart(this, 0, 16);
+		this.leftArm.flipped = true;
+		this.rightLeg = new ModelPart(this, 0, 16);
+		this.leftLeg = new ModelPart(this, 0, 16);
+		this.leftLeg.flipped = true;
+		this.steveArm = new ModelPart(this, 0, 16);
+		this.unicornArm = new ModelPart(this, 0, 16);
 		this.extLegs[0] = new ModelPart(this, 48, 8);
 		this.extLegs[1] = new ModelPart(this, 48, 8);
 		this.extLegs[1].flipped = true;
@@ -181,44 +181,44 @@ public class pm_newPonyArmor extends pm_newPonyAdv {
 	}
 
 	protected void initHeadPositions(float yOffset, float stretch) {
-		this.head.addBox(-4.0F + this.HEAD_CENTRE_X, -4.0F + this.HEAD_CENTRE_Y, -4.0F + this.HEAD_CENTRE_Z, 8, 8, 8, stretch * 1.1F);
-		this.head.setPivot(this.HEAD_RP_X, this.HEAD_RP_Y + yOffset, this.HEAD_RP_Z);
-		this.extHead[0].addBox(-4.0F + this.HEAD_CENTRE_X, -6.0F + this.HEAD_CENTRE_Y, 1.0F + this.HEAD_CENTRE_Z, 2, 2, 2, stretch * 0.5F);
-		this.extHead[0].setPivot(this.HEAD_RP_X, this.HEAD_RP_Y + yOffset, this.HEAD_RP_Z);
-		this.extHead[1].addBox(2.0F + this.HEAD_CENTRE_X, -6.0F + this.HEAD_CENTRE_Y, 1.0F + this.HEAD_CENTRE_Z, 2, 2, 2, stretch * 0.5F);
-		this.extHead[1].setPivot(this.HEAD_RP_X, this.HEAD_RP_Y + yOffset, this.HEAD_RP_Z);
+		this.head.addBox(-4.0F + HEAD_CENTRE_X, -4.0F + HEAD_CENTRE_Y, -4.0F + HEAD_CENTRE_Z, 8, 8, 8, stretch * 1.1F);
+		this.head.setPivot(HEAD_RP_X, HEAD_RP_Y + yOffset, HEAD_RP_Z);
+		this.extHead[0].addBox(-4.0F + HEAD_CENTRE_X, -6.0F + HEAD_CENTRE_Y, 1.0F + HEAD_CENTRE_Z, 2, 2, 2, stretch * 0.5F);
+		this.extHead[0].setPivot(HEAD_RP_X, HEAD_RP_Y + yOffset, HEAD_RP_Z);
+		this.extHead[1].addBox(2.0F + HEAD_CENTRE_X, -6.0F + HEAD_CENTRE_Y, 1.0F + HEAD_CENTRE_Z, 2, 2, 2, stretch * 0.5F);
+		this.extHead[1].setPivot(HEAD_RP_X, HEAD_RP_Y + yOffset, HEAD_RP_Z);
 	}
 
 	protected void initBodyPositions(float yOffset, float stretch) {
 		this.Body.addBox(-4.0F, 4.0F, -2.0F, 8, 8, 4, stretch);
-		this.Body.setPivot(this.HEAD_RP_X, this.HEAD_RP_Y + yOffset, this.HEAD_RP_Z);
+		this.Body.setPivot(HEAD_RP_X, HEAD_RP_Y + yOffset, HEAD_RP_Z);
 		this.Bodypiece.addBox(-4.0F, 4.0F, 6.0F, 8, 8, 8, stretch);
-		this.Bodypiece.setPivot(this.HEAD_RP_X, this.HEAD_RP_Y + yOffset, this.HEAD_RP_Z);
+		this.Bodypiece.setPivot(HEAD_RP_X, HEAD_RP_Y + yOffset, HEAD_RP_Z);
 		this.extBody.addBox(-4.0F, 4.0F, -2.0F, 8, 8, 16, stretch);
-		this.extBody.setPivot(this.HEAD_RP_X, this.HEAD_RP_Y + yOffset, this.HEAD_RP_Z);
+		this.extBody.setPivot(HEAD_RP_X, HEAD_RP_Y + yOffset, HEAD_RP_Z);
 	}
 
 	protected void initLegPositions(float yOffset, float stretch) {
 		super.initLegPositions(yOffset, stretch);
-		this.extLegs[0].addBox(-2.0F + this.THIRDP_ARM_CENTRE_X, -6.0F + this.THIRDP_ARM_CENTRE_Y, -2.0F + this.THIRDP_ARM_CENTRE_Z, 4, 12, 4, stretch);
+		this.extLegs[0].addBox(-2.0F + THIRDP_ARM_CENTRE_X, -6.0F + THIRDP_ARM_CENTRE_Y, -2.0F + THIRDP_ARM_CENTRE_Z, 4, 12, 4, stretch);
 		this.extLegs[0].setPivot(-3.0F, 0.0F + yOffset, 0.0F);
-		this.extLegs[1].addBox(-2.0F + this.THIRDP_ARM_CENTRE_X, -6.0F + this.THIRDP_ARM_CENTRE_Y, -2.0F + this.THIRDP_ARM_CENTRE_Z, 4, 12, 4, stretch);
+		this.extLegs[1].addBox(-2.0F + THIRDP_ARM_CENTRE_X, -6.0F + THIRDP_ARM_CENTRE_Y, -2.0F + THIRDP_ARM_CENTRE_Z, 4, 12, 4, stretch);
 		this.extLegs[1].setPivot(3.0F, 0.0F + yOffset, 0.0F);
 	}
 
 	private void syncLegs() {
-		this.extLegs[0].rotationX = this.RightLeg.rotationX;
-		this.extLegs[0].rotationY = this.RightLeg.rotationY;
-		this.extLegs[0].rotationZ = this.RightLeg.rotationZ;
-		this.extLegs[0].pivotX = this.RightLeg.pivotX;
-		this.extLegs[0].pivotY = this.RightLeg.pivotY;
-		this.extLegs[0].pivotZ = this.RightLeg.pivotZ;
-		this.extLegs[1].rotationX = this.LeftLeg.rotationX;
-		this.extLegs[1].rotationY = this.LeftLeg.rotationY;
-		this.extLegs[1].rotationZ = this.LeftLeg.rotationZ;
-		this.extLegs[1].pivotX = this.LeftLeg.pivotX;
-		this.extLegs[1].pivotY = this.LeftLeg.pivotY;
-		this.extLegs[1].pivotZ = this.LeftLeg.pivotZ;
+		this.extLegs[0].rotationX = this.rightLeg.rotationX;
+		this.extLegs[0].rotationY = this.rightLeg.rotationY;
+		this.extLegs[0].rotationZ = this.rightLeg.rotationZ;
+		this.extLegs[0].pivotX = this.rightLeg.pivotX;
+		this.extLegs[0].pivotY = this.rightLeg.pivotY;
+		this.extLegs[0].pivotZ = this.rightLeg.pivotZ;
+		this.extLegs[1].rotationX = this.leftLeg.rotationX;
+		this.extLegs[1].rotationY = this.leftLeg.rotationY;
+		this.extLegs[1].rotationZ = this.leftLeg.rotationZ;
+		this.extLegs[1].pivotX = this.leftLeg.pivotX;
+		this.extLegs[1].pivotY = this.leftLeg.pivotY;
+		this.extLegs[1].pivotZ = this.leftLeg.pivotZ;
 	}
 
 	protected void rotateLegs(float move, float swing) {
@@ -241,11 +241,11 @@ public class pm_newPonyArmor extends pm_newPonyAdv {
 		this.syncLegs();
 	}
 
-	public void specials(EntityRenderDispatcher renderman, PlayerEntity player) {
+	public void specials(EntityRenderDispatcher dispatcher, PlayerEntity player) {
 		if (!this.isSleeping) {
-			this.renderDrop(renderman, player, this.rightarm, 1.0F, -0.0625F, 0.8375F, 0.0625F);
+			this.renderDrop(dispatcher, player, this.rightarm, 1.0F, -0.0625F, 0.8375F, 0.0625F);
 		}
 
-		this.renderPumpkin(renderman, player, this.head, 0.625F, 0.0F, -0.25F, 0.0F);
+		this.renderPumpkin(dispatcher, player, this.head, 0.625F, 0.0F, -0.25F, 0.0F);
 	}
 }

@@ -8,57 +8,54 @@ import net.minecraft.entity.living.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
+@SuppressWarnings("SuspiciousNameCombination")
 public class pm_Human extends ModelPlayer {
 	public ModelPart head;
 	public ModelPart helmet;
 	public ModelPart body;
-	public ModelPart leftarm;
-	public ModelPart rightarm;
-	public ModelPart leftleg;
-	public ModelPart rightleg;
+	public ModelPart leftArm;
+	public ModelPart rightArm;
+	public ModelPart leftLeg;
+	public ModelPart rightLeg;
 	private ModelPart bipedEars;
 	private ModelPart cloak;
-
-	public pm_Human(String texture) {
-		super(texture);
-	}
 
 	public void init() {
 		this.init(0.0F);
 	}
 
-	public void init(float yoffset) {
-		this.init(yoffset, 0.0F);
+	public void init(float yOffset) {
+		this.init(yOffset, 0.0F);
 	}
 
-	public void init(float yoffset, float stretch) {
+	public void init(float yOffset, float stretch) {
 		this.cloak = new ModelPart(this, 0, 0);
 		this.cloak.addBox(-5.0F, 0.0F, -1.0F, 10, 16, 1, stretch);
 		this.bipedEars = new ModelPart(this, 24, 0);
 		this.bipedEars.addBox(-3.0F, -6.0F, -1.0F, 6, 6, 1, stretch);
 		this.head = new ModelPart(this, 0, 0);
 		this.head.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, stretch);
-		this.head.setPivot(0.0F, 0.0F + yoffset, 0.0F);
+		this.head.setPivot(0.0F, 0.0F + yOffset, 0.0F);
 		this.helmet = new ModelPart(this, 32, 0);
 		this.helmet.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, stretch + 0.5F);
-		this.helmet.setPivot(0.0F, 0.0F + yoffset, 0.0F);
+		this.helmet.setPivot(0.0F, 0.0F + yOffset, 0.0F);
 		this.body = new ModelPart(this, 16, 16);
 		this.body.addBox(-4.0F, 0.0F, -2.0F, 8, 12, 4, stretch);
-		this.body.setPivot(0.0F, 0.0F + yoffset, 0.0F);
-		this.rightarm = new ModelPart(this, 40, 16);
-		this.rightarm.addBox(-3.0F, -2.0F, -2.0F, 4, 12, 4, stretch);
-		this.rightarm.setPivot(-5.0F, 2.0F + yoffset, 0.0F);
-		this.leftarm = new ModelPart(this, 40, 16);
-		this.leftarm.flipped = true;
-		this.leftarm.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, stretch);
-		this.leftarm.setPivot(5.0F, 2.0F + yoffset, 0.0F);
-		this.rightleg = new ModelPart(this, 0, 16);
-		this.rightleg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, stretch);
-		this.rightleg.setPivot(-2.0F, 12.0F + yoffset, 0.0F);
-		this.leftleg = new ModelPart(this, 0, 16);
-		this.leftleg.flipped = true;
-		this.leftleg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, stretch);
-		this.leftleg.setPivot(2.0F, 12.0F + yoffset, 0.0F);
+		this.body.setPivot(0.0F, 0.0F + yOffset, 0.0F);
+		this.rightArm = new ModelPart(this, 40, 16);
+		this.rightArm.addBox(-3.0F, -2.0F, -2.0F, 4, 12, 4, stretch);
+		this.rightArm.setPivot(-5.0F, 2.0F + yOffset, 0.0F);
+		this.leftArm = new ModelPart(this, 40, 16);
+		this.leftArm.flipped = true;
+		this.leftArm.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, stretch);
+		this.leftArm.setPivot(5.0F, 2.0F + yOffset, 0.0F);
+		this.rightLeg = new ModelPart(this, 0, 16);
+		this.rightLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, stretch);
+		this.rightLeg.setPivot(-2.0F, 12.0F + yOffset, 0.0F);
+		this.leftLeg = new ModelPart(this, 0, 16);
+		this.leftLeg.flipped = true;
+		this.leftLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, stretch);
+		this.leftLeg.setPivot(2.0F, 12.0F + yOffset, 0.0F);
 	}
 
 	public void animate(AniParams ani, PlayerEntity player) {
@@ -70,127 +67,109 @@ public class pm_Human extends ModelPlayer {
 		this.head.rotationX = ani.vert / 57.29578F;
 		this.helmet.rotationY = this.head.rotationY;
 		this.helmet.rotationX = this.head.rotationX;
-		this.rightarm.rotationX = MathHelper.cos(ani.move * 2.0F / 3.0F + 3.141593F) * 2.0F * ani.swing * 0.5F;
-		this.leftarm.rotationX = MathHelper.cos(ani.move * 2.0F / 3.0F) * 2.0F * ani.swing * 0.5F;
-		this.rightarm.rotationZ = 0.0F;
-		this.leftarm.rotationZ = 0.0F;
-		this.rightleg.rotationX = MathHelper.cos(ani.move * 2.0F / 3.0F) * 1.4F * ani.swing;
-		this.leftleg.rotationX = MathHelper.cos(ani.move * 2.0F / 3.0F + 3.141593F) * 1.4F * ani.swing;
-		this.rightleg.rotationY = 0.0F;
-		this.leftleg.rotationY = 0.0F;
+		this.rightArm.rotationX = MathHelper.cos(ani.move * 2.0F / 3.0F + 3.141593F) * 2.0F * ani.swing * 0.5F;
+		this.leftArm.rotationX = MathHelper.cos(ani.move * 2.0F / 3.0F) * 2.0F * ani.swing * 0.5F;
+		this.rightArm.rotationZ = 0.0F;
+		this.leftArm.rotationZ = 0.0F;
+		this.rightLeg.rotationX = MathHelper.cos(ani.move * 2.0F / 3.0F) * 1.4F * ani.swing;
+		this.leftLeg.rotationX = MathHelper.cos(ani.move * 2.0F / 3.0F + 3.141593F) * 1.4F * ani.swing;
+		this.rightLeg.rotationY = 0.0F;
+		this.leftLeg.rotationY = 0.0F;
 		if (this.hasVehicle) {
-			ModelPart var10000 = this.rightarm;
-			var10000.rotationX -= 0.6283185F;
-			var10000 = this.leftarm;
-			var10000.rotationX -= 0.6283185F;
-			this.rightleg.rotationX = -1.256637F;
-			this.leftleg.rotationX = -1.256637F;
-			this.rightleg.rotationY = 0.3141593F;
-			this.leftleg.rotationY = -0.3141593F;
+			this.rightArm.rotationX -= 0.6283185F;
+			this.leftArm.rotationX -= 0.6283185F;
+			this.rightLeg.rotationX = -1.256637F;
+			this.leftLeg.rotationX = -1.256637F;
+			this.rightLeg.rotationY = 0.3141593F;
+			this.leftLeg.rotationY = -0.3141593F;
 		}
 
 		if (this.heldItemRight != 0) {
-			this.rightarm.rotationX = this.rightarm.rotationX * 0.5F - 0.3141593F;
+			this.rightArm.rotationX = this.rightArm.rotationX * 0.5F - 0.3141593F;
 		}
 
-		this.rightarm.rotationY = 0.0F;
-		this.leftarm.rotationY = 0.0F;
+		this.rightArm.rotationY = 0.0F;
+		this.leftArm.rotationY = 0.0F;
 		if (this.handSwingProgress > -9990.0F) {
-			float swingprogress = this.handSwingProgress;
-			this.body.rotationY = MathHelper.sin(MathHelper.sqrt(swingprogress) * 3.141593F * 2.0F) * 0.2F;
-			this.rightarm.pivotZ = MathHelper.sin(this.body.rotationY) * 5.0F;
-			this.rightarm.pivotX = -MathHelper.cos(this.body.rotationY) * 5.0F;
-			this.leftarm.pivotZ = -MathHelper.sin(this.body.rotationY) * 5.0F;
-			this.leftarm.pivotX = MathHelper.cos(this.body.rotationY) * 5.0F;
-			ModelPart var13 = this.rightarm;
-			var13.rotationY += this.body.rotationY;
-			var13 = this.leftarm;
-			var13.rotationY += this.body.rotationY;
-			var13.rotationY += this.body.rotationY;
-			swingprogress = 1.0F - this.handSwingProgress;
-			swingprogress *= swingprogress;
-			swingprogress *= swingprogress;
-			swingprogress = 1.0F - swingprogress;
-			float f7 = MathHelper.sin(swingprogress * 3.141593F);
+			this.body.rotationY = MathHelper.sin(MathHelper.sqrt(this.handSwingProgress) * 3.141593F * 2.0F) * 0.2F;
+			this.rightArm.pivotZ = MathHelper.sin(this.body.rotationY) * 5.0F;
+			this.rightArm.pivotX = -MathHelper.cos(this.body.rotationY) * 5.0F;
+			this.leftArm.pivotZ = -MathHelper.sin(this.body.rotationY) * 5.0F;
+			this.leftArm.pivotX = MathHelper.cos(this.body.rotationY) * 5.0F;
+			this.rightArm.rotationY += this.body.rotationY;
+			this.leftArm.rotationY += this.body.rotationY;
+			this.leftArm.rotationY += this.body.rotationY;
+
+			float swingProgress = 1.0F - this.handSwingProgress;
+			swingProgress *= swingProgress;
+			swingProgress *= swingProgress;
+			swingProgress = 1.0F - swingProgress;
+
+			float f7 = MathHelper.sin(swingProgress * 3.141593F);
 			float f8 = MathHelper.sin(this.handSwingProgress * 3.141593F) * -(this.head.rotationX - 0.7F) * 0.75F;
-			var13 = this.rightarm;
-			var13.rotationX = (float) (var13.rotationX - (f7 * 1.2 + f8));
-			this.rightarm.rotationZ = MathHelper.sin(this.handSwingProgress * 3.141593F) * -0.4F;
+			this.rightArm.rotationX = (float) (this.rightArm.rotationX - (f7 * 1.2 + f8));
+			this.rightArm.rotationZ = MathHelper.sin(this.handSwingProgress * 3.141593F) * -0.4F;
 		}
 
 		if (this.issneak) {
 			this.body.rotationX = 0.5F;
-			ModelPart var18 = this.rightleg;
-			var18.rotationX -= 0.0F;
-			var18 = this.leftleg;
-			var18.rotationX -= 0.0F;
-			var18 = this.rightarm;
-			var18.rotationX += 0.4F;
-			var18 = this.leftarm;
-			var18.rotationX += 0.4F;
-			this.rightleg.pivotZ = 4.0F;
-			this.leftleg.pivotZ = 4.0F;
-			this.rightleg.pivotY = 9.0F;
-			this.leftleg.pivotY = 9.0F;
+			this.rightLeg.rotationX -= 0.0F;
+			this.leftLeg.rotationX -= 0.0F;
+			this.rightArm.rotationX += 0.4F;
+			this.leftArm.rotationX += 0.4F;
+			this.rightLeg.pivotZ = 4.0F;
+			this.leftLeg.pivotZ = 4.0F;
+			this.rightLeg.pivotY = 9.0F;
+			this.leftLeg.pivotY = 9.0F;
 			this.head.pivotY = 1.0F;
 		} else {
 			this.body.rotationX = 0.0F;
-			this.rightleg.pivotZ = 0.0F;
-			this.leftleg.pivotZ = 0.0F;
-			this.rightleg.pivotY = 12.0F;
-			this.leftleg.pivotY = 12.0F;
+			this.rightLeg.pivotZ = 0.0F;
+			this.leftLeg.pivotZ = 0.0F;
+			this.rightLeg.pivotY = 12.0F;
+			this.leftLeg.pivotY = 12.0F;
 			this.head.pivotY = 0.0F;
 		}
 
-		ModelPart var22 = this.rightarm;
-		var22.rotationZ += MathHelper.cos(ani.tick * 0.09F) * 0.05F + 0.05F;
-		var22 = this.leftarm;
-		var22.rotationZ -= MathHelper.cos(ani.tick * 0.09F) * 0.05F + 0.05F;
-		var22 = this.rightarm;
-		var22.rotationX += MathHelper.sin(ani.tick * 0.067F) * 0.05F;
-		var22 = this.leftarm;
-		var22.rotationX -= MathHelper.sin(ani.tick * 0.067F) * 0.05F;
+		this.rightArm.rotationZ += MathHelper.cos(ani.tick * 0.09F) * 0.05F + 0.05F;
+		this.leftArm.rotationZ -= MathHelper.cos(ani.tick * 0.09F) * 0.05F + 0.05F;
+		this.rightArm.rotationX += MathHelper.sin(ani.tick * 0.067F) * 0.05F;
+		this.leftArm.rotationX -= MathHelper.sin(ani.tick * 0.067F) * 0.05F;
 		if (this.aimedBow) {
 			float f7 = 0.0F;
 			float f9 = 0.0F;
-			this.rightarm.rotationZ = 0.0F;
-			this.leftarm.rotationZ = 0.0F;
-			this.rightarm.rotationY = -(0.1F - f7 * 0.6F) + this.head.rotationY;
-			this.leftarm.rotationY = 0.1F - f7 * 0.6F + this.head.rotationY + 0.4F;
-			this.rightarm.rotationX = -1.570796F + this.head.rotationX;
-			this.leftarm.rotationX = -1.570796F + this.head.rotationX;
-			var22 = this.rightarm;
-			var22.rotationX -= f7 * 1.2F - f9 * 0.4F;
-			var22 = this.leftarm;
-			var22.rotationX -= f7 * 1.2F - f9 * 0.4F;
+			this.rightArm.rotationZ = 0.0F;
+			this.leftArm.rotationZ = 0.0F;
+			this.rightArm.rotationY = -(0.1F - f7 * 0.6F) + this.head.rotationY;
+			this.leftArm.rotationY = 0.1F - f7 * 0.6F + this.head.rotationY + 0.4F;
+			this.rightArm.rotationX = -1.570796F + this.head.rotationX;
+			this.leftArm.rotationX = -1.570796F + this.head.rotationX;
+			this.rightArm.rotationX -= f7 * 1.2F - f9 * 0.4F;
+			this.leftArm.rotationX -= f7 * 1.2F - f9 * 0.4F;
 			float f2 = ani.tick;
-			var22 = this.rightarm;
-			var22.rotationZ += MathHelper.cos(f2 * 0.09F) * 0.05F + 0.05F;
-			var22 = this.leftarm;
-			var22.rotationZ -= MathHelper.cos(f2 * 0.09F) * 0.05F + 0.05F;
-			var22 = this.rightarm;
-			var22.rotationX += MathHelper.sin(f2 * 0.067F) * 0.05F;
-			var22 = this.leftarm;
-			var22.rotationX -= MathHelper.sin(f2 * 0.067F) * 0.05F;
+			this.rightArm.rotationZ += MathHelper.cos(f2 * 0.09F) * 0.05F + 0.05F;
+			this.leftArm.rotationZ -= MathHelper.cos(f2 * 0.09F) * 0.05F + 0.05F;
+			this.rightArm.rotationX += MathHelper.sin(f2 * 0.067F) * 0.05F;
+			this.leftArm.rotationX -= MathHelper.sin(f2 * 0.067F) * 0.05F;
 		}
 
 	}
 
-	public void render(AniParams ani, boolean thirdperson) {
-		if (thirdperson) {
+	public void render(AniParams ani, boolean thirdPerson) {
+		if (thirdPerson) {
 			this.head.render(this.scale);
 			this.helmet.render(this.scale);
 			this.body.render(this.scale);
-			this.leftarm.render(this.scale);
-			this.leftleg.render(this.scale);
-			this.rightleg.render(this.scale);
+			this.leftArm.render(this.scale);
+			this.leftLeg.render(this.scale);
+			this.rightLeg.render(this.scale);
 		}
 
-		this.rightarm.render(this.scale);
+		this.rightArm.render(this.scale);
 	}
 
 	public void specials(EntityRenderDispatcher renderman, PlayerEntity player) {
-		this.renderDrop(renderman, player, this.rightarm, 1.0F, -0.0625F, 0.4375F, 0.0625F);
+		this.renderDrop(renderman, player, this.rightArm, 1.0F, -0.0625F, 0.4375F, 0.0625F);
 		this.renderPumpkin(renderman, player, this.head, 0.625F, 0.0F, -0.25F, 0.0F);
 	}
 

@@ -24,8 +24,8 @@ import java.util.Map;
 
 public final class Pony {
 	private static final List<String> backgroundPonies = new ArrayList<>();
-	private static boolean hasInit;
 	private static final Map<String, Pony> registry = new HashMap<>();
+	private static boolean hasInit;
 	private static Map<String, HttpTexture> urlToImageDataMap;
 	private static boolean renderEngineInit;
 
@@ -38,66 +38,21 @@ public final class Pony {
 	public boolean backgroundIsMale;
 	public Size backgroundSize;
 	public boolean backgroundAdvancedTexturing;
-	private boolean textureSetup;
 	public String skinUrl;
 	public boolean isPony;
 	public boolean isPonySkin;
 	public boolean isPegasus;
 	public boolean isUnicorn;
 	public boolean isFlying;
-	private boolean isGlow;
-	private int glowColor;
 	public boolean isMale;
 	public Size size = Size.MARE;
 	public int wantTail;
+	private boolean textureSetup;
+	private boolean isGlow;
+	private int glowColor;
 	private float defaultYOffset;
 	private boolean pegasusFlying;
 	private float previousFallDistance;
-
-	public static Pony getPonyFromRegistry(PlayerEntity player, TextureManager renderengine) {
-		HttpTexture httpTexture;
-		String username = player.name;
-		String location = "http://skins.minecraft.net/MinecraftSkins/" + username + ".png";
-		if (!renderEngineInit) {
-			urlToImageDataMap = ((MixinExtTextureManager) renderengine).getHttpTextures();
-			renderEngineInit = true;
-		}
-
-		init();
-		Pony myLittlePony;
-		if (!registry.containsKey(username)) {
-			myLittlePony = new Pony(player);
-			registry.put(username, myLittlePony);
-		} else {
-			myLittlePony = registry.get(username);
-		}
-
-		httpTexture = urlToImageDataMap.get(location);
-		if (PonySettings.getPonyLevel() != PonyLevel.NO_PONIES && myLittlePony.textureSetup && (httpTexture == null || httpTexture.image == null)) {
-			registry.remove(username);
-			myLittlePony = new Pony(player);
-			registry.put(username, myLittlePony);
-		}
-
-		if (!myLittlePony.textureSetup && httpTexture != null && httpTexture.image != null) {
-			myLittlePony.checkSkin(httpTexture.image);
-			if (!myLittlePony.isPonySkin) {
-				myLittlePony.isPony = true;
-				myLittlePony.isPegasus = myLittlePony.backgroundIsPegasus;
-				myLittlePony.isUnicorn = myLittlePony.backgroundIsUnicorn;
-				myLittlePony.wantTail = myLittlePony.backgroundWantTail;
-				myLittlePony.isMale = myLittlePony.backgroundIsMale;
-				myLittlePony.size = myLittlePony.backgroundSize;
-				myLittlePony.advancedTexturing = myLittlePony.backgroundAdvancedTexturing;
-			} else {
-				myLittlePony.skinUrl = location;
-			}
-
-			myLittlePony.textureSetup = true;
-		}
-
-		return myLittlePony;
-	}
 
 	private Pony(PlayerEntity player) {
 		init();
@@ -173,6 +128,81 @@ public final class Pony {
 		}
 	}
 
+	public static Pony getPonyFromRegistry(PlayerEntity player, TextureManager renderengine) {
+		HttpTexture httpTexture;
+		String username = player.name;
+		String location = "http://skins.minecraft.net/MinecraftSkins/" + username + ".png";
+		if (!renderEngineInit) {
+			urlToImageDataMap = ((MixinExtTextureManager) renderengine).getHttpTextures();
+			renderEngineInit = true;
+		}
+
+		init();
+		Pony myLittlePony;
+		if (!registry.containsKey(username)) {
+			myLittlePony = new Pony(player);
+			registry.put(username, myLittlePony);
+		} else {
+			myLittlePony = registry.get(username);
+		}
+
+		httpTexture = urlToImageDataMap.get(location);
+		if (PonySettings.getPonyLevel() != PonyLevel.NO_PONIES && myLittlePony.textureSetup && (httpTexture == null || httpTexture.image == null)) {
+			registry.remove(username);
+			myLittlePony = new Pony(player);
+			registry.put(username, myLittlePony);
+		}
+
+		if (!myLittlePony.textureSetup && httpTexture != null && httpTexture.image != null) {
+			myLittlePony.checkSkin(httpTexture.image);
+			if (!myLittlePony.isPonySkin) {
+				myLittlePony.isPony = true;
+				myLittlePony.isPegasus = myLittlePony.backgroundIsPegasus;
+				myLittlePony.isUnicorn = myLittlePony.backgroundIsUnicorn;
+				myLittlePony.wantTail = myLittlePony.backgroundWantTail;
+				myLittlePony.isMale = myLittlePony.backgroundIsMale;
+				myLittlePony.size = myLittlePony.backgroundSize;
+				myLittlePony.advancedTexturing = myLittlePony.backgroundAdvancedTexturing;
+			} else {
+				myLittlePony.skinUrl = location;
+			}
+
+			myLittlePony.textureSetup = true;
+		}
+
+		return myLittlePony;
+	}
+
+	public static void init() {
+		if (!hasInit) {
+			System.out.println("[Mine Little Pony] Player Model API for Mine Little Pony (beta) Initializing...");
+			PMAPI.addToGUI(PMAPI.human);
+			PMAPI.addToGUI(PMAPI.newPony);
+			PMAPI.addToGUI(PMAPI.newPonyAdv);
+			PMAPI.newPony.model.init();
+			PMAPI.newPony.armor.modelArmorChestplate.init(0.0F, 1.0F);
+			PMAPI.newPony.armor.modelArmor.init(0.0F, 0.5F);
+			PMAPI.newPonyAdv.model.init();
+			PMAPI.newPonyAdv.armor.modelArmorChestplate.init(0.0F, 1.0F);
+			PMAPI.newPonyAdv.armor.modelArmor.init(0.0F, 0.5F);
+			PMAPI.human.model.init();
+			PMAPI.human.armor.modelArmorChestplate.init(0.0F, 1.0F);
+			PMAPI.human.armor.modelArmor.init(0.0F, 0.5F);
+			PonySettings.load(new PonyConfig());
+
+			for (int check = 0; check < 127; ++check) {
+				String checkTexture = "/mob/bpony_" + check + ".png";
+				if (Pony.class.getResource(checkTexture) != null) {
+					backgroundPonies.add(checkTexture);
+				}
+			}
+
+			System.out.println("[Mine Little Pony] Detected " + backgroundPonies.size() + " of " + 127 + " background ponies installed.");
+			hasInit = true;
+			System.out.println("[Mine Little Pony] Done initializing.");
+		}
+
+	}
 
 	/**
 	 * checkSkin looks at the given skin BufferedImage, and check the special hidden pixel
@@ -391,37 +421,6 @@ public final class Pony {
 		}
 
 		return PMAPI.human;
-	}
-
-	public static void init() {
-		if (!hasInit) {
-			System.out.println("[Mine Little Pony] Player Model API for Mine Little Pony (beta) Initializing...");
-			PMAPI.addToGUI(PMAPI.human);
-			PMAPI.addToGUI(PMAPI.newPony);
-			PMAPI.addToGUI(PMAPI.newPonyAdv);
-			PMAPI.newPony.model.init();
-			PMAPI.newPony.armor.modelArmorChestplate.init(0.0F, 1.0F);
-			PMAPI.newPony.armor.modelArmor.init(0.0F, 0.5F);
-			PMAPI.newPonyAdv.model.init();
-			PMAPI.newPonyAdv.armor.modelArmorChestplate.init(0.0F, 1.0F);
-			PMAPI.newPonyAdv.armor.modelArmor.init(0.0F, 0.5F);
-			PMAPI.human.model.init();
-			PMAPI.human.armor.modelArmorChestplate.init(0.0F, 1.0F);
-			PMAPI.human.armor.modelArmor.init(0.0F, 0.5F);
-			PonySettings.load(new PonyConfig());
-
-			for (int check = 0; check < 127; ++check) {
-				String checkTexture = "/mob/bpony_" + check + ".png";
-				if (Pony.class.getResource(checkTexture) != null) {
-					backgroundPonies.add(checkTexture);
-				}
-			}
-
-			System.out.println("[Mine Little Pony] Detected " + backgroundPonies.size() + " of " + 127 + " background ponies installed.");
-			hasInit = true;
-			System.out.println("[Mine Little Pony] Done initializing.");
-		}
-
 	}
 
 	public enum Size {

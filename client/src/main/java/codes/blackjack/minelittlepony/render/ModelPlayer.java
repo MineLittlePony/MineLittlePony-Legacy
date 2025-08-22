@@ -30,7 +30,7 @@ public abstract class ModelPlayer extends Model {
 	public int heldItemRight;
 	public boolean aimedBow;
 
-	protected ModelPlayer(String texture) {
+	protected ModelPlayer() {
 	}
 
 	public abstract void init();

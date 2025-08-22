@@ -6,8 +6,8 @@ import net.minecraft.client.render.model.ModelPart;
 public class pma_newPony extends ModelArmor {
 	public pma_newPony(String path) {
 		super(path);
-		this.modelArmorChestplate = new pm_newPonyArmor(path);
-		this.modelArmor = new pm_newPonyArmor(path);
+		this.modelArmorChestplate = new pm_newPonyArmor();
+		this.modelArmor = new pm_newPonyArmor();
 	}
 
 	public int subimage() {
@@ -17,11 +17,11 @@ public class pma_newPony extends ModelArmor {
 	public void boxes(boolean ponyArmor) {
 		this.base = slot != 2 ? this.modelArmorChestplate : this.modelArmor;
 		((pm_newPonyAdv) this.base).head.visible = slot == 0;
-		((pm_newPonyAdv) this.base).rightarm.visible = ((pm_newPonyAdv) this.base).LeftArm.visible = slot == 2 || slot == 3;
+		((pm_newPonyAdv) this.base).rightarm.visible = ((pm_newPonyAdv) this.base).leftArm.visible = slot == 2 || slot == 3;
 		if (!ponyArmor) {
 			((pm_newPonyAdv) this.base).Body.visible = slot == 1 || slot == 2;
 			((pm_newPonyArmor) this.base).Bodypiece.visible = slot == 1 || slot == 2;
-			((pm_newPonyAdv) this.base).RightLeg.visible = ((pm_newPonyAdv) this.base).LeftLeg.visible = slot == 2 || slot == 3;
+			((pm_newPonyAdv) this.base).rightLeg.visible = ((pm_newPonyAdv) this.base).leftLeg.visible = slot == 2 || slot == 3;
 
 			for (ModelPart part : ((pm_newPonyArmor) this.base).extHead) {
 				part.visible = false;
@@ -35,7 +35,7 @@ public class pma_newPony extends ModelArmor {
 		} else {
 			((pm_newPonyAdv) this.base).Body.visible = false;
 			((pm_newPonyArmor) this.base).Bodypiece.visible = false;
-			((pm_newPonyAdv) this.base).RightLeg.visible = ((pm_newPonyAdv) this.base).LeftLeg.visible = false;
+			((pm_newPonyAdv) this.base).rightLeg.visible = ((pm_newPonyAdv) this.base).leftLeg.visible = false;
 
 			for (ModelPart part : ((pm_newPonyArmor) this.base).extHead) {
 				part.visible = slot == 0;
