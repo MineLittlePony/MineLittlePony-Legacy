@@ -1,5 +1,6 @@
 package codes.blackjack.minelittlepony.config;
 
+import codes.blackjack.minelittlepony.MineLPEntry;
 import net.minecraft.client.Minecraft;
 
 import java.io.File;
@@ -15,7 +16,7 @@ public class PonyConfig {
 	private Properties config;
 
 	public PonyConfig() {
-		System.out.println("[Mine Little Pony] Attempting to load/create the configuration.");
+		MineLPEntry.LOGGER.info("Attempting to load/create the configuration.");
 		this.loadConfig();
 	}
 
@@ -27,10 +28,10 @@ public class PonyConfig {
 			this.path = this.basePath + "MineLittlePony" + File.separatorChar;
 			File cfg = new File(this.path + "MineLittlePony.properties");
 			if (cfg.exists()) {
-				System.out.println("[Mine Little Pony] Config file found, loading...");
+				MineLPEntry.LOGGER.info("Config file found, loading...");
 				this.config.load(Files.newInputStream(Paths.get(this.path + "MineLittlePony.properties")));
 			} else {
-				System.out.println("[Mine Little Pony] No config file found, creating...");
+				MineLPEntry.LOGGER.info("No config file found, creating...");
 				this.createConfig(cfg);
 			}
 		} catch (Exception e) {
@@ -42,13 +43,13 @@ public class PonyConfig {
 	private void createConfig(File cfg) {
 		File baseFolder = new File(this.basePath);
 		if (!baseFolder.exists()) {
-			System.out.println("[Mine Little Pony] No mods folder found, creating...");
+			MineLPEntry.LOGGER.info("No mods folder found, creating...");
 			baseFolder.mkdir();
 		}
 
 		File folder = new File(this.path);
 		if (!folder.exists()) {
-			System.out.println("[Mine Little Pony] No Mine Little Pony folder found, creating...");
+			MineLPEntry.LOGGER.info("No Mine Little Pony folder found, creating...");
 			folder.mkdir();
 		}
 
@@ -69,7 +70,7 @@ public class PonyConfig {
 	}
 
 	private void displayErrorMessage(String error) {
-		System.out.println("[Mine Little Pony] ERROR: " + error);
+		MineLPEntry.LOGGER.error("ERROR: {}", error);
 	}
 
 	static {

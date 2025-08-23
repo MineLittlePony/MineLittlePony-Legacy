@@ -1,5 +1,6 @@
 package codes.blackjack.minelittlepony.mixin;
 
+import codes.blackjack.minelittlepony.MineLPEntry;
 import codes.blackjack.minelittlepony.util.SkinFetcher;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,13 +23,13 @@ public class MixinHttpTexture_InnerThreadRun {
 		String rawUrl = args.get(0);
 
 		if (rawUrl.startsWith(oldSkinServer) && rawUrl.endsWith(".png")) {
-			System.out.println("Overriding skin URL: " + rawUrl);
+			MineLPEntry.LOGGER.info("Overriding skin URL: {}", rawUrl);
 			rawUrl = rawUrl.substring(oldSkinServer.length());
 			String username = rawUrl.substring(0, rawUrl.length() - 4);
 
 			try {
-				String skinUrl = SkinFetcher.getSkinUrl(username);
-				System.out.println("Skin URL: " + skinUrl);
+				String skinUrl = SkinFetcher.getValhallaSkinUrl(username);
+				MineLPEntry.LOGGER.info("Skin URL: {}", skinUrl);
 				args.set(0, skinUrl);
 			} catch (Exception e) {
 				e.printStackTrace();

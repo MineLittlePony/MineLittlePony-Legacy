@@ -9,6 +9,7 @@ import codes.blackjack.minelittlepony.render.PlayerModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.living.player.InputPlayerEntity;
 import net.minecraft.client.render.texture.HttpTexture;
+import net.minecraft.client.render.texture.SkinImageProcessor;
 import net.minecraft.client.render.texture.TextureManager;
 import net.minecraft.entity.living.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
@@ -80,18 +81,18 @@ public final class Pony {
 		} else {
 			if (PonySettings.getPonyLevel() == PonyLevel.ALL_PONIES) {
 				this.textureSetup = false;
-				if (this.isSpPlayer) {
-					System.out.println("[Mine Little Pony] Temporarily reset skin to the default single player skin charpony.png");
+				if (this.isSpPlayer && false) {
+					MineLPEntry.LOGGER.info("Temporarily reset your skin to the default single-player pony skin");
 					this.texture = "/mob/charpony.png";
 				} else {
-					System.out.println("[Mine Little Pony] Temporarily reset skin to a background pony");
+					MineLPEntry.LOGGER.info("Temporarily reset your skin to a background pony");
 					int backgroundNumber = username.hashCode() % backgroundPonies.size();
 					if (backgroundNumber < 0) {
 						backgroundNumber += backgroundPonies.size();
 					}
 
 					this.texture = backgroundPonies.get(backgroundNumber);
-					System.out.println("[Mine Little Pony] " + username + " gets skin " + backgroundNumber);
+					MineLPEntry.LOGGER.info("{} gets skin {}", username, backgroundNumber);
 				}
 
 				this.backgroundIsPegasus = false;
@@ -102,20 +103,20 @@ public final class Pony {
 					this.checkBuiltinTexture(bufferedimage);
 				} catch (Exception var9) {
 					this.texture = "/mob/charpony.png";
-					System.out.println("[Mine Little Pony] Failed to read a background pony texture from a file, resetting to default charpony.png");
+					MineLPEntry.LOGGER.error("Failed to read a background pony texture from a file, resetting to default charpony.png");
 
 					try {
 						BufferedImage var11 = ImageIO.read(Minecraft.class.getResource(this.texture));
 						this.checkBuiltinTexture(var11);
 					} catch (Exception var8) {
 						this.texture = "/mob/char.png";
-						System.out.println("[Mine Little Pony] Failed to read charpony.png, resetting to default char.png");
+						MineLPEntry.LOGGER.error("Failed to read charpony.png, resetting to default char.png", var8);
 
 						try {
 							BufferedImage var10 = ImageIO.read(Minecraft.class.getResource(this.texture));
 							this.checkBuiltinTexture(var10);
 						} catch (Exception var7) {
-							System.out.println("[Mine Little Pony] Failed to read char.png, I just don't know what went wrong.");
+							MineLPEntry.LOGGER.error("Failed to read char.png, I just don't know what went wrong.", var7);
 						}
 					}
 				}
@@ -145,10 +146,10 @@ public final class Pony {
 		}
 
 		// This will override the player's skin image in single player.
-//		if (player.skin == null) {
-//			player.skin = location;
-//			renderengine.getHttpTexture(player.skin, new SkinImageProcessor());
-//		}
+		if (player.skin == null) {
+			player.skin = location;
+			renderengine.getHttpTexture(player.skin, new SkinImageProcessor());
+		}
 
 		httpTexture = urlToImageDataMap.get(location);
 		if (PonySettings.getPonyLevel() != PonyLevel.NO_PONIES && myLittlePony.textureSetup && (httpTexture == null || httpTexture.image == null)) {
@@ -179,7 +180,7 @@ public final class Pony {
 
 	public static void init() {
 		if (!hasInit) {
-			System.out.println("[Mine Little Pony] Player Model API for Mine Little Pony (beta) Initializing...");
+			MineLPEntry.LOGGER.info("Player Model API for Mine Little Pony (beta) Initializing...");
 			PMAPI.newPony.model.init();
 			PMAPI.newPony.armor.modelArmorChestplate.init(0.0F, 1.0F);
 			PMAPI.newPony.armor.modelArmor.init(0.0F, 0.5F);
@@ -198,9 +199,9 @@ public final class Pony {
 				}
 			}
 
-			System.out.println("[Mine Little Pony] Detected " + backgroundPonies.size() + " of " + 127 + " background ponies installed.");
+			MineLPEntry.LOGGER.info("Detected {} of {} background ponies installed.", backgroundPonies.size(), 127);
 			hasInit = true;
-			System.out.println("[Mine Little Pony] Done initializing.");
+			MineLPEntry.LOGGER.info("Done initializing.");
 		}
 
 	}
