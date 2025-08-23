@@ -10,7 +10,9 @@
     "MixinExtLivingEntity",
     "MixinExtMinecraft",
     "MixinExtPlayerEntityRenderer",
-    "MixinExtTextureManager"
+    "MixinExtTextureManager",
+    "MixinHttpTexture_InnerThreadRun",
+    "MixinMinecraft"
   ],
   "server": [
   ],

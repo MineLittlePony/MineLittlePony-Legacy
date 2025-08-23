@@ -7,7 +7,7 @@ import codes.blackjack.minelittlepony.config.PonySizes;
 import codes.blackjack.minelittlepony.mixin.MixinExtTextureManager;
 import codes.blackjack.minelittlepony.render.PlayerModel;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.living.player.LocalPlayerEntity;
+import net.minecraft.client.entity.living.player.InputPlayerEntity;
 import net.minecraft.client.render.texture.HttpTexture;
 import net.minecraft.client.render.texture.TextureManager;
 import net.minecraft.entity.living.player.PlayerEntity;
@@ -62,7 +62,7 @@ public final class Pony {
 			this.skinUrl = "http://s3.amazonaws.com/MinecraftSkins/" + username + ".png";
 		}
 
-		this.isSpPlayer = player instanceof LocalPlayerEntity;
+		this.isSpPlayer = player instanceof InputPlayerEntity;
 		this.isPony = false;
 		this.isPonySkin = false;
 		this.isPegasus = false;
@@ -143,6 +143,12 @@ public final class Pony {
 		} else {
 			myLittlePony = registry.get(username);
 		}
+
+		// This will override the player's skin image in single player.
+//		if (player.skin == null) {
+//			player.skin = location;
+//			renderengine.getHttpTexture(player.skin, new SkinImageProcessor());
+//		}
 
 		httpTexture = urlToImageDataMap.get(location);
 		if (PonySettings.getPonyLevel() != PonyLevel.NO_PONIES && myLittlePony.textureSetup && (httpTexture == null || httpTexture.image == null)) {

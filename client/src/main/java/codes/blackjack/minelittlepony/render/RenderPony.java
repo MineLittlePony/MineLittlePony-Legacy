@@ -11,7 +11,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.TextRenderer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
-import net.minecraft.client.render.model.entity.HumanoidModel;
 import net.minecraft.entity.living.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
@@ -19,14 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.UseAction;
 import org.lwjgl.opengl.GL11;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class RenderPony extends PlayerEntityRenderer {
-	private HumanoidModel modelBipedMain;
-	private HumanoidModel modelArmorChestplate;
-	private HumanoidModel modelArmor;
 	private static String[] armorFilenamePrefix;
 	private static final AniParams ani;
 	private PlayerModel pm;
@@ -200,16 +192,9 @@ public class RenderPony extends PlayerEntityRenderer {
 		this.pm.model.render(ani, false);
 	}
 
-	private PlayerModel getModel(PlayerEntity entityplayer) {
-		Pony pony = Pony.getPonyFromRegistry(entityplayer, this.dispatcher.textureManager);
+	private PlayerModel getModel(PlayerEntity player) {
+		Pony pony = Pony.getPonyFromRegistry(player, this.dispatcher.textureManager);
 		return pony.getModel();
-	}
-
-	public static int addNewArmourPrefix(String prefix) {
-		List<String> armours = new ArrayList<>(Arrays.asList(armorFilenamePrefix));
-		armours.add(prefix);
-		armorFilenamePrefix = armours.toArray(new String[0]);
-		return armours.indexOf(prefix);
 	}
 
 	static {
