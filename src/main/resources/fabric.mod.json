@@ -5,11 +5,12 @@
 	"name": "Mine Little Pony",
 	"description": "This is an example description! Tell everyone what your mod is about!",
 	"authors": [
-		"Me!"
+		"MineLittlePony Team",
+    "AppleDash"
 	],
 	"contact": {
-		"homepage": "https://example.com/",
-		"sources": "https://github.com/OrnitheMC/ornithe-template-mod"
+		"homepage": "https://minelittlepony-mod.com/",
+		"sources": "https://github.com/MineLittlePony/MineLittlePony-Legacy"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/example_mod/icon.png",
