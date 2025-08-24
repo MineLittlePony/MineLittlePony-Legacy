@@ -3,10 +3,10 @@ package com.minelittlepony.minelittlepony;
 import com.minelittlepony.minelittlepony.config.PonyConfig;
 import com.minelittlepony.minelittlepony.config.PonyLevel;
 import com.minelittlepony.minelittlepony.config.PonySettings;
-import com.minelittlepony.minelittlepony.config.PonySizes;
 import com.minelittlepony.minelittlepony.mixin.MixinExtTextureManager;
 import com.minelittlepony.minelittlepony.render.PlayerModel;
-import net.minecraft.client.Minecraft;
+import com.minelittlepony.minelittlepony.util.ResourceUtil;
+import com.minelittlepony.minelittlepony.util.TriggerPixels;
 import net.minecraft.client.entity.living.player.InputPlayerEntity;
 import net.minecraft.client.render.texture.HttpTexture;
 import net.minecraft.client.render.texture.SkinImageProcessor;
@@ -15,9 +15,8 @@ import net.minecraft.entity.living.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-import javax.imageio.ImageIO;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,11 +26,10 @@ public final class Pony {
 	private static final List<String> backgroundPonies = new ArrayList<>();
 	private static final Map<String, Pony> registry = new HashMap<>();
 	private static boolean hasInit;
-	private static Map<String, HttpTexture> urlToImageDataMap;
-	private static boolean renderEngineInit;
 
 	private final boolean isSpPlayer;
 	private final float defaultYOffset;
+
 	public String texture;
 	public String skinUrl;
 	public boolean isFlying;
@@ -43,7 +41,6 @@ public final class Pony {
 	private boolean backgroundIsMale;
 	private Size backgroundSize;
 	private boolean backgroundAdvancedTexturing;
-	private boolean isPony;
 	private boolean isPonySkin;
 	private boolean isPegasus;
 	private boolean isUnicorn;
@@ -64,7 +61,6 @@ public final class Pony {
 		}
 
 		this.isSpPlayer = player instanceof InputPlayerEntity;
-		this.isPony = false;
 		this.isPonySkin = false;
 		this.isPegasus = false;
 		this.isUnicorn = false;
@@ -79,63 +75,52 @@ public final class Pony {
 			this.textureSetup = true;
 		} else if (PonySettings.getPonyLevel() == PonyLevel.SOME_PONIES) {
 			this.textureSetup = false;
-		} else {
-			if (PonySettings.getPonyLevel() == PonyLevel.ALL_PONIES) {
-				this.textureSetup = false;
-				if (this.isSpPlayer && false) {
-					MineLPEntry.LOGGER.info("Temporarily reset your skin to the default single-player pony skin");
-					this.texture = "/mob/charpony.png";
-				} else {
-					MineLPEntry.LOGGER.info("Temporarily reset your skin to a background pony");
-					int backgroundNumber = username.hashCode() % backgroundPonies.size();
-					if (backgroundNumber < 0) {
-						backgroundNumber += backgroundPonies.size();
-					}
-
-					this.texture = backgroundPonies.get(backgroundNumber);
-					MineLPEntry.LOGGER.info("{} gets skin {}", username, backgroundNumber);
+		} else if (PonySettings.getPonyLevel() == PonyLevel.ALL_PONIES) {
+			this.textureSetup = false;
+			if (this.isSpPlayer) {
+				MineLPEntry.LOGGER.info("Temporarily reset your skin to the default single-player pony skin");
+				this.texture = "/mob/charpony.png";
+			} else {
+				MineLPEntry.LOGGER.info("Temporarily reset your skin to a background pony");
+				int backgroundNumber = username.hashCode() % backgroundPonies.size();
+				if (backgroundNumber < 0) {
+					backgroundNumber += backgroundPonies.size();
 				}
 
-				this.backgroundIsPegasus = false;
-				this.backgroundIsUnicorn = false;
-
-				try {
-					BufferedImage bufferedimage = ImageIO.read(Minecraft.class.getResource(this.texture));
-					this.checkBuiltinTexture(bufferedimage);
-				} catch (Exception var9) {
-					this.texture = "/mob/charpony.png";
-					MineLPEntry.LOGGER.error("Failed to read a background pony texture from a file, resetting to default charpony.png");
-
-					try {
-						BufferedImage var11 = ImageIO.read(Minecraft.class.getResource(this.texture));
-						this.checkBuiltinTexture(var11);
-					} catch (Exception var8) {
-						this.texture = "/mob/char.png";
-						MineLPEntry.LOGGER.error("Failed to read charpony.png, resetting to default char.png", var8);
-
-						try {
-							BufferedImage var10 = ImageIO.read(Minecraft.class.getResource(this.texture));
-							this.checkBuiltinTexture(var10);
-						} catch (Exception var7) {
-							MineLPEntry.LOGGER.error("Failed to read char.png, I just don't know what went wrong.", var7);
-						}
-					}
-				}
-
-				this.skinUrl = null;
+				this.texture = backgroundPonies.get(backgroundNumber);
+				MineLPEntry.LOGGER.info("{} gets skin {}", username, backgroundNumber);
 			}
 
+			this.backgroundIsPegasus = false;
+			this.backgroundIsUnicorn = false;
+
+			String[] texturesToTry = {
+				this.texture,
+				"/mob/charpony.png",
+				"/mob/char.png"
+			};
+
+			for (String resourceName : texturesToTry) {
+				try {
+					this.texture = resourceName;
+					this.checkBuiltinTexture(
+						ResourceUtil.readImage(this.texture)
+					);
+				} catch (IOException e) {
+					MineLPEntry.LOGGER.warn("Failed to read skin texture {}, trying another one...", resourceName);
+				}
+			}
+
+			this.skinUrl = null;
 		}
 	}
 
-	public static Pony getPonyFromRegistry(PlayerEntity player, TextureManager renderengine) {
+	public static Pony getPonyFromRegistry(PlayerEntity player, TextureManager textureManager) {
+		Map<String, HttpTexture> urlToImageDataMap = ((MixinExtTextureManager) textureManager).getHttpTextures();
+
 		HttpTexture httpTexture;
 		String username = player.name;
 		String location = "http://skins.minecraft.net/MinecraftSkins/" + username + ".png";
-		if (!renderEngineInit) {
-			urlToImageDataMap = ((MixinExtTextureManager) renderengine).getHttpTextures();
-			renderEngineInit = true;
-		}
 
 		init();
 		Pony myLittlePony;
@@ -149,7 +134,7 @@ public final class Pony {
 		// This will override the player's skin image in single player.
 		if (player.skin == null) {
 			player.skin = location;
-			renderengine.getHttpTexture(player.skin, new SkinImageProcessor());
+			textureManager.getHttpTexture(player.skin, new SkinImageProcessor());
 		}
 
 		httpTexture = urlToImageDataMap.get(location);
@@ -162,7 +147,6 @@ public final class Pony {
 		if (!myLittlePony.textureSetup && httpTexture != null && httpTexture.image != null) {
 			myLittlePony.checkSkin(httpTexture.image);
 			if (!myLittlePony.isPonySkin) {
-				myLittlePony.isPony = true;
 				myLittlePony.isPegasus = myLittlePony.backgroundIsPegasus;
 				myLittlePony.isUnicorn = myLittlePony.backgroundIsUnicorn;
 				myLittlePony.wantTail = myLittlePony.backgroundWantTail;
@@ -214,105 +198,16 @@ public final class Pony {
 	 * @param image The image to check.
 	 */
 	private void checkSkin(BufferedImage image) {
-		this.isPony = false;
-		this.isPonySkin = false;
-		this.isPegasus = false;
-		this.isUnicorn = false;
-		this.isMale = false;
-		this.wantTail = 0;
+		TriggerPixels triggerPixels = TriggerPixels.fromImage(image);
 
-		Color speciesFlagColor = new Color(image.getRGB(0, 0), true);
-		Color applejack = new Color(249, 177, 49, 255);
-		Color dashie = new Color(136, 202, 240, 255);
-		Color twilight = new Color(209, 159, 228, 255);
-		Color celestia = new Color(254, 249, 252, 255);
-
-		if (speciesFlagColor.equals(applejack)) {
-			this.isPony = true;
-			this.isPonySkin = true;
-		}
-
-		if (speciesFlagColor.equals(dashie)) {
-			this.isPony = true;
-			this.isPonySkin = true;
-			this.isPegasus = true;
-		}
-
-		if (speciesFlagColor.equals(twilight)) {
-			this.isPony = true;
-			this.isPonySkin = true;
-			this.isUnicorn = true;
-		}
-
-		if (speciesFlagColor.equals(celestia)) {
-			this.isPony = true;
-			this.isPonySkin = true;
-			this.isPegasus = true;
-			this.isUnicorn = true;
-		}
-
-		Color tailFlagColor = new Color(image.getRGB(1, 0), true);
-		Color tailColor4 = new Color(66, 88, 68, 255);
-		Color tailColor3 = new Color(70, 142, 136, 255);
-		Color tailColor2 = new Color(83, 75, 118, 255);
-		Color tailColor1 = new Color(138, 107, 127, 255);
-
-		if (tailFlagColor.equals(tailColor4)) {
-			this.wantTail = 4;
-		} else if (tailFlagColor.equals(tailColor3)) {
-			this.wantTail = 3;
-		} else if (tailFlagColor.equals(tailColor2)) {
-			this.wantTail = 2;
-		} else if (tailFlagColor.equals(tailColor1)) {
-			this.wantTail = 1;
-		} else {
-			this.wantTail = 0;
-		}
-
-		Color genderFlagColor = new Color(image.getRGB(2, 0), true);
-		Color maleColor = new Color(255, 255, 255, 255);
-		this.isMale = genderFlagColor.equals(maleColor);
-
-		Color sizeFlagColor = new Color(image.getRGB(3, 0), true);
-		Color scootaloo = new Color(255, 190, 83);
-		Color bigmac = new Color(206, 50, 84);
-		Color luna = new Color(42, 60, 120);
-
-		this.size = Size.MARE;
-		if (PonySettings.getUseSizes() == PonySizes.ALL_SIZES) {
-			if (sizeFlagColor.equals(scootaloo)) {
-				this.size = Size.FILLY;
-			} else if (sizeFlagColor.equals(bigmac)) {
-				this.size = Size.STALLION;
-			} else if (sizeFlagColor.equals(luna)) {
-				this.size = Size.ALICORN;
-			}
-		}
-
-		Color black = new Color(0, 0, 0);
-		Color advcutiecolor = new Color(image.getRGB(4, 0), true);
-
-		if (advcutiecolor.getAlpha() == 0) {
-			this.advancedTexturing = false;
-		} else {
-			this.advancedTexturing = false;
-
-			for (int x = 4; x < 8; ++x) {
-				for (int y = 0; y < 8; ++y) {
-					Color aColor = new Color(image.getRGB(x, y), true);
-					if (!aColor.equals(black)) {
-						this.advancedTexturing = true;
-					}
-				}
-			}
-		}
-
-		Color glowFlagColor = new Color(image.getRGB(0, 1), true);
-		if (!glowFlagColor.equals(black) && glowFlagColor.getAlpha() != 0) {
-			this.glowColor = glowFlagColor.getRGB();
-		} else {
-			this.glowColor = -12303190;
-		}
+		this.isPonySkin = triggerPixels.isPonySkin;
+		this.isPegasus = triggerPixels.isPegasus;
+		this.isUnicorn = triggerPixels.isUnicorn;
+		this.isMale = triggerPixels.isMale;
+		this.size = triggerPixels.size;
+		this.wantTail = triggerPixels.wantTail;
+		this.advancedTexturing = triggerPixels.advancedTexturing;
+		this.glowColor = triggerPixels.glowColor;
 	}
 
 	private void checkBuiltinTexture(BufferedImage bufferedimage) {
