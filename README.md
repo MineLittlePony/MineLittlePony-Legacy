@@ -17,7 +17,7 @@ and any questions about this mod should be directed to him - not the rest of the
 
 ## Building
 
-1) JDK 8 or higher is required.
+1) JDK 21 or higher is required for building, though the mod will run on Java 8 or higher.
 2) Open a terminal window in the same directory as the sources (git clone or extracted from zip). Run the following command (Windows):
 
 ```
