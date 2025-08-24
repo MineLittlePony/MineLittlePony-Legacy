@@ -9,6 +9,7 @@ import net.minecraft.entity.living.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import java.awt.image.BufferedImage;
 import java.nio.IntBuffer;
@@ -22,7 +23,7 @@ public final class MineLPGlow {
 
 	private static void bindGlowTexture() {
 		if (glowTexture != -1) {
-			GL11.glBindTexture(3553, glowTexture);
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, glowTexture);
 		} else {
 			IntBuffer textureIdBuffer = BufferUtils.createIntBuffer(1);
 			MemoryTracker.genTextures(textureIdBuffer);
@@ -37,7 +38,7 @@ public final class MineLPGlow {
 
 			image.setRGB(0, 0, 64, 64, imageData, 0, 64);
 			EntityRenderDispatcher.INSTANCE.textureManager.bind(image, glowTexture);
-			GL11.glBindTexture(3553, glowTexture);
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, glowTexture);
 		}
 	}
 
@@ -87,9 +88,9 @@ public final class MineLPGlow {
 		GL11.glTranslatef(0.0F, -0.66F, -0.5F);
 		bindGlowTexture();
 		EntityRenderDispatcher renderManager = EntityRenderDispatcher.INSTANCE;
-		GL11.glDisable(2896);
-		GL11.glEnable(32826);
-		GL11.glEnable(3042);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glDepthMask(false);
 		GL11.glScalef(0.5F, 0.5F, 0.5F);
 		float red = (colour >> 16 & 255) / 255.0F;
@@ -103,7 +104,7 @@ public final class MineLPGlow {
 		double percentageTranslationLeft = 0.5F;
 		double percentageTranslationDown = 0.25F;
 		GL11.glColor4f(red, green, blue, 1.0F);
-		GL11.glBlendFunc(1, 771);
+		GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glRotatef(-headRotateAngleX, 1.0F, 0.0F, 0.0F);
 		if (!(par1EntityLiving instanceof LocalPlayerEntity)) {
 			GL11.glRotatef(-par1EntityLiving.headYaw, 0.0F, 1.0F, 0.0F);
@@ -118,9 +119,9 @@ public final class MineLPGlow {
 		tesselator.vertex(0.0F - percentageTranslationLeft, 1.0F - percentageTranslationDown, 0.0F, itemScaledLeft, itemScaledTop);
 		tesselator.end();
 		GL11.glDepthMask(true);
-		GL11.glDisable(3042);
-		GL11.glDisable(32826);
-		GL11.glEnable(2896);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+		GL11.glEnable(GL11.GL_LIGHTING);
 	}
 
 	private static float interpolateAngles(float angleOne, float angleTwo) {

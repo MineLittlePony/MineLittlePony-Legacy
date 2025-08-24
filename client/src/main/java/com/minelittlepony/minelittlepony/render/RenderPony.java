@@ -140,13 +140,13 @@ public class RenderPony extends PlayerEntityRenderer {
 					GL11.glRotatef(-this.dispatcher.cameraYaw, 0.0F, 1.0F, 0.0F);
 					GL11.glRotatef(this.dispatcher.cameraPitch, 1.0F, 0.0F, 0.0F);
 					GL11.glScalef(-var9, -var9, var9);
-					GL11.glDisable(2896);
+					GL11.glDisable(GL11.GL_LIGHTING);
 					GL11.glTranslatef(0.0F, 0.25F / var9, 0.0F);
 					GL11.glDepthMask(false);
-					GL11.glEnable(3042);
-					GL11.glBlendFunc(770, 771);
+					GL11.glEnable(GL11.GL_BLEND);
+					GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 					BufferBuilder bufferBuilder = BufferBuilder.INSTANCE;
-					GL11.glDisable(3553);
+					GL11.glDisable(GL11.GL_TEXTURE_2D);
 					bufferBuilder.start();
 					int nameWidth = textRenderer.getWidth(thePony) / 2;
 					bufferBuilder.color(0.0F, 0.0F, 0.0F, 0.25F);
@@ -155,11 +155,11 @@ public class RenderPony extends PlayerEntityRenderer {
 					bufferBuilder.vertex((nameWidth + 1), 8.0F, 0.0F);
 					bufferBuilder.vertex((nameWidth + 1), -1.0F, 0.0F);
 					bufferBuilder.end();
-					GL11.glEnable(3553);
+					GL11.glEnable(GL11.GL_TEXTURE_2D);
 					GL11.glDepthMask(true);
 					textRenderer.draw(thePony, -textRenderer.getWidth(thePony) / 2, 0, 553648127);
-					GL11.glEnable(2896);
-					GL11.glDisable(3042);
+					GL11.glEnable(GL11.GL_LIGHTING);
+					GL11.glDisable(GL11.GL_BLEND);
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 					GL11.glPopMatrix();
 				}
