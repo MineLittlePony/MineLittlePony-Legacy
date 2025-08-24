@@ -3,7 +3,7 @@
 Turns players into ponies.
 
 **If you are using a version of Minecraft other than 1.2.5 (released in April of 2012), this isn't the right page for you!
-You probably want [the current version of the mod](https://github.com/MineLittlePony/MineLittlePony).
+You probably want [the current version of the mod](https://github.com/MineLittlePony/MineLittlePony).**
 
 [https://minelittlepony-mod.com/](https://minelittlepony-mod.com/)
 
