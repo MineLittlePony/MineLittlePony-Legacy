@@ -3,7 +3,7 @@
 	"id": "minelittlepony",
 	"version": "${version}",
 	"name": "Mine Little Pony",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Turns players into ponies.",
 	"authors": [
 		"MineLittlePony Team",
     "AppleDash"
@@ -12,7 +12,7 @@
 		"homepage": "https://minelittlepony-mod.com/",
 		"sources": "https://github.com/MineLittlePony/MineLittlePony-Legacy"
 	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/minelittepony/minelp_logo.png",
 	"environment": "${environment}",
 	"entrypoints": {
