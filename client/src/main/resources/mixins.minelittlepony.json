@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "codes.blackjack.minelittlepony.mixin",
+  "package": "com.minelittlepony.minelittlepony.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
   ],

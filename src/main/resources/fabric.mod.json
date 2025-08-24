@@ -16,7 +16,7 @@
 	"environment": "${environment}",
 	"entrypoints": {
     "client": [
-      "codes.blackjack.minelittlepony.MineLPEntry"
+      "com.minelittlepony.minelittlepony.MineLPEntry"
     ]
 	},
 	"mixins": [
