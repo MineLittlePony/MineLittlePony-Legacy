@@ -31,12 +31,17 @@ public final class SkinFetcher {
 	private SkinFetcher() {
 	}
 
-	public static Optional<String> getSkinUrl(String playerName) throws SkinFetchException{
+	public static Optional<String> getSkinUrl(String playerName) throws SkinFetchException {
 		try {
-			return getValhallaSkinUrl(playerName);
-		} catch (SkinFetchException e) {
-			return getMojangSkinUrl(playerName);
+			Optional<String> valhallaSkinUrl = getValhallaSkinUrl(playerName);
+
+			if (valhallaSkinUrl.isPresent()) {
+				return valhallaSkinUrl;
+			}
+		} catch (SkinFetchException ignored) {
 		}
+
+		return getMojangSkinUrl(playerName);
 	}
 
 	public static Optional<String> getValhallaSkinUrl(String playerName) throws SkinFetchException {
