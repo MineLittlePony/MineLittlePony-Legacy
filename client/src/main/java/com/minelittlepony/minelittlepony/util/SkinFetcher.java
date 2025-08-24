@@ -1,10 +1,10 @@
 package com.minelittlepony.minelittlepony.util;
 
-import com.minelittlepony.minelittlepony.MineLPEntry;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.minelittlepony.minelittlepony.MineLPEntry;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -27,6 +29,7 @@ import java.util.Optional;
 public final class SkinFetcher {
 	private static final Gson GSON = new Gson();
 	private static final CloseableHttpClient httpClient = HttpClients.createDefault();
+	private static final Map<String, String> playerNameToUuidCache = new HashMap<>();
 
 	private SkinFetcher() {
 	}
@@ -199,6 +202,10 @@ public final class SkinFetcher {
 	}
 
 	private static Optional<String> getPlayerUuid(String playerName) throws SkinFetchException {
+		if (playerNameToUuidCache.containsKey(playerName)) {
+			return Optional.of(playerNameToUuidCache.get(playerName));
+		}
+
 		String playerUuid;
 
 		try (CloseableHttpResponse response = httpClient.execute(
@@ -232,7 +239,8 @@ public final class SkinFetcher {
 			throw new RuntimeException(e);
 		}
 
-		return Optional.ofNullable(playerUuid);
+		playerNameToUuidCache.put(playerName, playerUuid);
+		return Optional.of(playerUuid);
 	}
 
 	public static class SkinFetchException extends Exception {

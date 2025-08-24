@@ -15,6 +15,7 @@ public class MineLPEntry implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		LOGGER.info("Initializing MineLittlePony");
+		Pony.init();
 		((MixinExtEntityRenderDispatcher) EntityRenderDispatcher.INSTANCE)
 			.getRenderers().put(PlayerEntity.class, new RenderPony());
 	}

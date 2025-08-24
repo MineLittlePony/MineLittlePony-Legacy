@@ -8,6 +8,7 @@ import com.minelittlepony.minelittlepony.render.PlayerModel;
 import com.minelittlepony.minelittlepony.util.ResourceUtil;
 import com.minelittlepony.minelittlepony.util.TriggerPixels;
 import net.minecraft.client.entity.living.player.InputPlayerEntity;
+import net.minecraft.client.entity.living.player.LocalPlayerEntity;
 import net.minecraft.client.render.texture.HttpTexture;
 import net.minecraft.client.render.texture.SkinImageProcessor;
 import net.minecraft.client.render.texture.TextureManager;
@@ -52,7 +53,6 @@ public final class Pony {
 	private float previousFallDistance;
 
 	private Pony(PlayerEntity player) {
-		init();
 		this.texture = "/mob/char.png";
 		this.skinUrl = null;
 		String username = player.name;
@@ -60,7 +60,7 @@ public final class Pony {
 			this.skinUrl = "http://s3.amazonaws.com/MinecraftSkins/" + username + ".png";
 		}
 
-		this.isSpPlayer = player instanceof InputPlayerEntity;
+		this.isSpPlayer = (player instanceof InputPlayerEntity) && !(player instanceof LocalPlayerEntity);
 		this.isPonySkin = false;
 		this.isPegasus = false;
 		this.isUnicorn = false;
@@ -106,6 +106,7 @@ public final class Pony {
 					this.checkBuiltinTexture(
 						ResourceUtil.readImage(this.texture)
 					);
+					break;
 				} catch (IOException e) {
 					MineLPEntry.LOGGER.warn("Failed to read skin texture {}, trying another one...", resourceName);
 				}
@@ -122,7 +123,6 @@ public final class Pony {
 		String username = player.name;
 		String location = "http://skins.minecraft.net/MinecraftSkins/" + username + ".png";
 
-		init();
 		Pony myLittlePony;
 		if (!registry.containsKey(username)) {
 			myLittlePony = new Pony(player);

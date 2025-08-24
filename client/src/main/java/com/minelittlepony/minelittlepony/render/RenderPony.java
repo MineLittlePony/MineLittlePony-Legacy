@@ -5,6 +5,7 @@ import com.minelittlepony.minelittlepony.PMAPI;
 import com.minelittlepony.minelittlepony.Pony;
 import com.minelittlepony.minelittlepony.config.PonySettings;
 import com.minelittlepony.minelittlepony.mixin.MixinExtLivingEntity;
+import com.minelittlepony.minelittlepony.mixin.MixinExtMinecraft;
 import com.minelittlepony.minelittlepony.mixin.MixinExtPlayerEntityRenderer;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import net.minecraft.client.Minecraft;
@@ -189,7 +190,12 @@ public class RenderPony extends PlayerEntityRenderer {
 
 	@Override
 	public void renderPlayerRightHandModel() {
-		Pony.init();
+		// TODO: This is a hack!
+		PlayerEntity player = MixinExtMinecraft.getMinecraft().player;
+		Pony thePony = Pony.getPonyFromRegistry(player, MixinExtMinecraft.getMinecraft().textureManager);
+		player.skin = thePony.skinUrl;
+		((MixinExtLivingEntity) player).setTexture(thePony.texture);
+
 		this.pm = PMAPI.human;
 		this.pm.model.handSwingProgress = 0.0F;
 		this.pm.model.animate(ani);
