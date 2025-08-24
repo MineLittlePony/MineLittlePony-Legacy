@@ -13,7 +13,7 @@
 		"sources": "https://github.com/MineLittlePony/MineLittlePony-Legacy"
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/example_mod/icon.png",
+	"icon": "assets/minelittepony/minelp_logo.png",
 	"environment": "${environment}",
 	"entrypoints": {
     "client": [
