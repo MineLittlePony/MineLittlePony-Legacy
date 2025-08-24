@@ -31,26 +31,26 @@ public final class Pony {
 	private static boolean renderEngineInit;
 
 	private final boolean isSpPlayer;
-	public boolean advancedTexturing;
+	private final float defaultYOffset;
 	public String texture;
-	public boolean backgroundIsPegasus;
-	public boolean backgroundIsUnicorn;
-	public int backgroundWantTail;
-	public boolean backgroundIsMale;
-	public Size backgroundSize;
-	public boolean backgroundAdvancedTexturing;
 	public String skinUrl;
-	public boolean isPony;
-	public boolean isPonySkin;
-	public boolean isPegasus;
-	public boolean isUnicorn;
 	public boolean isFlying;
-	public boolean isMale;
 	public Size size = Size.MARE;
-	public int wantTail;
+	private boolean advancedTexturing;
+	private boolean backgroundIsPegasus;
+	private boolean backgroundIsUnicorn;
+	private int backgroundWantTail;
+	private boolean backgroundIsMale;
+	private Size backgroundSize;
+	private boolean backgroundAdvancedTexturing;
+	private boolean isPony;
+	private boolean isPonySkin;
+	private boolean isPegasus;
+	private boolean isUnicorn;
+	private boolean isMale;
+	private int wantTail;
 	private boolean textureSetup;
 	private int glowColor;
-	private final float defaultYOffset;
 	private boolean pegasusFlying;
 	private float previousFallDistance;
 
@@ -74,6 +74,7 @@ public final class Pony {
 		this.isFlying = false;
 		this.pegasusFlying = false;
 		this.defaultYOffset = 1.62F;
+
 		if (PonySettings.getPonyLevel() == PonyLevel.NO_PONIES) {
 			this.textureSetup = true;
 		} else if (PonySettings.getPonyLevel() == PonyLevel.SOME_PONIES) {
@@ -212,7 +213,7 @@ public final class Pony {
 	 *
 	 * @param image The image to check.
 	 */
-	public void checkSkin(BufferedImage image) {
+	private void checkSkin(BufferedImage image) {
 		this.isPony = false;
 		this.isPonySkin = false;
 		this.isPegasus = false;
@@ -276,6 +277,7 @@ public final class Pony {
 		Color scootaloo = new Color(255, 190, 83);
 		Color bigmac = new Color(206, 50, 84);
 		Color luna = new Color(42, 60, 120);
+
 		this.size = Size.MARE;
 		if (PonySettings.getUseSizes() == PonySizes.ALL_SIZES) {
 			if (sizeFlagColor.equals(scootaloo)) {
@@ -289,6 +291,7 @@ public final class Pony {
 
 		Color black = new Color(0, 0, 0);
 		Color advcutiecolor = new Color(image.getRGB(4, 0), true);
+
 		if (advcutiecolor.getAlpha() == 0) {
 			this.advancedTexturing = false;
 		} else {
@@ -310,7 +313,6 @@ public final class Pony {
 		} else {
 			this.glowColor = -12303190;
 		}
-
 	}
 
 	private void checkBuiltinTexture(BufferedImage bufferedimage) {
@@ -408,6 +410,7 @@ public final class Pony {
 
 	public PlayerModel getModel() {
 		boolean isPony = false;
+
 		switch (PonySettings.getPonyLevel()) {
 			case NO_PONIES:
 				break;

@@ -13,6 +13,7 @@ import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.opengl.GL11;
 
+@SuppressWarnings("SuspiciousNameCombination")
 public class pm_newPonyAdv extends ModelPlayer {
 	protected static final float HEAD_CENTRE_X = 0.0F;
 	protected static final float HEAD_CENTRE_Y = -1.0F;
@@ -20,7 +21,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 	protected static final float BODY_CENTRE_X = 0.0F;
 	protected static final float BODY_CENTRE_Y = 8.0F;
 	protected static final float BODY_CENTRE_Z = 6.0F;
-	protected static final  float THIRDP_ARM_CENTRE_X = 0.0F;
+	protected static final float THIRDP_ARM_CENTRE_X = 0.0F;
 	protected static final float THIRDP_ARM_CENTRE_Y = 10.0F;
 	protected static final float THIRDP_ARM_CENTRE_Z = 0.0F;
 	protected static final float FIRSTP_ARM_CENTRE_X = -1.0F;
@@ -38,6 +39,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 	protected static final float BODY_ROTATE_ANGLE_X_NOTSNEAK = 0.0F;
 	protected static final float RIDING_SHIFT_Y = -10.0F;
 	protected static final float RIDING_SHIFT_Z = -10.0F;
+	protected static final float NeckRotX = 0.166F;
 	private static final float FRONT_LEG_RP_Y_SNEAK = 7.0F;
 	private static final float WING_FOLDED_RP_Y = 13.0F;
 	private static final float WING_FOLDED_RP_Z = -3.0F;
@@ -68,12 +70,11 @@ public class pm_newPonyAdv extends ModelPlayer {
 	private static final float ROTATE_90 = 1.571F;
 
 	public ModelPart head;
-	public ModelPart Body;
-	public ModelPart rightarm;
+	public ModelPart body;
+	public ModelPart rightArm;
 	public ModelPart leftArm;
 	public ModelPart rightLeg;
 	public ModelPart leftLeg;
-	protected final float NeckRotX = 0.166F;
 	protected ModelPart cloak;
 	protected ModelPart[] headpiece;
 	protected ModelPart helmet;
@@ -82,7 +83,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 	protected ModelPart steveArm;
 	protected ModelPart unicornArm;
 	private boolean rainboom;
-	private int tailstop;
+	private int tailStop;
 	private PlaneRenderer[] muzzleFemale;
 	private PlaneRenderer[] muzzleMale;
 	private PlaneRenderer[] tail;
@@ -113,17 +114,17 @@ public class pm_newPonyAdv extends ModelPlayer {
 	}
 
 	@Override
-	public void animate(AniParams aniparams) {
-		this.checkRainboom(aniparams.swing);
-		this.rotateHead(aniparams.horz, aniparams.vert);
-		this.swingTailZ(aniparams.move, aniparams.swing);
+	public void animate(AniParams aniParams) {
+		this.checkRainboom(aniParams.swing);
+		this.rotateHead(aniParams.horz, aniParams.vert);
+		this.swingTailZ(aniParams.move, aniParams.swing);
 		float bodySwingRotation = 0.0F;
 
 		if (this.handSwingProgress > -9990.0F && !this.isUnicorn) {
 			bodySwingRotation = MathHelper.sin(MathHelper.sqrt(this.handSwingProgress) /* might be floor??? */ * 3.141593F * 2.0F) * 0.2F;
 		}
 
-		this.Body.rotationY = bodySwingRotation * 0.2F;
+		this.body.rotationY = bodySwingRotation * 0.2F;
 
 		for (PlaneRenderer renderer : this.bodyPiece) {
 			renderer.rotateAngleY = bodySwingRotation * 0.2F;
@@ -141,18 +142,19 @@ public class pm_newPonyAdv extends ModelPlayer {
 			modelPart.rotationY = bodySwingRotation * 0.2F;
 		}
 
-		this.tailstop = this.tail.length - this.wantTail * 5;
-		if (this.tailstop <= 1) {
-			this.tailstop = 0;
+		this.tailStop = this.tail.length - this.wantTail * 5;
+		if (this.tailStop <= 1) {
+			this.tailStop = 0;
 		}
 
-		for (int j1 = 0; j1 < this.tailstop; ++j1) {
-			this.tail[j1].rotateAngleY = bodySwingRotation;
+		for (int i = 0; i < this.tailStop; ++i) {
+			this.tail[i].rotateAngleY = bodySwingRotation;
 		}
 
-		this.setLegs(aniparams.move, aniparams.swing);
+		this.setLegs(aniParams.move, aniParams.swing);
 		this.holdItem();
 		this.swingItem(this.handSwingProgress);
+
 		if (this.isSneaking && !this.isFlying) {
 			this.adjustBody(BODY_ROTATE_ANGLE_X_SNEAK, BODY_RP_Y_SNEAK, BODY_RP_Z_SNEAK);
 			this.animatePegasusWingsSneaking();
@@ -162,41 +164,41 @@ public class pm_newPonyAdv extends ModelPlayer {
 		} else {
 			this.adjustBody(BODY_ROTATE_ANGLE_X_NOTSNEAK, BODY_RP_Y_NOTSNEAK, BODY_RP_Z_NOTSNEAK);
 			if (this.isPegasus) {
-				this.animatePegasusWingsNotSneaking(aniparams.tick);
+				this.animatePegasusWingsNotSneaking(aniParams.tick);
 			}
 
 			this.rightLeg.pivotY = FRONT_LEG_RP_Y_NOTSNEAK;
 			this.leftLeg.pivotY = FRONT_LEG_RP_Y_NOTSNEAK;
-			this.swingArms(aniparams.tick);
+			this.swingArms(aniParams.tick);
 			this.setHead(0.0F, 0.0F, 0.0F);
-			this.tailstop = this.tail.length - this.wantTail * 5;
-			if (this.tailstop <= 1) {
-				this.tailstop = 0;
+			this.tailStop = this.tail.length - this.wantTail * 5;
+			if (this.tailStop <= 1) {
+				this.tailStop = 0;
 			}
 
-			for (int k6 = 0; k6 < this.tailstop; ++k6) {
-				this.setRotationPoint(this.tail[k6], TAIL_RP_X, TAIL_RP_Y, TAIL_RP_Z_NOTSNEAK);
+			for (int i = 0; i < this.tailStop; ++i) {
+				this.setRotationPoint(this.tail[i], TAIL_RP_X, TAIL_RP_Y, TAIL_RP_Z_NOTSNEAK);
 				if (this.rainboom) {
-					this.tail[k6].rotateAngleX = ROTATE_90 + 0.1F * MathHelper.sin(aniparams.move);
+					this.tail[i].rotateAngleX = ROTATE_90 + 0.1F * MathHelper.sin(aniParams.move);
 				} else {
-					this.tail[k6].rotateAngleX = 0.5F * aniparams.swing;
+					this.tail[i].rotateAngleX = 0.5F * aniParams.swing;
 				}
 			}
 
 			if (!this.rainboom) {
-				this.swingTailX(aniparams.tick);
+				this.swingTailX(aniParams.tick);
 			}
 		}
 
 		if (this.rainboom) {
-			this.tailstop = this.tail.length - this.wantTail * 5;
-			if (this.tailstop <= 1) {
-				this.tailstop = 0;
+			this.tailStop = this.tail.length - this.wantTail * 5;
+			if (this.tailStop <= 1) {
+				this.tailStop = 0;
 			}
 
-			for (int k1 = 0; k1 < this.tailstop; ++k1) {
-				this.tail[k1].rotationPointY += 6.0F;
-				++this.tail[k1].rotationPointZ;
+			for (int i = 0; i < this.tailStop; ++i) {
+				this.tail[i].rotationPointY += 6.0F;
+				++this.tail[i].rotationPointZ;
 			}
 		}
 
@@ -205,7 +207,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 		}
 
 		if (this.aimedBow) {
-			this.aimBow(aniparams.tick);
+			this.aimBow(aniParams.tick);
 		}
 
 		this.fixSpecialRotations();
@@ -239,6 +241,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 	protected void rotateHead(float horz, float vert) {
 		float headRotateAngleY;
 		float headRotateAngleX;
+
 		if (this.isSleeping) {
 			headRotateAngleY = 1.4F;
 			headRotateAngleX = 0.1F;
@@ -257,6 +260,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 
 		this.head.rotationY = headRotateAngleY;
 		this.head.rotationX = headRotateAngleX;
+
 		if (this.isMale) {
 			for (PlaneRenderer planeRenderer : this.muzzleMale) {
 				planeRenderer.rotateAngleY = headRotateAngleY;
@@ -290,6 +294,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 		float leftArmRotateAngleX;
 		float rightLegRotateAngleX;
 		float leftLegRotateAngleX;
+
 		if (this.isFlying && this.isPegasus) {
 			if (this.rainboom) {
 				rightArmRotateAngleX = ROTATE_270;
@@ -303,7 +308,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 				leftLegRotateAngleX = MathHelper.sin(swing * 0.5F);
 			}
 
-			this.rightarm.rotationY = 0.2F;
+			this.rightArm.rotationY = 0.2F;
 			this.steveArm.rotationY = 0.2F;
 			this.leftArm.rotationY = -0.2F;
 			this.rightLeg.rotationY = -0.2F;
@@ -313,7 +318,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 			leftArmRotateAngleX = MathHelper.cos(move * 0.6662F) * 0.45F * swing;
 			rightLegRotateAngleX = MathHelper.cos(move * 0.6662F) * 0.45F * swing;
 			leftLegRotateAngleX = MathHelper.cos(move * 0.6662F + 3.141593F) * 0.45F * swing;
-			this.rightarm.rotationY = 0.0F;
+			this.rightArm.rotationY = 0.0F;
 			this.steveArm.rotationY = 0.0F;
 			this.unicornArm.rotationY = 0.0F;
 			this.leftArm.rotationY = 0.0F;
@@ -321,22 +326,23 @@ public class pm_newPonyAdv extends ModelPlayer {
 			this.leftLeg.rotationY = 0.0F;
 		}
 
-		this.rightarm.rotationX = rightArmRotateAngleX;
+		this.rightArm.rotationX = rightArmRotateAngleX;
 		this.steveArm.rotationX = rightArmRotateAngleX;
 		this.unicornArm.rotationX = 0.0F;
 		this.leftArm.rotationX = leftArmRotateAngleX;
 		this.rightLeg.rotationX = rightLegRotateAngleX;
 		this.leftLeg.rotationX = leftLegRotateAngleX;
-		this.rightarm.rotationZ = 0.0F;
+		this.rightArm.rotationZ = 0.0F;
 		this.steveArm.rotationZ = 0.0F;
 		this.unicornArm.rotationZ = 0.0F;
 		this.leftArm.rotationZ = 0.0F;
 	}
 
 	protected void adjustLegs() {
-		float sinBodyRotateAngleYFactor = MathHelper.sin(this.Body.rotationY) * 5.0F;
-		float cosBodyRotateAngleYFactor = MathHelper.cos(this.Body.rotationY) * 5.0F;
+		float sinBodyRotateAngleYFactor = MathHelper.sin(this.body.rotationY) * 5.0F;
+		float cosBodyRotateAngleYFactor = MathHelper.cos(this.body.rotationY) * 5.0F;
 		float legOutset = 4.0F;
+
 		if (this.isSneaking && !this.isFlying) {
 			legOutset = 0.0F;
 		}
@@ -346,63 +352,62 @@ public class pm_newPonyAdv extends ModelPlayer {
 		}
 
 		if (this.rainboom) {
-			this.rightarm.pivotZ = sinBodyRotateAngleYFactor + 2.0F;
+			this.rightArm.pivotZ = sinBodyRotateAngleYFactor + 2.0F;
 			this.steveArm.pivotZ = sinBodyRotateAngleYFactor + 2.0F;
 			this.leftArm.pivotZ = 0.0F - sinBodyRotateAngleYFactor + 2.0F;
 		} else {
-			this.rightarm.pivotZ = sinBodyRotateAngleYFactor + 1.0F;
+			this.rightArm.pivotZ = sinBodyRotateAngleYFactor + 1.0F;
 			this.steveArm.pivotZ = sinBodyRotateAngleYFactor + 1.0F;
 			this.leftArm.pivotZ = 0.0F - sinBodyRotateAngleYFactor + 1.0F;
 		}
 
-		this.rightarm.pivotX = 0.0F - cosBodyRotateAngleYFactor - 1.0F + legOutset;
+		this.rightArm.pivotX = 0.0F - cosBodyRotateAngleYFactor - 1.0F + legOutset;
 		this.steveArm.pivotX = 0.0F - cosBodyRotateAngleYFactor;
 		this.leftArm.pivotX = cosBodyRotateAngleYFactor + 1.0F - legOutset;
 		this.rightLeg.pivotX = 0.0F - cosBodyRotateAngleYFactor - 1.0F + legOutset;
 		this.leftLeg.pivotX = cosBodyRotateAngleYFactor + 1.0F - legOutset;
-		this.rightarm.rotationY += this.Body.rotationY;
-		this.leftArm.rotationY += this.Body.rotationY;
+		this.rightArm.rotationY += this.body.rotationY;
+		this.leftArm.rotationY += this.body.rotationY;
 		// TODO: Is this right?!
-		this.leftArm.rotationX += this.Body.rotationY;
-		this.rightarm.pivotY = 8.0F;
+		this.leftArm.rotationX += this.body.rotationY;
+		this.rightArm.pivotY = 8.0F;
 		this.leftArm.pivotY = 8.0F;
 		this.rightLeg.pivotZ = 10.0F;
 		this.leftLeg.pivotZ = 10.0F;
 	}
 
 	private void swingTailZ(float move, float swing) {
-		this.tailstop = this.tail.length - this.wantTail * 5;
-		if (this.tailstop <= 1) {
-			this.tailstop = 0;
+		this.tailStop = this.tail.length - this.wantTail * 5;
+		if (this.tailStop <= 1) {
+			this.tailStop = 0;
 		}
 
-		for (int j = 0; j < this.tailstop; ++j) {
+		for (int i = 0; i < this.tailStop; ++i) {
 			if (this.rainboom) {
-				this.tail[j].rotateAngleZ = 0.0F;
+				this.tail[i].rotateAngleZ = 0.0F;
 			} else {
-				this.tail[j].rotateAngleZ = MathHelper.cos(move * 0.8F) * 0.2F * swing;
+				this.tail[i].rotateAngleZ = MathHelper.cos(move * 0.8F) * 0.2F * swing;
 			}
 		}
-
 	}
 
 	private void swingTailX(float tick) {
 		float sinTickFactor = MathHelper.sin(tick * 0.067F) * 0.05F;
-		this.tailstop = this.tail.length - this.wantTail * 5;
-		if (this.tailstop <= 1) {
-			this.tailstop = 0;
+		this.tailStop = this.tail.length - this.wantTail * 5;
+
+		if (this.tailStop <= 1) {
+			this.tailStop = 0;
 		}
 
-		for (int l6 = 0; l6 < this.tailstop; ++l6) {
-			PlaneRenderer var10000 = this.tail[l6];
+		for (int i = 0; i < this.tailStop; ++i) {
+			PlaneRenderer var10000 = this.tail[i];
 			var10000.rotateAngleX += sinTickFactor;
 		}
-
 	}
 
 	protected void holdItem() {
 		if (this.heldItemRight != 0 && !this.rainboom && !this.isUnicorn) {
-			this.rightarm.rotationX = this.rightarm.rotationX * 0.5F - 0.3141593F;
+			this.rightArm.rotationX = this.rightArm.rotationX * 0.5F - 0.3141593F;
 			this.steveArm.rotationX = this.steveArm.rotationX * 0.5F - 0.3141593F;
 		}
 
@@ -410,22 +415,24 @@ public class pm_newPonyAdv extends ModelPlayer {
 
 	protected void swingItem(float swingProgress) {
 		if (swingProgress > -9990.0F && !this.isSleeping) {
-			float f16 = 1.0F - swingProgress;
-			f16 *= f16 * f16;
-			f16 = 1.0F - f16;
-			float f22 = MathHelper.sin(f16 * 3.141593F);
+			float swingRemain = 1.0F - swingProgress;
+			swingRemain *= swingRemain * swingRemain;
+			swingRemain = 1.0F - swingRemain;
+
+			float f22 = MathHelper.sin(swingRemain * 3.141593F);
 			float f28 = MathHelper.sin(swingProgress * 3.141593F);
 			float f33 = f28 * -(this.head.rotationX - 0.7F) * 0.75F;
+
 			if (this.isUnicorn) {
 				this.unicornArm.rotationX = (float) (this.unicornArm.rotationX - (f22 * 1.2 + f33));
-				this.unicornArm.rotationY += this.Body.rotationY * 2.0F;
+				this.unicornArm.rotationY += this.body.rotationY * 2.0F;
 				this.unicornArm.rotationZ = f28 * -0.4F;
 			} else {
-				this.rightarm.rotationX = (float) (this.rightarm.rotationX - (f22 * 1.2 + f33));
-				this.rightarm.rotationY += this.Body.rotationY * 2.0F;
-				this.rightarm.rotationZ = f28 * -0.4F;
+				this.rightArm.rotationX = (float) (this.rightArm.rotationX - (f22 * 1.2 + f33));
+				this.rightArm.rotationY += this.body.rotationY * 2.0F;
+				this.rightArm.rotationZ = f28 * -0.4F;
 				this.steveArm.rotationX = (float) (this.steveArm.rotationX - (f22 * 1.2 + f33));
-				this.steveArm.rotationY += this.Body.rotationY * 2.0F;
+				this.steveArm.rotationY += this.body.rotationY * 2.0F;
 				this.steveArm.rotationZ = f28 * -0.4F;
 			}
 		}
@@ -437,14 +444,13 @@ public class pm_newPonyAdv extends ModelPlayer {
 			float cosTickFactor = MathHelper.cos(tick * 0.09F) * 0.05F + 0.05F;
 			float sinTickFactor = MathHelper.sin(tick * 0.067F) * 0.05F;
 			if (!this.isUnicorn) {
-				this.rightarm.rotationZ += cosTickFactor;
-				this.rightarm.rotationX += sinTickFactor;
+				this.rightArm.rotationZ += cosTickFactor;
+				this.rightArm.rotationX += sinTickFactor;
 				this.steveArm.rotationZ += cosTickFactor;
 				this.steveArm.rotationX += sinTickFactor;
 			} else {
-				ModelPart var7 = this.unicornArm;
-				var7.rotationZ += cosTickFactor;
-				var7.rotationX += sinTickFactor;
+				this.unicornArm.rotationZ += cosTickFactor;
+				this.unicornArm.rotationX += sinTickFactor;
 			}
 		}
 
@@ -456,16 +462,15 @@ public class pm_newPonyAdv extends ModelPlayer {
 	}
 
 	private void adjustBodyComponents(float rotateAngleX, float rotationPointY, float rotationPointZ) {
-		this.Body.rotationX = rotateAngleX;
-		this.Body.pivotY = rotationPointY;
-		this.Body.pivotZ = rotationPointZ;
+		this.body.rotationX = rotateAngleX;
+		this.body.pivotY = rotationPointY;
+		this.body.pivotZ = rotationPointZ;
 
 		for (PlaneRenderer planeRenderer : this.bodyPiece) {
 			planeRenderer.rotateAngleX = rotateAngleX;
 			planeRenderer.rotationPointY = rotationPointY;
 			planeRenderer.rotationPointZ = rotationPointZ;
 		}
-
 	}
 
 	private void adjustNeck(float rotateAngleX, float rotationPointY, float rotationPointZ) {
@@ -474,11 +479,10 @@ public class pm_newPonyAdv extends ModelPlayer {
 			planeRenderer.rotationPointY = rotationPointY;
 			planeRenderer.rotationPointZ = rotationPointZ;
 		}
-
 	}
 
 	protected void sneakLegs() {
-		this.rightarm.rotationX -= SNEAK_LEG_X_ROTATION_ADJUSTMENT;
+		this.rightArm.rotationX -= SNEAK_LEG_X_ROTATION_ADJUSTMENT;
 		this.steveArm.rotationX += SNEAK_LEG_X_ROTATION_ADJUSTMENT;
 		this.unicornArm.rotationX += SNEAK_LEG_X_ROTATION_ADJUSTMENT;
 		this.leftArm.rotationX -= SNEAK_LEG_X_ROTATION_ADJUSTMENT;
@@ -487,27 +491,28 @@ public class pm_newPonyAdv extends ModelPlayer {
 	}
 
 	private void sneakTail() {
-		this.tailstop = this.tail.length - this.wantTail * 5;
-		if (this.tailstop <= 1) {
-			this.tailstop = 0;
+		this.tailStop = this.tail.length - this.wantTail * 5;
+		if (this.tailStop <= 1) {
+			this.tailStop = 0;
 		}
 
-		for (int i7 = 0; i7 < this.tailstop; ++i7) {
-			this.setRotationPoint(this.tail[i7], TAIL_RP_X, TAIL_RP_Y, TAIL_RP_Z_SNEAK);
-			this.tail[i7].rotateAngleX = 0.0F;
+		for (int i = 0; i < this.tailStop; ++i) {
+			this.setRotationPoint(this.tail[i], TAIL_RP_X, TAIL_RP_Y, TAIL_RP_Z_SNEAK);
+			this.tail[i].rotateAngleX = 0.0F;
 		}
-
 	}
 
 	protected void ponySleep() {
-		this.rightarm.rotationX = ROTATE_270;
+		this.rightArm.rotationX = ROTATE_270;
 		this.leftArm.rotationX = ROTATE_270;
 		this.rightLeg.rotationX = ROTATE_90;
 		this.leftLeg.rotationX = ROTATE_90;
 		float headPosX;
 		float headPosY;
 		float headPosZ;
+
 		headPosY = 2.0F;
+
 		if (this.isSneaking) {
 			headPosZ = -1.0F;
 		} else {
@@ -516,7 +521,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 		headPosX = 1.0F;
 
 		this.setHead(headPosX, headPosY, headPosZ);
-		this.shiftRotationPoint(this.rightarm, 0.0F, 2.0F, 6.0F);
+		this.shiftRotationPoint(this.rightArm, 0.0F, 2.0F, 6.0F);
 		this.shiftRotationPoint(this.leftArm, 0.0F, 2.0F, 6.0F);
 		this.shiftRotationPoint(this.rightLeg, 0.0F, 2.0F, -8.0F);
 		this.shiftRotationPoint(this.leftLeg, 0.0F, 2.0F, -8.0F);
@@ -528,16 +533,15 @@ public class pm_newPonyAdv extends ModelPlayer {
 		} else {
 			this.aimBowPony(tick);
 		}
-
 	}
 
 	private void aimBowPony(float tick) {
-		this.rightarm.rotationZ = 0.0F;
-		this.rightarm.rotationY = -0.06F + this.head.rotationY;
-		this.rightarm.rotationX = ROTATE_270 + this.head.rotationX;
-		this.rightarm.rotationZ += MathHelper.cos(tick * 0.09F) * 0.05F + 0.05F;
-		this.rightarm.rotationX += MathHelper.sin(tick * 0.067F) * 0.05F;
-		this.shiftRotationPoint(this.rightarm, 0.0F, 0.0F, 1.0F);
+		this.rightArm.rotationZ = 0.0F;
+		this.rightArm.rotationY = -0.06F + this.head.rotationY;
+		this.rightArm.rotationX = ROTATE_270 + this.head.rotationX;
+		this.rightArm.rotationZ += MathHelper.cos(tick * 0.09F) * 0.05F + 0.05F;
+		this.rightArm.rotationX += MathHelper.sin(tick * 0.067F) * 0.05F;
+		this.shiftRotationPoint(this.rightArm, 0.0F, 0.0F, 1.0F);
 	}
 
 	private void aimBowUnicorn(float tick) {
@@ -556,13 +560,12 @@ public class pm_newPonyAdv extends ModelPlayer {
 			modelPart.rotationZ = LEFT_WING_ROTATE_ANGLE_Z_SNEAK;
 		}
 
-		for (int k5 = 0; k5 < this.leftWingExt.length; ++k5) {
-			this.rightWingExt[k5].pivotY = RIGHT_WING_RP_Y_SNEAK;
-			this.rightWingExt[k5].pivotZ = RIGHT_WING_RP_Z_SNEAK;
-			this.rightWingExt[k5].rotationX = EXT_WING_ROTATE_ANGLE_X;
-			this.rightWingExt[k5].rotationZ = RIGHT_WING_ROTATE_ANGLE_Z_SNEAK;
+		for (int i = 0; i < this.leftWingExt.length; ++i) {
+			this.rightWingExt[i].pivotY = RIGHT_WING_RP_Y_SNEAK;
+			this.rightWingExt[i].pivotZ = RIGHT_WING_RP_Z_SNEAK;
+			this.rightWingExt[i].rotationX = EXT_WING_ROTATE_ANGLE_X;
+			this.rightWingExt[i].rotationZ = RIGHT_WING_ROTATE_ANGLE_Z_SNEAK;
 		}
-
 	}
 
 	private void animatePegasusWingsNotSneaking(float tick) {
@@ -593,7 +596,6 @@ public class pm_newPonyAdv extends ModelPlayer {
 				modelPart.pivotZ = RIGHT_WING_RP_Z_NOTSNEAK;
 			}
 		}
-
 	}
 
 	private void fixSpecialRotations() {
@@ -772,7 +774,6 @@ public class pm_newPonyAdv extends ModelPlayer {
 		} else {
 			this.steveArm.render(this.scale);
 		}
-
 	}
 
 	protected void renderHead() {
@@ -802,11 +803,10 @@ public class pm_newPonyAdv extends ModelPlayer {
 		for (PlaneRenderer planeRenderer : this.bodyPieceNeck) {
 			planeRenderer.render(this.scale);
 		}
-
 	}
 
 	protected void renderBody() {
-		this.Body.render(this.scale);
+		this.body.render(this.scale);
 
 		for (PlaneRenderer planeRenderer : this.bodyPiece) {
 			planeRenderer.render(this.scale);
@@ -831,25 +831,23 @@ public class pm_newPonyAdv extends ModelPlayer {
 				}
 			}
 		}
-
 	}
 
 	protected void renderTail() {
-		int tailstop;
-		tailstop = this.tail.length - this.wantTail * 5;
-		if (tailstop <= 1) {
-			tailstop = 0;
+		int tailStop = this.tail.length - this.wantTail * 5;
+
+		if (tailStop <= 1) {
+			tailStop = 0;
 		}
 
-		for (int k = 0; k < tailstop; ++k) {
-			this.tail[k].render(this.scale);
+		for (int i = 0; i < tailStop; ++i) {
+			this.tail[i].render(this.scale);
 		}
-
 	}
 
 	protected void renderLegs() {
 		this.leftArm.render(this.scale);
-		this.rightarm.render(this.scale);
+		this.rightArm.render(this.scale);
 		this.leftLeg.render(this.scale);
 		this.rightLeg.render(this.scale);
 	}
@@ -902,7 +900,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 	}
 
 	protected void initBodyTextures() {
-		this.Body = new ModelPart(this, 16, 16);
+		this.body = new ModelPart(this, 16, 16);
 		this.bodyPiece[0] = new PlaneRenderer(this, 24, 0);
 		this.bodyPiece[1] = new PlaneRenderer(this, 24, 0);
 		this.bodyPiece[2] = new PlaneRenderer(this, 32, 20);
@@ -926,7 +924,7 @@ public class pm_newPonyAdv extends ModelPlayer {
 	}
 
 	protected void initLegTextures() {
-		this.rightarm = new ModelPart(this, 40, 16);
+		this.rightArm = new ModelPart(this, 40, 16);
 		this.leftArm = new ModelPart(this, 40, 16);
 		this.leftArm.flipped = true;
 		this.rightLeg = new ModelPart(this, 0, 16);
@@ -1057,8 +1055,8 @@ public class pm_newPonyAdv extends ModelPlayer {
 	}
 
 	protected void initBodyPositions(float yOffset, float stretch) {
-		this.Body.addBox(-4.0F, 4.0F, -2.0F, 8, 8, 4, stretch);
-		this.Body.setPivot(HEAD_RP_X, HEAD_RP_Y + yOffset, HEAD_RP_Z);
+		this.body.addBox(-4.0F, 4.0F, -2.0F, 8, 8, 4, stretch);
+		this.body.setPivot(HEAD_RP_X, HEAD_RP_Y + yOffset, HEAD_RP_Z);
 		this.bodyPiece[0].addSidePlane(-4.0F + BODY_CENTRE_X, -4.0F + BODY_CENTRE_Y, -4.0F + BODY_CENTRE_Z, 0, 8, 8, stretch);
 		this.bodyPiece[0].setRotationPoint(HEAD_RP_X, HEAD_RP_Y + yOffset, HEAD_RP_Z);
 		this.bodyPiece[1].addSidePlane(4.0F + BODY_CENTRE_X, -4.0F + BODY_CENTRE_Y, -4.0F + BODY_CENTRE_Z, 0, 8, 8, stretch);
@@ -1102,8 +1100,8 @@ public class pm_newPonyAdv extends ModelPlayer {
 	}
 
 	protected void initLegPositions(float yOffset, float stretch) {
-		this.rightarm.addBox(-2.0F + THIRDP_ARM_CENTRE_X, -6.0F + THIRDP_ARM_CENTRE_Y, -2.0F + THIRDP_ARM_CENTRE_Z, 4, 12, 4, stretch);
-		this.rightarm.setPivot(-3.0F, 8.0F + yOffset, 0.0F);
+		this.rightArm.addBox(-2.0F + THIRDP_ARM_CENTRE_X, -6.0F + THIRDP_ARM_CENTRE_Y, -2.0F + THIRDP_ARM_CENTRE_Z, 4, 12, 4, stretch);
+		this.rightArm.setPivot(-3.0F, 8.0F + yOffset, 0.0F);
 		this.leftArm.addBox(-2.0F + THIRDP_ARM_CENTRE_X, -6.0F + THIRDP_ARM_CENTRE_Y, -2.0F + THIRDP_ARM_CENTRE_Z, 4, 12, 4, stretch);
 		this.leftArm.setPivot(3.0F, 8.0F + yOffset, 0.0F);
 		this.rightLeg.addBox(-2.0F + THIRDP_ARM_CENTRE_X, -6.0F + THIRDP_ARM_CENTRE_Y, -2.0F + THIRDP_ARM_CENTRE_Z, 4, 12, 4, stretch);
@@ -1215,16 +1213,16 @@ public class pm_newPonyAdv extends ModelPlayer {
 		if (!this.isSleeping) {
 			if (this.isUnicorn) {
 				if (this.aimedBow) {
-					this.renderDrop(dispatcher, player, this.unicornArm, 1.0F, 0.15F, 0.9375F, 0.0625F);
+					this.renderHeldItem(dispatcher, player, this.unicornArm, 1.0F, 0.15F, 0.9375F, 0.0625F);
 				} else if (this.size == Pony.Size.FILLY) {
-					this.renderDrop(dispatcher, player, this.unicornArm, 1.0F, 0.35F, 0.5375F, -0.8F);
+					this.renderHeldItem(dispatcher, player, this.unicornArm, 1.0F, 0.35F, 0.5375F, -0.8F);
 				} else {
-					this.renderDrop(dispatcher, player, this.unicornArm, 1.0F, 0.35F, 0.5375F, -0.45F);
+					this.renderHeldItem(dispatcher, player, this.unicornArm, 1.0F, 0.35F, 0.5375F, -0.45F);
 				}
 			} else if (this.size == Pony.Size.FILLY) {
-				this.renderDrop(dispatcher, player, this.rightarm, 1.0F, 0.08F, 0.8375F, 0.0625F);
+				this.renderHeldItem(dispatcher, player, this.rightArm, 1.0F, 0.08F, 0.8375F, 0.0625F);
 			} else {
-				this.renderDrop(dispatcher, player, this.rightarm, 1.0F, -0.0625F, 0.8375F, 0.0625F);
+				this.renderHeldItem(dispatcher, player, this.rightArm, 1.0F, -0.0625F, 0.8375F, 0.0625F);
 			}
 
 			if (this.heldItemRight != 0 && this.isUnicorn) {
@@ -1258,11 +1256,10 @@ public class pm_newPonyAdv extends ModelPlayer {
 		} else {
 			this.renderPumpkin(dispatcher, player, this.head, 0.625F, 0.0F, -0.08F, -0.15F);
 		}
-
 	}
 
 	@Override
-	protected void renderCloak(PlayerEntity player, float par2) {
+	protected void renderCloak(PlayerEntity player, float partialTicks) {
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0.0F, 0.24F, 0.0F);
 		if (this.size == Pony.Size.FILLY) {
@@ -1286,13 +1283,15 @@ public class pm_newPonyAdv extends ModelPlayer {
 			GL11.glTranslatef(0.0F, 0.4F, -0.12F);
 		}
 
-		double d = player.lastCapeX + (player.capeX - player.lastCapeX) * par2 - (player.prevX + (player.x - player.prevX) * par2);
-		double d1 = player.lastCapeY + (player.capeY - player.lastCapeY) * par2 - (player.prevY + (player.y - player.prevY) * par2);
-		double d2 = player.lastCapeZ + (player.capeZ - player.lastCapeZ) * par2 - (player.prevZ + (player.z - player.prevZ) * par2);
-		float f10 = player.prevBodyYaw + (player.bodyYaw - player.prevBodyYaw) * par2;
-		double d3 = MathHelper.sin(f10 * (float) Math.PI / 180.0F);
-		double d4 = (-MathHelper.cos(f10 * (float) Math.PI / 180.0F));
-		float f12 = (float) d1 * 10.0F;
+		double capeXOffset = player.lastCapeX + (player.capeX - player.lastCapeX) * partialTicks - (player.prevX + (player.x - player.prevX) * partialTicks);
+		double capeYOffset = player.lastCapeY + (player.capeY - player.lastCapeY) * partialTicks - (player.prevY + (player.y - player.prevY) * partialTicks);
+		double capeZOffset = player.lastCapeZ + (player.capeZ - player.lastCapeZ) * partialTicks - (player.prevZ + (player.z - player.prevZ) * partialTicks);
+
+		float interpolatedBodyYaw = player.prevBodyYaw + (player.bodyYaw - player.prevBodyYaw) * partialTicks;
+		double d3 = MathHelper.sin(interpolatedBodyYaw * (float) Math.PI / 180.0F);
+		double d4 = (-MathHelper.cos(interpolatedBodyYaw * (float) Math.PI / 180.0F));
+		float f12 = (float) capeYOffset * 10.0F;
+
 		if (f12 < -6.0F) {
 			f12 = -6.0F;
 		}
@@ -1301,14 +1300,14 @@ public class pm_newPonyAdv extends ModelPlayer {
 			f12 = 32.0F;
 		}
 
-		float f13 = (float) (d * d3 + d2 * d4) * 100.0F;
-		float f14 = (float) (d * d4 - d2 * d3) * 100.0F;
+		float f13 = (float) (capeXOffset * d3 + capeZOffset * d4) * 100.0F;
+		float f14 = (float) (capeXOffset * d4 - capeZOffset * d3) * 100.0F;
 		if (f13 < 0.0F) {
 			f13 = 0.0F;
 		}
 
-		float f15 = player.prevHeadYaw + (player.headYaw - player.prevHeadYaw) * par2;
-		f12 += MathHelper.sin((player.prevStrideDistance + (player.strideDistance - player.prevStrideDistance) * par2) * 6.0F) * 32.0F * f15;
+		float interpolatedHeadYaw = player.prevHeadYaw + (player.headYaw - player.prevHeadYaw) * partialTicks;
+		f12 += MathHelper.sin((player.prevStrideDistance + (player.strideDistance - player.prevStrideDistance) * partialTicks) * 6.0F) * 32.0F * interpolatedHeadYaw;
 		if (player.isSneaking()) {
 			f12 += 25.0F;
 		}

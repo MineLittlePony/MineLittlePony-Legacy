@@ -16,10 +16,12 @@ public class pma_newPony extends ModelArmor {
 
 	public void boxes(boolean ponyArmor) {
 		this.base = slot != 2 ? this.modelArmorChestplate : this.modelArmor;
+
 		((pm_newPonyAdv) this.base).head.visible = slot == 0;
-		((pm_newPonyAdv) this.base).rightarm.visible = ((pm_newPonyAdv) this.base).leftArm.visible = slot == 2 || slot == 3;
+		((pm_newPonyAdv) this.base).rightArm.visible = ((pm_newPonyAdv) this.base).leftArm.visible = slot == 2 || slot == 3;
+
 		if (!ponyArmor) {
-			((pm_newPonyAdv) this.base).Body.visible = slot == 1 || slot == 2;
+			((pm_newPonyAdv) this.base).body.visible = slot == 1 || slot == 2;
 			((pm_newPonyArmor) this.base).Bodypiece.visible = slot == 1 || slot == 2;
 			((pm_newPonyAdv) this.base).rightLeg.visible = ((pm_newPonyAdv) this.base).leftLeg.visible = slot == 2 || slot == 3;
 
@@ -33,7 +35,7 @@ public class pma_newPony extends ModelArmor {
 				part.visible = false;
 			}
 		} else {
-			((pm_newPonyAdv) this.base).Body.visible = false;
+			((pm_newPonyAdv) this.base).body.visible = false;
 			((pm_newPonyArmor) this.base).Bodypiece.visible = false;
 			((pm_newPonyAdv) this.base).rightLeg.visible = ((pm_newPonyAdv) this.base).leftLeg.visible = false;
 
@@ -47,6 +49,5 @@ public class pma_newPony extends ModelArmor {
 				part.visible = slot == 2 || slot == 3;
 			}
 		}
-
 	}
 }

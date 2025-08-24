@@ -42,11 +42,12 @@ public final class MineLPGlow {
 	}
 
 	public static void renderGlow(LivingEntity par1EntityLiving, Pony.Size size, boolean sneaking, int colour) {
-		float var10 = func_77034_a(par1EntityLiving.prevBodyYaw, par1EntityLiving.bodyYaw, 1.0F);
-		float var11 = func_77034_a(par1EntityLiving.prevHeadYaw, par1EntityLiving.headYaw, 1.0F);
-		float var12 = par1EntityLiving.prevYaw + (par1EntityLiving.yaw - par1EntityLiving.prevYaw);
-		float headRotateAngleY = (var11 - var10) / 57.29578F;
-		float headRotateAngleX = var12 / 57.29578F;
+		float interpolatedBodyYaw = interpolateAngles(par1EntityLiving.prevBodyYaw, par1EntityLiving.bodyYaw);
+		float interpolatedHeadYaw = interpolateAngles(par1EntityLiving.prevHeadYaw, par1EntityLiving.headYaw);
+		float interpolatedYaw = par1EntityLiving.prevYaw + (par1EntityLiving.yaw - par1EntityLiving.prevYaw);
+		float headRotateAngleY = (float) Math.toRadians(interpolatedHeadYaw - interpolatedBodyYaw);
+		float headRotateAngleX = (float) Math.toRadians(interpolatedYaw);
+
 		if (headRotateAngleX > 0.5F) {
 			headRotateAngleX = 0.5F;
 		}
@@ -55,7 +56,8 @@ public final class MineLPGlow {
 			headRotateAngleX = -0.5F;
 		}
 
-		headRotateAngleX *= 57.29578F;
+		headRotateAngleX = (float) Math.toDegrees(headRotateAngleX);
+
 		if (size == Pony.Size.FILLY) {
 			GL11.glTranslatef(0.0F, 0.39F, 0.01F);
 			if (sneaking) {
@@ -121,16 +123,17 @@ public final class MineLPGlow {
 		GL11.glEnable(2896);
 	}
 
-	private static float func_77034_a(float par1, float par2, float par3) {
-		float var4;
-		for (var4 = par2 - par1; var4 < -180.0F; var4 += 360.0F) {
-			;
+	private static float interpolateAngles(float angleOne, float angleTwo) {
+		float delta = angleTwo - angleOne;
+
+		while (delta < -180.0F) {
+			delta += 360.0F;
 		}
 
-		while (var4 >= 180.0F) {
-			var4 -= 360.0F;
+		while (delta >= 180.0F) {
+			delta -= 360.0F;
 		}
 
-		return par1 + par3 * var4;
+		return angleOne + delta;
 	}
 }

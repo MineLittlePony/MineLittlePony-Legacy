@@ -44,7 +44,7 @@ public final class SkinFetcher {
 		return getMojangSkinUrl(playerName);
 	}
 
-	public static Optional<String> getValhallaSkinUrl(String playerName) throws SkinFetchException {
+	private static Optional<String> getValhallaSkinUrl(String playerName) throws SkinFetchException {
 		Optional<String> playerUuid = getPlayerUuid(playerName);
 		String skinUrl;
 
@@ -99,7 +99,7 @@ public final class SkinFetcher {
 		return Optional.of(skinUrl);
 	}
 
-	public static Optional<String> getMojangSkinUrl(String playerName) throws SkinFetchException {
+	private static Optional<String> getMojangSkinUrl(String playerName) throws SkinFetchException {
 		Optional<String> playerUuid = getPlayerUuid(playerName);
 
 		if (!playerUuid.isPresent()) {

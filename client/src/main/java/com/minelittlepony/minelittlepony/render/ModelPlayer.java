@@ -47,13 +47,13 @@ public abstract class ModelPlayer extends Model {
 	public abstract void specials(EntityRenderDispatcher var1, PlayerEntity var2);
 
 	@Override
-	public void render(Entity player, float Move, float Moveswing, float Loop, float Right, float Down, float Scale) {
-		AniParams ani = new AniParams(Move, Moveswing, Loop, Right, Down);
+	public void render(Entity player, float move, float moveSwing, float loop, float right, float down, float scale) {
+		AniParams ani = new AniParams(move, moveSwing, loop, right, down);
 		this.animate(ani, (PlayerEntity) player);
 		this.render(ani, true);
 	}
 
-	protected void renderPumpkin(EntityRenderDispatcher dispatcher, PlayerEntity player, ModelPart box, float scale, float posx, float posy, float posz) {
+	protected void renderPumpkin(EntityRenderDispatcher dispatcher, PlayerEntity player, ModelPart box, float scale, float posX, float posY, float posZ) {
 		ItemStack pumpkin = player.inventory.getArmor(3);
 		if (pumpkin != null && pumpkin.getItem().id < 256) {
 			GL11.glPushMatrix();
@@ -62,7 +62,7 @@ public abstract class ModelPlayer extends Model {
 			}
 
 			if (BlockRenderer.isGui3D(Block.BY_ID[pumpkin.itemId].getRenderType())) {
-				GL11.glTranslatef(posx, posy, posz);
+				GL11.glTranslatef(posX, posY, posZ);
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
 				GL11.glScalef(scale, -scale, scale);
 			}
@@ -78,44 +78,44 @@ public abstract class ModelPlayer extends Model {
 	protected void renderCloak(PlayerEntity player, float par2) {
 	}
 
-	protected void renderDrop(EntityRenderDispatcher renderman, PlayerEntity player, ModelPart box, float scalefactor, float posx, float posy, float posz) {
-		ItemStack drop = player.inventory.getMainHandStack();
-		if (drop != null) {
+	protected void renderHeldItem(EntityRenderDispatcher dispatcher, PlayerEntity player, ModelPart box, float scaleFactor, float posX, float posY, float posZ) {
+		ItemStack heldItem = player.inventory.getMainHandStack();
+		if (heldItem != null) {
 			GL11.glPushMatrix();
 			if (box != null) {
-				box.translate(scalefactor * 0.0625F);
+				box.translate(scaleFactor * 0.0625F);
 			}
 
-			GL11.glTranslatef(posx, posy, posz);
+			GL11.glTranslatef(posX, posY, posZ);
 			if (player.fishingBobber != null) {
-				drop = new ItemStack(Item.STICK);
+				heldItem = new ItemStack(Item.STICK);
 			}
 
-			UseAction enumaction = null;
+			UseAction useAction = null;
 			if (player.getItemUseTimer() > 0) {
-				enumaction = drop.getUseAction();
+				useAction = heldItem.getUseAction();
 			}
 
-			if (drop.itemId < 256 && BlockRenderer.isGui3D(Block.BY_ID[drop.itemId].getRenderType())) {
+			if (heldItem.itemId < 256 && BlockRenderer.isGui3D(Block.BY_ID[heldItem.itemId].getRenderType())) {
 				GL11.glTranslatef(0.0F, 0.1875F, -0.3125F);
 				GL11.glRotatef(20.0F, 1.0F, 0.0F, 0.0F);
 				GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-				float scale0 = 0.375F * scalefactor;
+				float scale0 = 0.375F * scaleFactor;
 				GL11.glScalef(scale0, -scale0, scale0);
-			} else if (drop.itemId == Item.BOW.id) {
+			} else if (heldItem.itemId == Item.BOW.id) {
 				GL11.glTranslatef(0.0F, 0.125F, 0.3125F);
 				GL11.glRotatef(-20.0F, 0.0F, 1.0F, 0.0F);
-				float scale3 = 0.625F * scalefactor;
+				float scale3 = 0.625F * scaleFactor;
 				GL11.glScalef(scale3, -scale3, scale3);
 				GL11.glRotatef(-100.0F, 1.0F, 0.0F, 0.0F);
 				GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-			} else if (Item.BY_ID[drop.itemId].isHandheld() /* isFull3D */) {
-				if (Item.BY_ID[drop.itemId].shouldRotate()) {
+			} else if (Item.BY_ID[heldItem.itemId].isHandheld() /* isFull3D */) {
+				if (Item.BY_ID[heldItem.itemId].shouldRotate()) {
 					GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
 					GL11.glTranslatef(0.0F, -0.125F, 0.0F);
 				}
 
-				if (player.getItemUseTimer() > 0 && enumaction == UseAction.BLOCK) {
+				if (player.getItemUseTimer() > 0 && useAction == UseAction.BLOCK) {
 					GL11.glTranslatef(0.05F, 0.0F, -0.1F);
 					GL11.glRotatef(-50.0F, 0.0F, 1.0F, 0.0F);
 					GL11.glRotatef(-10.0F, 1.0F, 0.0F, 0.0F);
@@ -123,30 +123,31 @@ public abstract class ModelPlayer extends Model {
 				}
 
 				GL11.glTranslatef(0.0F, 0.1875F, 0.0F);
-				float scale1 = 0.625F * scalefactor;
+				float scale1 = 0.625F * scaleFactor;
 				GL11.glScalef(scale1, -scale1, scale1);
 				GL11.glRotatef(-100.0F, 1.0F, 0.0F, 0.0F);
 				GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
 			} else {
 				GL11.glTranslatef(0.25F, 0.1875F, -0.1875F);
-				float scale2 = 0.375F * scalefactor;
+				float scale2 = 0.375F * scaleFactor;
 				GL11.glScalef(scale2, scale2, scale2);
 				GL11.glRotatef(60.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glRotatef(-90.0F, 1.0F, 0.0F, 0.0F);
 				GL11.glRotatef(20.0F, 0.0F, 0.0F, 1.0F);
 			}
 
-			if (drop.itemId == Item.POTION.id) {
+			if (heldItem.itemId == Item.POTION.id) {
+				// I don't know what the intent was here.
 				for (int j = 0; j <= 1; ++j) {
-					int k = drop.getItem().getDisplayColor(drop.getDamage(), j);
+					int k = heldItem.getItem().getDisplayColor(heldItem.getDamage(), j);
 					float f9 = (j >> 16 & 255) / 255.0F;
 					float f10 = (j >> 8 & 255) / 255.0F;
 					float f11 = (j & 255) / 255.0F;
 					GL11.glColor4f(f9, f10, f11, 1.0F);
-					renderman.heldItemRenderer.render(player, drop, j);
+					dispatcher.heldItemRenderer.render(player, heldItem, j);
 				}
 			} else {
-				renderman.heldItemRenderer.render(player, drop, 0);
+				dispatcher.heldItemRenderer.render(player, heldItem, 0);
 			}
 
 			GL11.glPopMatrix();

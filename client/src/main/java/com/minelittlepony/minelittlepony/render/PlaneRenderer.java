@@ -29,9 +29,9 @@ public class PlaneRenderer {
 	private static final boolean showModel = true;
 	private boolean isHidden;
 
-	public PlaneRenderer(Model modelbase, int i, int j) {
-		this.textureOffsetX = i;
-		this.textureOffsetY = j;
+	public PlaneRenderer(Model modelbase, int texOffsetX, int texOffsetY) {
+		this.textureOffsetX = texOffsetX;
+		this.textureOffsetY = texOffsetY;
 
 		// Are we sure?
 		//noinspection unchecked
@@ -72,27 +72,34 @@ public class PlaneRenderer {
 			f = f7;
 		}
 
-		Vertex positiontexturevertex = new Vertex(f, f1, f2, 0.0F, 0.0F);
-		Vertex positiontexturevertex1 = new Vertex(f4, f1, f2, 0.0F, 8.0F);
-		Vertex positiontexturevertex2 = new Vertex(f4, f5, f2, 8.0F, 8.0F);
-		Vertex positiontexturevertex3 = new Vertex(f, f5, f2, 8.0F, 0.0F);
-		Vertex positiontexturevertex4 = new Vertex(f, f1, f6, 0.0F, 0.0F);
-		Vertex positiontexturevertex5 = new Vertex(f4, f1, f6, 0.0F, 8.0F);
-		Vertex positiontexturevertex6 = new Vertex(f4, f5, f6, 8.0F, 8.0F);
-		Vertex positiontexturevertex7 = new Vertex(f, f5, f6, 8.0F, 0.0F);
-		this.corners[0] = positiontexturevertex;
-		this.corners[1] = positiontexturevertex1;
-		this.corners[2] = positiontexturevertex2;
-		this.corners[3] = positiontexturevertex3;
-		this.corners[4] = positiontexturevertex4;
-		this.corners[5] = positiontexturevertex5;
-		this.corners[6] = positiontexturevertex6;
-		this.corners[7] = positiontexturevertex7;
-		this.faces[0] = new Quad(new Vertex[]{positiontexturevertex1, positiontexturevertex, positiontexturevertex3, positiontexturevertex2}, this.textureOffsetX, this.textureOffsetY, this.textureOffsetX + i, this.textureOffsetY + j, this.textureWidth, this.textureHeight);
+		Vertex vertex0 = new Vertex(f, f1, f2, 0.0F, 0.0F);
+		Vertex vertex1 = new Vertex(f4, f1, f2, 0.0F, 8.0F);
+		Vertex vertex2 = new Vertex(f4, f5, f2, 8.0F, 8.0F);
+		Vertex vertex3 = new Vertex(f, f5, f2, 8.0F, 0.0F);
+		Vertex vertex4 = new Vertex(f, f1, f6, 0.0F, 0.0F);
+		Vertex vertex5 = new Vertex(f4, f1, f6, 0.0F, 8.0F);
+		Vertex vertex6 = new Vertex(f4, f5, f6, 8.0F, 8.0F);
+		Vertex vertex7 = new Vertex(f, f5, f6, 8.0F, 0.0F);
+
+		this.corners[0] = vertex0;
+		this.corners[1] = vertex1;
+		this.corners[2] = vertex2;
+		this.corners[3] = vertex3;
+		this.corners[4] = vertex4;
+		this.corners[5] = vertex5;
+		this.corners[6] = vertex6;
+		this.corners[7] = vertex7;
+
+		this.faces[0] = new Quad(
+			new Vertex[]{ vertex1, vertex0, vertex3, vertex2 },
+			this.textureOffsetX, this.textureOffsetY,
+			this.textureOffsetX + i, this.textureOffsetY + j,
+			this.textureWidth, this.textureHeight
+		);
+
 		if (this.mirror) {
 			this.faces[0].flip();
 		}
-
 	}
 
 	public void addSidePlane(float f, float f1, float f2, int i, int j, int k, float f3) {
@@ -113,27 +120,34 @@ public class PlaneRenderer {
 			f = f7;
 		}
 
-		Vertex positiontexturevertex = new Vertex(f, f1, f2, 0.0F, 0.0F);
-		Vertex positiontexturevertex1 = new Vertex(f4, f1, f2, 0.0F, 8.0F);
-		Vertex positiontexturevertex2 = new Vertex(f4, f5, f2, 8.0F, 8.0F);
-		Vertex positiontexturevertex3 = new Vertex(f, f5, f2, 8.0F, 0.0F);
-		Vertex positiontexturevertex4 = new Vertex(f, f1, f6, 0.0F, 0.0F);
-		Vertex positiontexturevertex5 = new Vertex(f4, f1, f6, 0.0F, 8.0F);
-		Vertex positiontexturevertex6 = new Vertex(f4, f5, f6, 8.0F, 8.0F);
-		Vertex positiontexturevertex7 = new Vertex(f, f5, f6, 8.0F, 0.0F);
-		this.corners[0] = positiontexturevertex;
-		this.corners[1] = positiontexturevertex1;
-		this.corners[2] = positiontexturevertex2;
-		this.corners[3] = positiontexturevertex3;
-		this.corners[4] = positiontexturevertex4;
-		this.corners[5] = positiontexturevertex5;
-		this.corners[6] = positiontexturevertex6;
-		this.corners[7] = positiontexturevertex7;
-		this.faces[0] = new Quad(new Vertex[]{positiontexturevertex5, positiontexturevertex1, positiontexturevertex2, positiontexturevertex6}, this.textureOffsetX, this.textureOffsetY, this.textureOffsetX + k, this.textureOffsetY + j, this.textureWidth, this.textureHeight);
+		Vertex vertex0 = new Vertex(f, f1, f2, 0.0F, 0.0F);
+		Vertex vertex1 = new Vertex(f4, f1, f2, 0.0F, 8.0F);
+		Vertex vertex2 = new Vertex(f4, f5, f2, 8.0F, 8.0F);
+		Vertex vertex3 = new Vertex(f, f5, f2, 8.0F, 0.0F);
+		Vertex vertex4 = new Vertex(f, f1, f6, 0.0F, 0.0F);
+		Vertex vertex5 = new Vertex(f4, f1, f6, 0.0F, 8.0F);
+		Vertex vertex6 = new Vertex(f4, f5, f6, 8.0F, 8.0F);
+		Vertex vertex7 = new Vertex(f, f5, f6, 8.0F, 0.0F);
+
+		this.corners[0] = vertex0;
+		this.corners[1] = vertex1;
+		this.corners[2] = vertex2;
+		this.corners[3] = vertex3;
+		this.corners[4] = vertex4;
+		this.corners[5] = vertex5;
+		this.corners[6] = vertex6;
+		this.corners[7] = vertex7;
+
+		this.faces[0] = new Quad(
+			new Vertex[]{ vertex5, vertex1, vertex2, vertex6 },
+			this.textureOffsetX, this.textureOffsetY,
+			this.textureOffsetX + k, this.textureOffsetY + j,
+			this.textureWidth, this.textureHeight
+		);
+
 		if (this.mirror) {
 			this.faces[0].flip();
 		}
-
 	}
 
 	public void addTopPlane(float f, float f1, float f2, int i, int j, int k, float f3) {
@@ -169,27 +183,34 @@ public class PlaneRenderer {
 			f = f7;
 		}
 
-		Vertex positiontexturevertex = new Vertex(f, f1, f2, 0.0F, 0.0F);
-		Vertex positiontexturevertex1 = new Vertex(f4, f1, f2, 0.0F, 8.0F);
-		Vertex positiontexturevertex2 = new Vertex(f4, f5, f2, 8.0F, 8.0F);
-		Vertex positiontexturevertex3 = new Vertex(f, f5, f2, 8.0F, 0.0F);
-		Vertex positiontexturevertex4 = new Vertex(f, f1, f6, 0.0F, 0.0F);
-		Vertex positiontexturevertex5 = new Vertex(f4, f1, f6, 0.0F, 8.0F);
-		Vertex positiontexturevertex6 = new Vertex(f4, f5, f6, 8.0F, 8.0F);
-		Vertex positiontexturevertex7 = new Vertex(f, f5, f6, 8.0F, 0.0F);
-		this.corners[0] = positiontexturevertex;
-		this.corners[1] = positiontexturevertex1;
-		this.corners[2] = positiontexturevertex2;
-		this.corners[3] = positiontexturevertex3;
-		this.corners[4] = positiontexturevertex4;
-		this.corners[5] = positiontexturevertex5;
-		this.corners[6] = positiontexturevertex6;
-		this.corners[7] = positiontexturevertex7;
-		this.faces[0] = new Quad(new Vertex[]{positiontexturevertex5, positiontexturevertex4, positiontexturevertex, positiontexturevertex1}, this.textureOffsetX, this.textureOffsetY, this.textureOffsetX + i, this.textureOffsetY + k, this.textureWidth, this.textureHeight);
+		Vertex vertex0 = new Vertex(f, f1, f2, 0.0F, 0.0F);
+		Vertex vertex1 = new Vertex(f4, f1, f2, 0.0F, 8.0F);
+		Vertex vertex2 = new Vertex(f4, f5, f2, 8.0F, 8.0F);
+		Vertex vertex3 = new Vertex(f, f5, f2, 8.0F, 0.0F);
+		Vertex vertex4 = new Vertex(f, f1, f6, 0.0F, 0.0F);
+		Vertex vertex5 = new Vertex(f4, f1, f6, 0.0F, 8.0F);
+		Vertex vertex6 = new Vertex(f4, f5, f6, 8.0F, 8.0F);
+		Vertex vertex7 = new Vertex(f, f5, f6, 8.0F, 0.0F);
+
+		this.corners[0] = vertex0;
+		this.corners[1] = vertex1;
+		this.corners[2] = vertex2;
+		this.corners[3] = vertex3;
+		this.corners[4] = vertex4;
+		this.corners[5] = vertex5;
+		this.corners[6] = vertex6;
+		this.corners[7] = vertex7;
+
+		this.faces[0] = new Quad(
+			new Vertex[]{ vertex5, vertex4, vertex0, vertex1 },
+			this.textureOffsetX, this.textureOffsetY,
+			this.textureOffsetX + i, this.textureOffsetY + k,
+			this.textureWidth, this.textureHeight
+		);
+
 		if (this.mirror || this.mirrory) {
 			this.faces[0].flip();
 		}
-
 	}
 
 	public void addBottomPlane(float f, float f1, float f2, int i, int j, int k, float f3) {
@@ -225,38 +246,45 @@ public class PlaneRenderer {
 			f = f7;
 		}
 
-		Vertex positiontexturevertex = new Vertex(f, f1, f2, 0.0F, 0.0F);
-		Vertex positiontexturevertex1 = new Vertex(f4, f1, f2, 0.0F, 8.0F);
-		Vertex positiontexturevertex2 = new Vertex(f4, f5, f2, 8.0F, 8.0F);
-		Vertex positiontexturevertex3 = new Vertex(f, f5, f2, 8.0F, 0.0F);
-		Vertex positiontexturevertex4 = new Vertex(f, f1, f6, 0.0F, 0.0F);
-		Vertex positiontexturevertex5 = new Vertex(f4, f1, f6, 0.0F, 8.0F);
-		Vertex positiontexturevertex6 = new Vertex(f4, f5, f6, 8.0F, 8.0F);
-		Vertex positiontexturevertex7 = new Vertex(f, f5, f6, 8.0F, 0.0F);
-		this.corners[0] = positiontexturevertex;
-		this.corners[1] = positiontexturevertex1;
-		this.corners[2] = positiontexturevertex2;
-		this.corners[3] = positiontexturevertex3;
-		this.corners[4] = positiontexturevertex4;
-		this.corners[5] = positiontexturevertex5;
-		this.corners[6] = positiontexturevertex6;
-		this.corners[7] = positiontexturevertex7;
-		this.faces[0] = new Quad(new Vertex[]{positiontexturevertex2, positiontexturevertex3, positiontexturevertex7, positiontexturevertex6}, this.textureOffsetX, this.textureOffsetY, this.textureOffsetX + i, this.textureOffsetY + k, this.textureWidth, this.textureHeight);
+		Vertex vertex0 = new Vertex(f, f1, f2, 0.0F, 0.0F);
+		Vertex vertex1 = new Vertex(f4, f1, f2, 0.0F, 8.0F);
+		Vertex vertex2 = new Vertex(f4, f5, f2, 8.0F, 8.0F);
+		Vertex vertex3 = new Vertex(f, f5, f2, 8.0F, 0.0F);
+		Vertex vertex4 = new Vertex(f, f1, f6, 0.0F, 0.0F);
+		Vertex vertex5 = new Vertex(f4, f1, f6, 0.0F, 8.0F);
+		Vertex vertex7 = new Vertex(f4, f5, f6, 8.0F, 8.0F);
+		Vertex vertex8 = new Vertex(f, f5, f6, 8.0F, 0.0F);
+
+		this.corners[0] = vertex0;
+		this.corners[1] = vertex1;
+		this.corners[2] = vertex2;
+		this.corners[3] = vertex3;
+		this.corners[4] = vertex4;
+		this.corners[5] = vertex5;
+		this.corners[6] = vertex7;
+		this.corners[7] = vertex8;
+
+		this.faces[0] = new Quad(
+			new Vertex[]{ vertex2, vertex3, vertex8, vertex7 },
+			this.textureOffsetX, this.textureOffsetY,
+			this.textureOffsetX + i, this.textureOffsetY + k,
+			this.textureWidth, this.textureHeight
+		);
+
 		if (this.mirror || this.mirrory) {
 			this.faces[0].flip();
 		}
-
 	}
 
-	public void setRotationPoint(float f, float f1, float f2) {
-		this.rotationPointX = f;
-		this.rotationPointY = f1;
-		this.rotationPointZ = f2;
+	public void setRotationPoint(float x, float y, float z) {
+		this.rotationPointX = x;
+		this.rotationPointY = y;
+		this.rotationPointZ = z;
 	}
 
 	public void render(float f) {
 		if (!this.isHidden) {
-			if (this.showModel) {
+			if (this.showModel) { // FIXME: Why is this static?!
 				if (!this.compiled) {
 					this.compileDisplayList(f);
 				}
@@ -287,7 +315,6 @@ public class PlaneRenderer {
 					GL11.glCallList(this.displayList);
 					GL11.glPopMatrix();
 				}
-
 			}
 		}
 	}
@@ -344,7 +371,6 @@ public class PlaneRenderer {
 						GL11.glRotatef(this.rotateAngleX * 57.29578F, 1.0F, 0.0F, 0.0F);
 					}
 				}
-
 			}
 		}
 	}
@@ -368,12 +394,12 @@ public class PlaneRenderer {
 		return this;
 	}
 
-	public void setToModel(ModelPart modelrenderer) {
-		this.rotationPointX = modelrenderer.pivotX;
-		this.rotationPointY = modelrenderer.pivotY;
-		this.rotationPointZ = modelrenderer.pivotZ;
-		this.rotateAngleX = modelrenderer.rotationX;
-		this.rotateAngleY = modelrenderer.rotationY;
-		this.rotateAngleZ = modelrenderer.rotationZ;
+	public void setToModel(ModelPart modelPart) {
+		this.rotationPointX = modelPart.pivotX;
+		this.rotationPointY = modelPart.pivotY;
+		this.rotationPointZ = modelPart.pivotZ;
+		this.rotateAngleX = modelPart.rotationX;
+		this.rotateAngleY = modelPart.rotationY;
+		this.rotateAngleZ = modelPart.rotationZ;
 	}
 }

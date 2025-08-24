@@ -169,7 +169,7 @@ public class pm_Human extends ModelPlayer {
 	}
 
 	public void specials(EntityRenderDispatcher renderman, PlayerEntity player) {
-		this.renderDrop(renderman, player, this.rightArm, 1.0F, -0.0625F, 0.4375F, 0.0625F);
+		this.renderHeldItem(renderman, player, this.rightArm, 1.0F, -0.0625F, 0.4375F, 0.0625F);
 		this.renderPumpkin(renderman, player, this.head, 0.625F, 0.0F, -0.25F, 0.0F);
 	}
 

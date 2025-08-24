@@ -15,6 +15,7 @@ public class pma_Human extends ModelArmor {
 
 	public void boxes(boolean ignoreMe) {
 		this.base = slot != 2 ? this.modelArmorChestplate : this.modelArmor;
+
 		((pm_Human) this.base).head.visible = slot == 0;
 		((pm_Human) this.base).helmet.visible = slot == 0;
 		((pm_Human) this.base).body.visible = slot == 1 || slot == 2;

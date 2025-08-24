@@ -18,7 +18,7 @@ public class pm_newPony extends pm_newPonyAdv {
 
 	@Override
 	protected void initBodyTextures() {
-		this.Body = new ModelPart(this, 16, 16);
+		this.body = new ModelPart(this, 16, 16);
 		this.bodyPiece[0] = new PlaneRenderer(this, 24, 0);
 		this.bodyPiece[1] = new PlaneRenderer(this, 24, 0);
 		this.bodyPiece[2] = new PlaneRenderer(this, 24, 0);
@@ -45,7 +45,7 @@ public class pm_newPony extends pm_newPonyAdv {
 
 	@Override
 	protected void initLegTextures() {
-		this.rightarm = new ModelPart(this, 40, 16);
+		this.rightArm = new ModelPart(this, 40, 16);
 		this.leftArm = new ModelPart(this, 40, 16);
 		this.leftArm.flipped = true;
 		this.rightLeg = new ModelPart(this, 40, 16);
@@ -57,8 +57,8 @@ public class pm_newPony extends pm_newPonyAdv {
 
 	@Override
 	protected void initBodyPositions(float yOffset, float stretch) {
-		this.Body.addBox(-4.0F, 4.0F, -2.0F, 8, 8, 4, stretch);
-		this.Body.setPivot(HEAD_RP_X, HEAD_RP_Y + yOffset, HEAD_RP_Z);
+		this.body.addBox(-4.0F, 4.0F, -2.0F, 8, 8, 4, stretch);
+		this.body.setPivot(HEAD_RP_X, HEAD_RP_Y + yOffset, HEAD_RP_Z);
 		this.bodyPiece[0].addSidePlane(-4.0F + BODY_CENTRE_X, -4.0F + BODY_CENTRE_Y, -4.0F + BODY_CENTRE_Z, 0, 8, 8, stretch);
 		this.bodyPiece[0].setRotationPoint(HEAD_RP_X, HEAD_RP_Y + yOffset, HEAD_RP_Z);
 		this.bodyPiece[1].addSidePlane(4.0F + BODY_CENTRE_X, -4.0F + BODY_CENTRE_Y, -4.0F + BODY_CENTRE_Z, 0, 8, 8, stretch);
@@ -99,8 +99,8 @@ public class pm_newPony extends pm_newPonyAdv {
 		this.bodyPieceNeck[1].rotateAngleX = this.NeckRotX;
 		this.bodyPieceNeck[2].rotateAngleX = this.NeckRotX;
 		this.bodyPieceNeck[3].rotateAngleX = this.NeckRotX;
-		this.rightarm.addBox(-2.0F + THIRDP_ARM_CENTRE_X, -6.0F + THIRDP_ARM_CENTRE_Y, -2.0F + THIRDP_ARM_CENTRE_Z, 4, 12, 4, stretch);
-		this.rightarm.setPivot(-3.0F, 8.0F + yOffset, 0.0F);
+		this.rightArm.addBox(-2.0F + THIRDP_ARM_CENTRE_X, -6.0F + THIRDP_ARM_CENTRE_Y, -2.0F + THIRDP_ARM_CENTRE_Z, 4, 12, 4, stretch);
+		this.rightArm.setPivot(-3.0F, 8.0F + yOffset, 0.0F);
 		this.leftArm.addBox(-2.0F + THIRDP_ARM_CENTRE_X, -6.0F + THIRDP_ARM_CENTRE_Y, -2.0F + THIRDP_ARM_CENTRE_Z, 4, 12, 4, stretch);
 		this.leftArm.setPivot(3.0F, 8.0F + yOffset, 0.0F);
 		this.rightLeg.addBox(-2.0F + THIRDP_ARM_CENTRE_X, -6.0F + THIRDP_ARM_CENTRE_Y, -2.0F + THIRDP_ARM_CENTRE_Z, 4, 12, 4, stretch);

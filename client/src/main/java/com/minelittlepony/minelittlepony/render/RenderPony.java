@@ -19,7 +19,6 @@ import net.minecraft.item.UseAction;
 import org.lwjgl.opengl.GL11;
 
 public class RenderPony extends PlayerEntityRenderer {
-	private static String[] armorFilenamePrefix;
 	private static final AniParams ani;
 	private PlayerModel pm;
 
@@ -63,6 +62,7 @@ public class RenderPony extends PlayerEntityRenderer {
 		returnPath[0] = path;
 		returnPath[1] = path;
 		returnPath[2] = "false";
+
 		if (PonySettings.isPonyArmor()) {
 			if (this.pm.name.equals("newPony") || this.pm.name.equals("newPonyAdv")) {
 				String ponypath = path.replace(".png", "_pony.png");
@@ -71,24 +71,24 @@ public class RenderPony extends PlayerEntityRenderer {
 					returnPath[2] = "true";
 				}
 			}
-
 		}
+
 		return returnPath;
 	}
 
 	@Override
-	public void render(PlayerEntity par1EntityPlayer, double par2, double par4, double par6, float par8, float par9) {
-		ItemStack itemstack = par1EntityPlayer.inventory.getMainHandStack();
-		Pony thePony = Pony.getPonyFromRegistry(par1EntityPlayer, this.dispatcher.textureManager);
-		par1EntityPlayer.skin = thePony.skinUrl;
-		// .texture perhaps?
-		((MixinExtLivingEntity) par1EntityPlayer).setTexture(thePony.texture);
-		// par1EntityPlayer.bm = thePony.texture;
-		this.pm = this.getModel(par1EntityPlayer);
+	public void render(PlayerEntity player, double par2, double par4, double par6, float par8, float par9) {
+		ItemStack heldItem = player.inventory.getMainHandStack();
+		Pony thePony = Pony.getPonyFromRegistry(player, this.dispatcher.textureManager);
+		player.skin = thePony.skinUrl;
+		((MixinExtLivingEntity) player).setTexture(thePony.texture);
+
+		this.pm = this.getModel(player);
 		this.model = this.pm.model;
-		this.pm.armor.modelArmorChestplate.heldItemRight = this.pm.armor.modelArmor.heldItemRight = this.pm.model.heldItemRight = itemstack == null ? 0 : 1;
-		if (itemstack != null && par1EntityPlayer.getItemUseTimer() > 0) {
-			UseAction var11 = itemstack.getUseAction();
+		this.pm.armor.modelArmorChestplate.heldItemRight = this.pm.armor.modelArmor.heldItemRight = this.pm.model.heldItemRight = heldItem == null ? 0 : 1;
+
+		if (heldItem != null && player.getItemUseTimer() > 0) {
+			UseAction var11 = heldItem.getUseAction();
 			if (var11 == UseAction.BLOCK) {
 				this.pm.armor.modelArmorChestplate.heldItemRight = this.pm.armor.modelArmor.heldItemRight = this.pm.model.heldItemRight = 3;
 			} else if (var11 == UseAction.BOW) {
@@ -96,40 +96,44 @@ public class RenderPony extends PlayerEntityRenderer {
 			}
 		}
 
-		this.pm.armor.modelArmorChestplate.isSneaking = this.pm.armor.modelArmor.isSneaking = this.pm.model.isSneaking = par1EntityPlayer.isSneaking();
-		boolean isJumping = ((MixinExtLivingEntity) par1EntityPlayer).isJumping();
-		this.pm.armor.modelArmorChestplate.isFlying = this.pm.armor.modelArmor.isFlying = this.pm.model.isFlying = thePony.isFlying = thePony.isPegasusFlying(par1EntityPlayer.x, par1EntityPlayer.y, par1EntityPlayer.z, par1EntityPlayer.fallDistance, isJumping, this.dispatcher.world);
+		this.pm.armor.modelArmorChestplate.isSneaking = this.pm.armor.modelArmor.isSneaking = this.pm.model.isSneaking = player.isSneaking();
+
+		boolean isJumping = ((MixinExtLivingEntity) player).isJumping();
+		this.pm.armor.modelArmorChestplate.isFlying = this.pm.armor.modelArmor.isFlying = this.pm.model.isFlying = thePony.isFlying = thePony.isPegasusFlying(player.x, player.y, player.z, player.fallDistance, isJumping, this.dispatcher.world);
 		this.pm.armor.modelArmorChestplate.isPegasus = this.pm.armor.modelArmor.isPegasus = this.pm.model.isPegasus = thePony.isPegasus();
 		this.pm.armor.modelArmorChestplate.isUnicorn = this.pm.armor.modelArmor.isUnicorn = this.pm.model.isUnicorn = thePony.isUnicorn();
 		this.pm.armor.modelArmorChestplate.isMale = this.pm.armor.modelArmor.isMale = this.pm.model.isMale = thePony.isMale();
 		this.pm.armor.modelArmorChestplate.size = this.pm.armor.modelArmor.size = this.pm.model.size = thePony.size();
 		this.pm.model.glowColor = thePony.glowColor();
-		this.pm.armor.modelArmorChestplate.isSleeping = this.pm.armor.modelArmor.isSleeping = this.pm.model.isSleeping = par1EntityPlayer.isSleeping();
+		this.pm.armor.modelArmorChestplate.isSleeping = this.pm.armor.modelArmor.isSleeping = this.pm.model.isSleeping = player.isSleeping();
 		// FIXME: This might be onGround but we don't have it?
 		// this.pm.armor.modelArmorChestplate.h = this.pm.armor.modelArmor.h = this.pm.model.h;
 		this.pm.model.wantTail = thePony.wantTail();
-		super.render(par1EntityPlayer, par2, par4, par6, par8, par9);
+
+		super.render(player, par2, par4, par6, par8, par9);
+
 		this.pm.armor.modelArmorChestplate.aimedBow = this.pm.armor.modelArmor.aimedBow = this.pm.model.aimedBow = false;
 		this.pm.armor.modelArmorChestplate.isSneaking = this.pm.armor.modelArmor.isSneaking = this.pm.model.isSneaking = false;
 		this.pm.armor.modelArmorChestplate.heldItemRight = this.pm.armor.modelArmor.heldItemRight = this.pm.model.heldItemRight = 0;
 	}
 
-	protected void renderNameTag(PlayerEntity par1EntityPlayer, double par2, double par4, double par6) {
-		if (Minecraft.isDisplayGui() && par1EntityPlayer != this.dispatcher.camera) {
+	protected void renderNameTag(PlayerEntity player, double par2, double par4, double par6) {
+		if (Minecraft.isDisplayGui() && player != this.dispatcher.camera) {
 			float var8 = 1.6F;
 			float var9 = 0.016666668F * var8;
-			float itemstack = par1EntityPlayer.getDistanceTo(this.dispatcher.camera);
-			float var11 = par1EntityPlayer.isSneaking() ? 32.0F : 64.0F;
-			if (itemstack < var11) {
-				String thePony = par1EntityPlayer.name;
-				if (!par1EntityPlayer.isSneaking()) {
-					if (par1EntityPlayer.isSleeping()) {
-						this.renderNameTag(par1EntityPlayer, thePony, par2, par4 - 1.5F, par6, 64);
+			float distanceToCamera = player.getDistanceTo(this.dispatcher.camera);
+			float viewDistance = player.isSneaking() ? 32.0F : 64.0F;
+
+			if (distanceToCamera < viewDistance) {
+				String thePony = player.name;
+				if (!player.isSneaking()) {
+					if (player.isSleeping()) {
+						this.renderNameTag(player, thePony, par2, par4 - 1.5F, par6, 64);
 					} else {
-						this.renderNameTag(par1EntityPlayer, thePony, par2, par4, par6, 64);
+						this.renderNameTag(player, thePony, par2, par4, par6, 64);
 					}
 				} else {
-					TextRenderer var13 = this.getTextRenderer();
+					TextRenderer textRenderer = this.getTextRenderer();
 					GL11.glPushMatrix();
 					GL11.glTranslatef((float) par2 + 0.0F, (float) par4 + 2.3F, (float) par6);
 					GL11.glNormal3f(0.0F, 1.0F, 0.0F);
@@ -141,19 +145,19 @@ public class RenderPony extends PlayerEntityRenderer {
 					GL11.glDepthMask(false);
 					GL11.glEnable(3042);
 					GL11.glBlendFunc(770, 771);
-					BufferBuilder var14 = BufferBuilder.INSTANCE;
+					BufferBuilder bufferBuilder = BufferBuilder.INSTANCE;
 					GL11.glDisable(3553);
-					var14.start();
-					int var15 = var13.getWidth(thePony) / 2;
-					var14.color(0.0F, 0.0F, 0.0F, 0.25F);
-					var14.vertex((-var15 - 1), -1.0F, 0.0F);
-					var14.vertex((-var15 - 1), 8.0F, 0.0F);
-					var14.vertex((var15 + 1), 8.0F, 0.0F);
-					var14.vertex((var15 + 1), -1.0F, 0.0F);
-					var14.end();
+					bufferBuilder.start();
+					int nameWidth = textRenderer.getWidth(thePony) / 2;
+					bufferBuilder.color(0.0F, 0.0F, 0.0F, 0.25F);
+					bufferBuilder.vertex((-nameWidth - 1), -1.0F, 0.0F);
+					bufferBuilder.vertex((-nameWidth - 1), 8.0F, 0.0F);
+					bufferBuilder.vertex((nameWidth + 1), 8.0F, 0.0F);
+					bufferBuilder.vertex((nameWidth + 1), -1.0F, 0.0F);
+					bufferBuilder.end();
 					GL11.glEnable(3553);
 					GL11.glDepthMask(true);
-					var13.draw(thePony, -var13.getWidth(thePony) / 2, 0, 553648127);
+					textRenderer.draw(thePony, -textRenderer.getWidth(thePony) / 2, 0, 553648127);
 					GL11.glEnable(2896);
 					GL11.glDisable(3042);
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -178,9 +182,9 @@ public class RenderPony extends PlayerEntityRenderer {
 	}
 
 	@Override
-	protected void scale(PlayerEntity par1EntityPlayer, float par2) {
-		float var3 = this.pm.globalScale;
-		GL11.glScalef(var3, var3, var3);
+	protected void scale(PlayerEntity player, float par2) {
+		float scale = this.pm.globalScale;
+		GL11.glScalef(scale, scale, scale);
 	}
 
 	@Override
@@ -193,12 +197,11 @@ public class RenderPony extends PlayerEntityRenderer {
 	}
 
 	private PlayerModel getModel(PlayerEntity player) {
-		Pony pony = Pony.getPonyFromRegistry(player, this.dispatcher.textureManager);
-		return pony.getModel();
+		return Pony.getPonyFromRegistry(player, this.dispatcher.textureManager)
+					.getModel();
 	}
 
 	static {
-		armorFilenamePrefix = new String[]{"cloth", "chain", "iron", "diamond", "gold"};
 		ani = new AniParams(0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
 	}
 }
