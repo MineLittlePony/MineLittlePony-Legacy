@@ -79,6 +79,15 @@ public abstract class ModelPlayer extends Model {
 	}
 
 	protected void renderHeldItem(EntityRenderDispatcher dispatcher, PlayerEntity player, ModelPart box, float scaleFactor, float posX, float posY, float posZ) {
+		renderHeldItemInner(dispatcher, player, box, scaleFactor, posX, posY, posZ);
+		if (this.isUnicorn) {
+			GlowBuffer.INSTANCE.renderGlow(() -> {
+				renderHeldItemInner(dispatcher, player, box, scaleFactor, posX, posY, posZ);
+			});
+		}
+	}
+
+	protected void renderHeldItemInner(EntityRenderDispatcher dispatcher, PlayerEntity player, ModelPart box, float scaleFactor, float posX, float posY, float posZ) {
 		ItemStack heldItem = player.inventory.getMainHandStack();
 		if (heldItem != null) {
 			GL11.glPushMatrix();

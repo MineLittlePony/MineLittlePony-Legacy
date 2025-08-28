@@ -3,7 +3,7 @@ package com.minelittlepony.minelittlepony.models;
 import com.minelittlepony.minelittlepony.AniParams;
 import com.minelittlepony.minelittlepony.Pony;
 import com.minelittlepony.minelittlepony.config.PonySettings;
-import com.minelittlepony.minelittlepony.render.MineLPGlow;
+import com.minelittlepony.minelittlepony.render.GlowBuffer;
 import com.minelittlepony.minelittlepony.render.ModelPlayer;
 import com.minelittlepony.minelittlepony.render.PlaneRenderer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
@@ -781,7 +781,13 @@ public class pm_newPonyAdv extends ModelPlayer {
 		this.headpiece[0].render(this.scale);
 		this.headpiece[1].render(this.scale);
 		if (this.isUnicorn) {
+			System.out.println("Rendering unicorn horn");
 			this.headpiece[2].render(this.scale);
+			GlowBuffer.INSTANCE.renderGlow(() -> {
+				this.headpiece[2].render(this.scale * 1.1F);
+			});
+		} else {
+			System.out.println("Not a unicorn, isUnicorn = " + this.isUnicorn);
 		}
 
 		if (PonySettings.isShowSnuzzles()) {
@@ -1225,12 +1231,17 @@ public class pm_newPonyAdv extends ModelPlayer {
 				this.renderHeldItem(dispatcher, player, this.rightArm, 1.0F, -0.0625F, 0.8375F, 0.0625F);
 			}
 
-			if (this.heldItemRight != 0 && this.isUnicorn) {
-				GL11.glPushMatrix();
-				this.head.translate(0.0625F);
-				MineLPGlow.renderGlow(player, this.size, this.isSneaking && !this.isFlying, this.glowColor);
-				GL11.glPopMatrix();
-			}
+//			if (this.heldItemRight != 0 && this.isUnicorn) {
+//				GL11.glPushMatrix();
+//				this.head.translate(0.0625F);
+//
+//				GlowBuffer.INSTANCE.renderGlow(() -> {
+//					this.headpiece[2].render(this.scale);
+//				});
+//
+//				MineLPGlow.renderGlow(player, this.size, this.isSneaking && !this.isFlying, this.glowColor);
+//				GL11.glPopMatrix();
+//			}
 		}
 
 		if (this.size == Pony.Size.FILLY) {

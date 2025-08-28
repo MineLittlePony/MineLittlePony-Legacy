@@ -11,6 +11,7 @@
     "MixinExtMinecraft",
     "MixinExtPlayerEntityRenderer",
     "MixinExtTextureManager",
+    "MixinGameRenderer",
     "MixinHttpTexture_InnerThreadRun",
     "MixinMinecraft",
     "MixinSkinImageProcessor"
