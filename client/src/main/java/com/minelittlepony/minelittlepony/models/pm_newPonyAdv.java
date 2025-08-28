@@ -781,13 +781,10 @@ public class pm_newPonyAdv extends ModelPlayer {
 		this.headpiece[0].render(this.scale);
 		this.headpiece[1].render(this.scale);
 		if (this.isUnicorn) {
-			System.out.println("Rendering unicorn horn");
 			this.headpiece[2].render(this.scale);
 			GlowBuffer.INSTANCE.renderGlow(() -> {
-				this.headpiece[2].render(this.scale * 1.1F);
+				this.headpiece[2].render(this.scale);
 			});
-		} else {
-			System.out.println("Not a unicorn, isUnicorn = " + this.isUnicorn);
 		}
 
 		if (PonySettings.isShowSnuzzles()) {

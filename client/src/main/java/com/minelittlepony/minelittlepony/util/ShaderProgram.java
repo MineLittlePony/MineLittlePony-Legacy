@@ -54,6 +54,18 @@ public class ShaderProgram {
 		glUniform1i(location, value);
 	}
 
+	public void uniform1f(String name, float value) {
+		int location = glGetUniformLocation(this.programId, name);
+
+		glUniform1f(location, value);
+	}
+
+	public void uniform2f(String name, float x, float y) {
+		int location = glGetUniformLocation(this.programId, name);
+
+		glUniform2f(location, x, y);
+	}
+
 	public void use() {
 		glUseProgram(this.programId);
 	}
